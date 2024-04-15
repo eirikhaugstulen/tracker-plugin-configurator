@@ -1,0 +1,1 @@
+export { AddEnrollmentPageConfig } from './AddEnrollmentPageConfig'
