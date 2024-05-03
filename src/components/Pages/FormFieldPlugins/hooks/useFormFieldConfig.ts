@@ -38,10 +38,11 @@ export const useFormFieldConfig = () => {
             }
         }),
         select: ({ formFieldConfigQuery }) => {
+            if (!formFieldConfigQuery) return [];
             return Object
                 .entries(formFieldConfigQuery)
                 .map(([id, record]) => {
-                    const programMetadata = programs.find((program) => program.id === id);
+                    const programMetadata = programs?.find((program) => program.id === id);
                     if (!programMetadata) return null;
                     if (programMetadata.programType !== 'WITH_REGISTRATION') return null;
 

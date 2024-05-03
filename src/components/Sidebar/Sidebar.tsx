@@ -29,8 +29,6 @@ export const Sidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log(location.pathname.split('/')[1])
-
     return (
         <aside className="fixed mt-[48px] inset-y-0 left-0 hidden w-14 flex-col border-r bg-background sm:flex">
             <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">

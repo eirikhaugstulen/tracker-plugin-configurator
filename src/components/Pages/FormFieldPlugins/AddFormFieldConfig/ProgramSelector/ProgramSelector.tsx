@@ -6,7 +6,7 @@ import {useProgramsByTETId} from "./hooks/useProgramsByTETId";
 import {useFormContext, useWatch} from "react-hook-form";
 
 export const ProgramSelector = () => {
-    const currentTrackedEntityTypeId = useRef<string>(undefined)
+    const currentTrackedEntityTypeId = useRef<string | undefined>(undefined)
     const { control, resetField } = useFormContext();
     const trackedEntityType = useWatch({
         control,
@@ -50,7 +50,7 @@ export const ProgramSelector = () => {
                             </>
                         </FormControl>
                         <SelectContent>
-                            {trackedEntityType && programs.map(program => (
+                            {trackedEntityType && programs?.map(program => (
                                 <SelectItem
                                     key={program.id}
                                     value={program.id}

@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../../../ui/select";
 import React from "react";
-import {useProgramsWithMetadataAccess} from "../hooks";
+import {useProgramsWithMetadataAccess} from "../../../../../lib/hooks/useProgramsWithMetadataAccess";
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../../../ui/form";
 
 type Props = {
@@ -23,7 +23,7 @@ export const ContextSelector = ({ form }: Props) => {
         return <p>{i18n.t('An error occurred while loading programs')}</p>
     }
 
-    if (programs.length === 0) {
+    if (!programs || programs.length === 0) {
         return <p>{i18n.t('There seems like you don\'t have metadata access to any programs')}</p>
     }
 

@@ -1,4 +1,4 @@
-import {useProgramsWithMetadataAccess} from "../../../../EnrollmentOverview/AddEnrollmentPageConfig/hooks";
+import {useProgramsWithMetadataAccess} from "../../../../../../lib/hooks/useProgramsWithMetadataAccess";
 import {useMemo} from "react";
 
 type Props = {
