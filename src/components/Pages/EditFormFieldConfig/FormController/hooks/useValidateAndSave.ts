@@ -2,6 +2,7 @@ import {z} from "zod";
 import i18n from "@dhis2/d2-i18n";
 import {SectionSchema} from "./useFormFieldController";
 import {PluginSettingSchema} from "../../FormConfigurator/PluginDraggable/PluginDialogContent/PluginDialogContent";
+import {useSaveFormConfig} from "./useSaveFormConfig";
 import {useQueryClient} from "@tanstack/react-query";
 
 const TrackedEntityAttributeSchema = z.object({
@@ -12,17 +13,17 @@ const TrackedEntityAttributeSchema = z.object({
 const PluginFieldMapSchema = z.object({
     IdFromApp: z.string().min(1, { message: 'Missing IdFromApp' }),
     IdFromPlugin: z.string().min(1, { message: 'Missing IdFromPlugin' }),
-    type: z.literal('TrackedEntityAttribute'),
+    objectType: z.literal('TrackedEntityAttribute'),
 });
 
 const PluginElementSchema = z.object({
     id: z.string(),
-    type: z.literal('PLUGIN'),
+    type: z.literal('plugin'),
     pluginSource: z.string().min(1, { message: 'Missing plugin source' }),
     fieldMap: z.array(PluginFieldMapSchema),
 });
 
-const ContextFormSchema = z.array(z.object({
+export const ContextFormSchema = z.array(z.object({
     id: z.string(),
     elements: z.array(z.union([PluginElementSchema, TrackedEntityAttributeSchema])),
 }));
@@ -37,6 +38,8 @@ type Props = {
 
 export const useValidateAndSave = ({ formFields, formFieldId, pluginConfigurations }: Props) => {
     const queryClient = useQueryClient();
+    const { saveFormConfig } = useSaveFormConfig();
+
     const buildPayloadForCurrentContext = (): Record<string, z.infer<typeof ContextFormSchema>> => {
         const currentContextPayload = formFields.map(section => {
             return {
@@ -47,13 +50,13 @@ export const useValidateAndSave = ({ formFields, formFieldId, pluginConfiguratio
                         if (!pluginConfiguration) throw new Error('Missing plugin configuration');
                         return {
                             id: field.id,
-                            type: 'PLUGIN' as const,
+                            type: 'plugin' as const,
                             pluginSource: pluginConfiguration.pluginLaunchUrl,
                             fieldMap: pluginConfiguration.fieldMap.map(fieldMap => {
                                 return {
                                     IdFromApp: fieldMap.IdFromApp,
                                     IdFromPlugin: fieldMap.IdFromPlugin,
-                                    type: 'TrackedEntityAttribute' as const,
+                                    objectType: 'TrackedEntityAttribute' as const,
                                 }
                             })
                         }
@@ -100,9 +103,11 @@ export const useValidateAndSave = ({ formFields, formFieldId, pluginConfiguratio
             ...formFieldConfigQuery,
             ...contextPayload,
         }
+
+        saveFormConfig(updatedData);
     }
 
-    const validateAndSave = () => {
+    const validateAndSave = async () => {
         const dataStorePayload = buildPayloadForCurrentContext();
         const validatedData = validate(dataStorePayload);
         save(validatedData);

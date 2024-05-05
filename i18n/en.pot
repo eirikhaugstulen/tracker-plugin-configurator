@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-02T11:38:26.724Z\n"
-"PO-Revision-Date: 2024-05-02T11:38:26.724Z\n"
+"POT-Creation-Date: 2024-05-05T15:52:56.042Z\n"
+"PO-Revision-Date: 2024-05-05T15:52:56.042Z\n"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -23,18 +23,6 @@ msgstr "Form field plugins"
 
 msgid "Enrollment overview plugins"
 msgstr "Enrollment overview plugins"
-
-msgid "Save"
-msgstr "Save"
-
-msgid "Import"
-msgstr "Import"
-
-msgid "Validate"
-msgstr "Validate"
-
-msgid "Preview"
-msgstr "Preview"
 
 msgid "Loading..."
 msgstr "Loading..."
@@ -70,23 +58,47 @@ msgstr "Add"
 msgid "Required"
 msgstr "Required"
 
+msgid "Plugin settings"
+msgstr "Plugin settings"
+
+msgid "You are currently editing the settings for {{pluginName}}."
+msgstr "You are currently editing the settings for {{pluginName}}."
+
+msgid "Attributes"
+msgstr "Attributes"
+
+msgid "Plugins are sandboxed and can only access the attributes you specify here."
+msgstr "Plugins are sandboxed and can only access the attributes you specify here."
+
+msgid "Advanced settings"
+msgstr "Advanced settings"
+
+msgid "Danger zone"
+msgstr "Danger zone"
+
+msgid "These settings may break the plugin if not set correctly."
+msgstr "These settings may break the plugin if not set correctly."
+
+msgid "Plugin launch URL"
+msgstr "Plugin launch URL"
+
+msgid "Save"
+msgstr "Save"
+
 msgid "Only letters allowed"
 msgstr "Only letters allowed"
 
 msgid "Plugin ID already in use"
 msgstr "Plugin ID already in use"
 
-msgid "Edit{{escape}} "
-msgstr "Edit{{escape}} "
-
-msgid "Attributes"
-msgstr "Attributes"
-
 msgid "Name"
 msgstr "Name"
 
-msgid "Plugin ID"
-msgstr "Plugin ID"
+msgid "Plugin alias"
+msgstr "Plugin alias"
+
+msgid "This is the generic ID that the plugin will use to refer to this attribute."
+msgstr "This is the generic ID that the plugin will use to refer to this attribute."
 
 msgid "Remove"
 msgstr "Remove"
@@ -94,17 +106,23 @@ msgstr "Remove"
 msgid "No configured attributes"
 msgstr "No configured attributes"
 
-msgid "Advanced settings"
-msgstr "Advanced settings"
+msgid "Edit settings"
+msgstr "Edit settings"
 
-msgid "Advanced settings for the plugin"
-msgstr "Advanced settings for the plugin"
+msgid "Import"
+msgstr "Import"
 
-msgid "Edit field"
-msgstr "Edit field"
+msgid "Validate"
+msgstr "Validate"
+
+msgid "Preview"
+msgstr "Preview"
 
 msgid "All fields you add here will be shown in the form"
 msgstr "All fields you add here will be shown in the form"
+
+msgid "There is an error with the provided data"
+msgstr "There is an error with the provided data"
 
 msgid "Profile"
 msgstr "Profile"

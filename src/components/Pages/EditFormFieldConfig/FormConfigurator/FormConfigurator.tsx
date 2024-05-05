@@ -4,7 +4,6 @@ import {SectionSchema} from "../FormController";
 import {Droppable} from "react-beautiful-dnd";
 import {MetadataDraggable} from "./MetadataDraggable";
 import {PluginDraggable} from "./PluginDraggable";
-import {usePluginConfigurations} from "./hooks/usePluginConfigurations";
 import {PluginSettingSchema} from "./PluginDraggable/PluginDialogContent/PluginDialogContent";
 
 type Props = {
