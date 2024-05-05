@@ -4,7 +4,7 @@ import {SectionSchema} from "../FormController";
 import {Droppable} from "react-beautiful-dnd";
 import {MetadataDraggable} from "./MetadataDraggable";
 import {PluginDraggable} from "./PluginDraggable";
-import {PluginSettingSchema} from "./PluginDraggable/PluginDialogContent/PluginDialogContent";
+import {PluginSettingSchema} from "./PluginDraggable/PluginDialogContent";
 
 type Props = {
     formFields: Array<z.infer<typeof SectionSchema>>,
