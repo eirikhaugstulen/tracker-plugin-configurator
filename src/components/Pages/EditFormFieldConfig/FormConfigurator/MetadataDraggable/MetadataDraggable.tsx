@@ -10,11 +10,12 @@ type Props = {
 }
 
 export const MetadataDraggable = ({ field, index }: Props) => {
-    if (!field.id) {
-        debugger;
-    }
     return (
-        <Draggable isDragDisabled draggableId={field.id} index={index}>
+        <Draggable
+            isDragDisabled
+            draggableId={field.id}
+            index={index}
+        >
             {(provided) => (
                 <div
                     key={field.id}

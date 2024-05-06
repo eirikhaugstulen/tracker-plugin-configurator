@@ -1,6 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {useDataEngine} from "@dhis2/app-runtime";
 import {useFormFieldMetadata} from "./useFormFieldMetadata";
+import {ContextFormSchema} from "../../EditFormFieldConfig/FormController/hooks/useValidateAndSave";
 
 export type FormFieldRecord = {
     id: string,
@@ -15,10 +16,12 @@ export type FormFieldRecord = {
     sections: {
         id: string,
         name: string,
-        elements: {
+        elements: Array<{
+            [x: string]: any;
             id: string,
-            type: string,
-        }
+            name: string,
+            type: 'plugin' | 'TrackedEntityAttribute',
+        }>
     }[],
     valid: boolean,
 }
@@ -27,24 +30,29 @@ export const useFormFieldConfig = () => {
     const dataEngine = useDataEngine();
     const { programs, isLoading: isLoadingMetadata } = useFormFieldMetadata();
 
-    const { isLoading, isError, data } = useQuery({
-        queryKey: ['formFieldConfig'],
-        queryFn: () => dataEngine.query({
+    const getFormFieldConfig = async () => {
+        const { formFieldConfigQuery } = await dataEngine.query({
             formFieldConfigQuery: {
                 resource: 'dataStore/capture/dataEntryForms',
-                params: {
-                    fields: '*'
-                }
             }
-        }),
-        select: ({ formFieldConfigQuery }) => {
-            if (!formFieldConfigQuery) return [];
+        });
+
+        return formFieldConfigQuery;
+    }
+
+    const { isLoading, isError, data } = useQuery({
+        queryKey: ['formFieldConfig'],
+        queryFn: getFormFieldConfig,
+        select: (dataEntryForm) => {
+            if (!dataEntryForm) return [];
             return Object
-                .entries(formFieldConfigQuery)
+                .entries(dataEntryForm)
                 .map(([id, record]) => {
                     const programMetadata = programs?.find((program) => program.id === id);
                     if (!programMetadata) return null;
                     if (programMetadata.programType !== 'WITH_REGISTRATION') return null;
+
+                    const { success } = ContextFormSchema.safeParse(record);
 
                     return ({
                         id,
@@ -54,7 +62,7 @@ export const useFormFieldConfig = () => {
                         },
                         trackedEntityType: programMetadata.trackedEntityType,
                         sections: record,
-                        valid: true,
+                        valid: success,
                     });
                 }).filter(Boolean) as FormFieldRecord[];
         },

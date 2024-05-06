@@ -1,9 +1,10 @@
 import {z} from "zod";
-import i18n from "@dhis2/d2-i18n";
+import i18n from '@dhis2/d2-i18n';
 import {SectionSchema} from "./useFormFieldController";
-import {PluginSettingSchema} from "../../FormConfigurator/PluginDraggable/PluginDialogContent/PluginDialogContent";
+import {PluginSettingSchema} from "../../FormConfigurator/PluginDraggable/PluginDialogContent";
 import {useSaveFormConfig} from "./useSaveFormConfig";
 import {useQueryClient} from "@tanstack/react-query";
+import {toast} from "sonner";
 
 const TrackedEntityAttributeSchema = z.object({
     id: z.string().min(1, { message: 'Missing id' }),
@@ -28,17 +29,18 @@ export const ContextFormSchema = z.array(z.object({
     elements: z.array(z.union([PluginElementSchema, TrackedEntityAttributeSchema])),
 }));
 
-const DataFormSchema = z.record(z.string(), ContextFormSchema);
+export const DataFormSchema = z.record(z.string(), ContextFormSchema);
 
 type Props = {
     formFields: Array<z.infer<typeof SectionSchema>>,
     formFieldId: string,
     pluginConfigurations: Record<string, z.infer<typeof PluginSettingSchema>>,
+    onError: (message: string) => void | undefined,
 }
 
-export const useValidateAndSave = ({ formFields, formFieldId, pluginConfigurations }: Props) => {
+export const useValidateAndSave = ({ formFields, formFieldId, pluginConfigurations, onError }: Props) => {
     const queryClient = useQueryClient();
-    const { saveFormConfig } = useSaveFormConfig();
+    const { saveFormConfig, isSubmitting } = useSaveFormConfig();
 
     const buildPayloadForCurrentContext = (): Record<string, z.infer<typeof ContextFormSchema>> => {
         const currentContextPayload = formFields.map(section => {
@@ -47,7 +49,7 @@ export const useValidateAndSave = ({ formFields, formFieldId, pluginConfiguratio
                 elements: section.fields.map(field => {
                     if (field.type === 'PLUGIN') {
                         const pluginConfiguration = pluginConfigurations[field.id];
-                        if (!pluginConfiguration) throw new Error('Missing plugin configuration');
+                        if (!pluginConfiguration) throw new Error('Missing plugin configuration for plugin field: ' + field.displayName);
                         return {
                             id: field.id,
                             type: 'plugin' as const,
@@ -82,40 +84,56 @@ export const useValidateAndSave = ({ formFields, formFieldId, pluginConfiguratio
         const result = DataFormSchema.safeParse(payload);
         if (!result.success) {
             console.error('Validation error: ', result.error);
-            throw new Error(i18n.t('There is an error with the provided data'));
+            throw new Error(result.error.toString());
         }
         return result.data;
     }
 
     const save = (contextPayload: Record<string, z.infer<typeof ContextFormSchema>>) => {
-        const data = queryClient.getQueryData<{
-            formFieldConfigQuery: Record<string,
-                z.infer<typeof ContextFormSchema>>,
-        }>(['formFieldConfig']);
+        const data = queryClient.getQueryData<
+            Record<string, z.infer<typeof ContextFormSchema>>>
+        (['formFieldConfig']);
 
         if (!data) {
-            throw new Error('Missing previous data from data store');
+            throw new Error('Could not find form field config data in cache. Please refresh and try again.');
         }
 
-        const { formFieldConfigQuery } = data;
-
         const updatedData = {
-            ...formFieldConfigQuery,
+            ...data,
             ...contextPayload,
         }
 
         saveFormConfig(updatedData);
     }
 
+    const validateDryRun = () => {
+        try {
+            const dataStorePayload = buildPayloadForCurrentContext();
+            validate(dataStorePayload);
+            toast.success(i18n.t('Validation successful - no errors found'));
+        } catch (e) {
+            if (e instanceof Error) {
+                onError && onError(e.message);
+            }
+        }
+    }
+
     const validateAndSave = async () => {
-        const dataStorePayload = buildPayloadForCurrentContext();
-        const validatedData = validate(dataStorePayload);
-        save(validatedData);
+        try {
+            const dataStorePayload = buildPayloadForCurrentContext();
+            const validatedData = validate(dataStorePayload);
+            save(validatedData);
+        } catch (e) {
+            if (e instanceof Error) {
+                onError && onError(e.message);
+            }
+        }
     }
 
     return {
-        validate,
+        validateDryRun,
         save,
         validateAndSave,
+        isSubmitting,
     }
 }

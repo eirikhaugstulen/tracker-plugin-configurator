@@ -10,19 +10,32 @@ import {DragDropContext} from "react-beautiful-dnd";
 import {PluginSchema, useFormFieldController} from "./hooks/useFormFieldController";
 import {appsSchema} from "../hooks/useInstanceApps";
 import {Button} from "../../../ui/button";
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "../../../ui/dropdown-menu";
-import {MoreVertical} from "lucide-react";
+import {LoaderCircle} from "lucide-react";
 import {useValidateAndSave} from "./hooks/useValidateAndSave";
 import {usePluginConfigurations} from "../FormConfigurator/hooks/usePluginConfigurations";
+import {FormFieldRecord} from "../../FormFieldPlugins/hooks/useFormFieldConfig";
+import {toast} from "sonner";
 
 type Props = {
     metadata: z.infer<typeof ConvertedMetadataSchema>,
     formFieldId: string,
     metadataType: 'program' | 'trackedEntityType',
     apps: Array<z.infer<typeof appsSchema>>
+    existingFormFieldConfig: FormFieldRecord | null | undefined,
 }
 
-export const FormController = ({ metadata, formFieldId, metadataType, apps }: Props) => {
+const ValidationErrorToast = ({ errorMessage }: { errorMessage: string }) => {
+    return (
+        <div className={'flex flex-col gap-2'}>
+            <h1>{i18n.t('Validation Error')}</h1>
+            <div className={'rounded bg-red-50 border border-red-100 p-2 w-full'}>
+                    <p>{errorMessage}</p>
+            </div>
+        </div>
+    )
+}
+
+export const FormController = ({ metadata, formFieldId, metadataType, apps, existingFormFieldConfig }: Props) => {
     const availablePlugins: Array<z.infer<typeof PluginSchema>> = useMemo(() => {
         const filteredApps = apps.filter(app => app.pluginLaunchUrl);
 
@@ -34,22 +47,30 @@ export const FormController = ({ metadata, formFieldId, metadataType, apps }: Pr
             version: app.version,
             type: 'PLUGIN',
         }))
-    }, [])
+    }, [apps])
 
     const {
         formFields,
         plugins,
-        onDragEnd
-    } = useFormFieldController({ metadata, availablePlugins });
+        onDragEnd,
+        existingPluginConfigs,
+    } = useFormFieldController({ metadata, availablePlugins, existingFormFieldConfig });
+
     const {
         pluginConfigurations,
         addPluginConfiguration,
-    } = usePluginConfigurations()
+    } = usePluginConfigurations({ existingPluginConfigs })
 
-    const { validateAndSave } = useValidateAndSave({
+    const {
+        validateAndSave,
+        isSubmitting,
+    } = useValidateAndSave({
         formFields,
         formFieldId,
         pluginConfigurations,
+        onError: (e: string) => {
+            toast.error(<ValidationErrorToast errorMessage={e} />)
+        }
     });
 
     return (
@@ -58,20 +79,9 @@ export const FormController = ({ metadata, formFieldId, metadataType, apps }: Pr
                 <Button
                     onClick={validateAndSave}
                 >
+                    {isSubmitting && <LoaderCircle className={'h-5 w-5 mr-2 animate-spin'}/>}
                     {i18n.t('Save')}
                 </Button>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant={'outline'} size={'icon'}>
-                            <MoreVertical className={'h-5 w-5'}/>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem>{i18n.t('Import')}</DropdownMenuItem>
-                        <DropdownMenuItem>{i18n.t('Validate')}</DropdownMenuItem>
-                        <DropdownMenuItem>{i18n.t('Preview')}</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
 
             <DragDropContext onDragEnd={onDragEnd}>

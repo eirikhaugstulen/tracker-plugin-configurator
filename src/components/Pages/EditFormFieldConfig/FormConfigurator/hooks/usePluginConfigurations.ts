@@ -1,9 +1,13 @@
-import {PluginSettingSchema} from "../PluginDraggable/PluginDialogContent/PluginDialogContent";
+import {PluginSettingSchema} from "../PluginDraggable/PluginDialogContent";
 import {z} from "zod";
 import {useState} from "react";
 
-export const usePluginConfigurations = () => {
-    const [pluginConfigurations, setPluginConfigurations] = useState<Record<string, z.infer<typeof PluginSettingSchema>>>({});
+type Props = {
+    existingPluginConfigs: Record<string, z.infer<typeof PluginSettingSchema>>
+}
+
+export const usePluginConfigurations = ({ existingPluginConfigs }: Props) => {
+    const [pluginConfigurations, setPluginConfigurations] = useState<Record<string, z.infer<typeof PluginSettingSchema>>>(existingPluginConfigs);
 
     const addPluginConfiguration = (id: string, configuration: z.infer<typeof PluginSettingSchema>) => {
         setPluginConfigurations((prev) => {

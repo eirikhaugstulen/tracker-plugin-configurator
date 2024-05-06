@@ -2,6 +2,8 @@ import {z} from "zod";
 import {ConvertedMetadataSchema} from "../../hooks/useMetadataFromType/Constants";
 import {useState} from "react";
 import {DropResult} from "react-beautiful-dnd";
+import {FormFieldRecord} from "../../../FormFieldPlugins/hooks/useFormFieldConfig";
+import {useInitialValues} from "./useInitialValues";
 
 
 export const PluginSchema = z.object({
@@ -29,24 +31,19 @@ export const SectionSchema = z.object({
 type Props = {
     metadata: z.infer<typeof ConvertedMetadataSchema>,
     availablePlugins: Array<z.infer<typeof PluginSchema>>
+    existingFormFieldConfig: FormFieldRecord | null | undefined,
 }
 
-export const useFormFieldController = ({ metadata, availablePlugins }: Props) => {
-    const [formFields, setFormFields] = useState<z.infer<typeof SectionSchema>[]>(metadata.sections.map(section => ({
-        id: section.id,
-        displayName: section.displayName,
-        fields: section.attributes.map(attribute => ({
-            id: attribute.id,
-            displayName: attribute.displayName,
-            valueType: attribute.valueType,
-            type: 'TrackedEntityAttribute',
-        }))
-    })));
-
-    const [plugins, setPlugins] = useState<z.infer<typeof PluginSchema>[]>(availablePlugins);
+export const useFormFieldController = ({ metadata, availablePlugins, existingFormFieldConfig }: Props) => {
+    const {
+        initialValues,
+        selectablePlugins,
+        existingPluginConfigs
+    } = useInitialValues({ metadata, availablePlugins, existingFormFieldConfig });
+    const [formFields, setFormFields] = useState<z.infer<typeof SectionSchema>[]>(initialValues);
+    const [plugins, setPlugins] = useState<z.infer<typeof PluginSchema>[]>(selectablePlugins);
 
     const removePluginFromSection = (sectionId: string, pluginId: string) => {
-        // remove plugin from formFields
         setFormFields(prev => prev.map(section => {
             if (section.id === sectionId) {
                 return {
@@ -167,5 +164,6 @@ export const useFormFieldController = ({ metadata, availablePlugins }: Props) =>
         onDragEnd,
         setFormFields,
         setPlugins,
+        existingPluginConfigs
     }
 }
