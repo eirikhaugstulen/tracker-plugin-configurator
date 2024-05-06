@@ -8,9 +8,10 @@ import {PluginSchema} from "../FormController";
 
 type Props = {
     plugins: Array<z.infer<typeof PluginSchema>>,
+    nbInstalledPlugins: number,
 }
 
-export const FieldsPicker = ({ plugins }: Props) => {
+export const FieldsPicker = ({ plugins, nbInstalledPlugins }: Props) => {
     return (
         <Card className={''}>
             <CardHeader>
@@ -29,7 +30,7 @@ export const FieldsPicker = ({ plugins }: Props) => {
                             ref={provided.innerRef}
                             className={'w-full min-h-20'}
                         >
-                            {plugins.map((plugin, index) => (
+                            {nbInstalledPlugins > 0 ? plugins.map((plugin, index) => (
                                 <Draggable
                                     draggableId={plugin.id}
                                     index={index}
@@ -56,7 +57,11 @@ export const FieldsPicker = ({ plugins }: Props) => {
                                         </div>
                                     )}
                                 </Draggable>
-                            ))}
+                            )) : (
+                                <div>
+                                    {i18n.t('No plugins available')}
+                                </div>
+                            )}
                             {provided.placeholder}
                         </div>
                     )}

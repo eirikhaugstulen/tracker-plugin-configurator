@@ -1,6 +1,7 @@
 import {useDataEngine} from "@dhis2/app-runtime";
 import {useQuery} from "@tanstack/react-query";
 import {z} from "zod";
+import {useEffect} from "react";
 
 const ProgramMetadataSchema = z.object({
     id: z.string({ required_error: 'Program id is missing in the API Payload. Please report the issue to the app maintainer.' }),
@@ -36,12 +37,18 @@ export const useFormFieldMetadata = () => {
 
         return ProgramMetadataSchema.array().parse(programsQuery.programs);
     }
-    const { isLoading, data: programs } = useQuery({
+    const { isLoading, data: programs, error } = useQuery({
         queryKey: ['formFieldMetadata', 'programs'],
         queryFn: getPrograms,
         cacheTime: Infinity,
         staleTime: Infinity,
     })
+
+    useEffect(() => {
+        if (error) {
+            console.error(error);
+        }
+    }, [error])
 
     return {
         programs,
