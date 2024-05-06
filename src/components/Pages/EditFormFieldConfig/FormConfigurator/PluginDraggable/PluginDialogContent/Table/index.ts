@@ -1,0 +1,2 @@
+
+export { PluginTable } from './PluginTable';

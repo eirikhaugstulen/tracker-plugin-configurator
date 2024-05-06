@@ -1,1 +1,0 @@
-export { useProgramsWithMetadataAccess } from './useProgramsWithMetadataAccess';

@@ -35,11 +35,10 @@ export const useProgramsWithMetadataAccess = () => {
     }
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['programs', 'metadata-write'],
+        queryKey: ['tracker-programs'],
         queryFn: getPrograms,
         staleTime: Infinity,
         cacheTime: Infinity,
-        useErrorBoundary: false,
     })
 
     return {

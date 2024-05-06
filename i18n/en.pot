@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-04-15T15:28:50.848Z\n"
-"PO-Revision-Date: 2024-04-15T15:28:50.848Z\n"
+"POT-Creation-Date: 2024-05-05T15:52:56.042Z\n"
+"PO-Revision-Date: 2024-05-05T15:52:56.042Z\n"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -23,6 +23,109 @@ msgstr "Form field plugins"
 
 msgid "Enrollment overview plugins"
 msgstr "Enrollment overview plugins"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+msgid "An error occurred"
+msgstr "An error occurred"
+
+msgid ""
+"Could not find the program or tracked entity type with the provided ID. Are "
+"you sure you have access?"
+msgstr ""
+"Could not find the program or tracked entity type with the provided ID. Are "
+"you sure you have access?"
+
+msgid "Available plugins"
+msgstr "Available plugins"
+
+msgid "Drag and drop fields to add them to the form"
+msgstr "Drag and drop fields to add them to the form"
+
+msgid "Select attribute"
+msgstr "Select attribute"
+
+msgid "Field"
+msgstr "Field"
+
+msgid "Plugin attribute"
+msgstr "Plugin attribute"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Required"
+msgstr "Required"
+
+msgid "Plugin settings"
+msgstr "Plugin settings"
+
+msgid "You are currently editing the settings for {{pluginName}}."
+msgstr "You are currently editing the settings for {{pluginName}}."
+
+msgid "Attributes"
+msgstr "Attributes"
+
+msgid "Plugins are sandboxed and can only access the attributes you specify here."
+msgstr "Plugins are sandboxed and can only access the attributes you specify here."
+
+msgid "Advanced settings"
+msgstr "Advanced settings"
+
+msgid "Danger zone"
+msgstr "Danger zone"
+
+msgid "These settings may break the plugin if not set correctly."
+msgstr "These settings may break the plugin if not set correctly."
+
+msgid "Plugin launch URL"
+msgstr "Plugin launch URL"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Only letters allowed"
+msgstr "Only letters allowed"
+
+msgid "Plugin ID already in use"
+msgstr "Plugin ID already in use"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Plugin alias"
+msgstr "Plugin alias"
+
+msgid "This is the generic ID that the plugin will use to refer to this attribute."
+msgstr "This is the generic ID that the plugin will use to refer to this attribute."
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "No configured attributes"
+msgstr "No configured attributes"
+
+msgid "Edit settings"
+msgstr "Edit settings"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Validate"
+msgstr "Validate"
+
+msgid "Preview"
+msgstr "Preview"
+
+msgid "All fields you add here will be shown in the form"
+msgstr "All fields you add here will be shown in the form"
+
+msgid "There is an error with the provided data"
+msgstr "There is an error with the provided data"
+
+msgid "Profile"
+msgstr "Profile"
 
 msgid "Program is required"
 msgstr "Program is required"
@@ -81,14 +184,38 @@ msgstr "Tracked entity type is required"
 msgid "Let's start by selecting the context you want to customize."
 msgstr "Let's start by selecting the context you want to customize."
 
+msgid "Program (optional)"
+msgstr "Program (optional)"
+
+msgid "Select a type"
+msgstr "Select a type"
+
+msgid "No programs available for this type"
+msgstr "No programs available for this type"
+
+msgid "Select a program"
+msgstr "Select a program"
+
+msgid "Program stage"
+msgstr "Program stage"
+
+msgid "Coming soon!"
+msgstr "Coming soon!"
+
+msgid "Program Stage"
+msgstr "Program Stage"
+
+msgid "An error occurred while loading tracked entity types"
+msgstr "An error occurred while loading tracked entity types"
+
+msgid "There seems like you don't have metadata access to any tracked entity types"
+msgstr "There seems like you don't have metadata access to any tracked entity types"
+
 msgid "Tracked Entity Type"
 msgstr "Tracked Entity Type"
 
 msgid "Please select a tracked entity type"
 msgstr "Please select a tracked entity type"
-
-msgid "Person"
-msgstr "Person"
 
 msgid "Toggle menu"
 msgstr "Toggle menu"
@@ -104,6 +231,13 @@ msgstr "Are you sure you want to delete this configuration?"
 
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid ""
+"Something went wrong while fetching the configurations. Please try again "
+"later."
+msgstr ""
+"Something went wrong while fetching the configurations. Please try again "
+"later."
 
 msgid ""
 "It looks like you don't have any existing configurations. Get started by "

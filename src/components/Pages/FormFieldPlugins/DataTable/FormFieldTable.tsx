@@ -6,9 +6,10 @@ import {Skeleton} from "../../../ui/skeleton";
 import {FormFieldRecord} from "../hooks/useFormFieldConfig";
 import {ActionsButton} from "./ActionsButton";
 import {ValidationsIconCell} from "./ValidationsIconCell";
+import {useNavigate} from "react-router-dom";
 
 type Props = {
-    records: FormFieldRecord[],
+    records: FormFieldRecord[] | undefined,
     isLoading: boolean,
     isError: boolean,
 }
@@ -18,6 +19,8 @@ export const FormFieldTable = ({
     isLoading,
     isError,
 }: Props) => {
+    const navigate = useNavigate();
+
     if (isLoading) {
         return (
             <Table className={'rounded-md border'}>
@@ -49,7 +52,22 @@ export const FormFieldTable = ({
                 <Header />
                 <TableBody>
                     <TableRow>
-                        <TableCell align={'center'} colSpan={3}>
+                        <TableCell align={'center'} colSpan={4}>
+                            <p className={'text-gray-700'}>{i18n.t('Something went wrong while fetching the configurations. Please try again later.')}</p>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        )
+    }
+
+    if (!records) {
+        return (
+            <Table className={'rounded-md border'}>
+                <Header />
+                <TableBody>
+                    <TableRow>
+                        <TableCell align={'center'} colSpan={4}>
                             <p className={'text-gray-700'}>{i18n.t('It looks like you don\'t have any existing configurations. Get started by clicking the button in the right hand corner!')}</p>
                         </TableCell>
                     </TableRow>
@@ -65,6 +83,8 @@ export const FormFieldTable = ({
                 {records.map((record) => (
                     <TableRow
                         key={record.id}
+                        onClick={() => record.valid && navigate('/formField/' + record.id)}
+                        className={`cursor-pointer ${record.valid ? '' : 'bg-gray-100 italic text-gray-600'}`}
                     >
                         <TableCell>{record.program.displayName}</TableCell>
                         <TableCell>{record.trackedEntityType.displayName}</TableCell>
