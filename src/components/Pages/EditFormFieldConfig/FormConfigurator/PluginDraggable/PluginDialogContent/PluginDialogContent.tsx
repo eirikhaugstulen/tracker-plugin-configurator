@@ -62,7 +62,7 @@ export const PluginDialogContent = ({
     }
 
     const [selectedAttributes, setSelectedAttributes] = useState<SelectedAttribute>(
-        pluginConfiguration?.fieldMap.reduce((acc, { IdFromApp, IdFromPlugin }) => {
+        pluginConfiguration?.fieldMap?.reduce((acc, { IdFromApp, IdFromPlugin }) => {
         return {
             ...acc,
             [IdFromApp]: IdFromPlugin,
@@ -92,13 +92,15 @@ export const PluginDialogContent = ({
     }
 
     useEffect(() => {
-        form.setValue('fieldMap', Object.entries(selectedAttributes).map(([IdFromApp, IdFromPlugin]) => {
+        const newFieldMap = Object.entries(selectedAttributes).map(([IdFromApp, IdFromPlugin]) => {
             return {
                 IdFromApp,
                 IdFromPlugin,
-                type: 'TrackedEntityAttribute',
+                type: 'TrackedEntityAttribute' as const,
             }
-        }))
+        });
+
+        form.setValue('fieldMap', newFieldMap)
     }, [selectedAttributes])
 
     if (!metadata) {

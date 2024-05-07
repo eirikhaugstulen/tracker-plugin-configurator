@@ -17,4 +17,9 @@ export default [
   ...compat.extends("standard-with-typescript"),
   ...tseslint.configs.recommended,
   pluginReactConfig,
+  {
+    rules: {
+      "eslint-plugin-react-hooks/rules-of-hooks": "error",
+    }
+  }
 ];

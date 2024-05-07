@@ -5,8 +5,26 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-05T15:52:56.042Z\n"
-"PO-Revision-Date: 2024-05-05T15:52:56.042Z\n"
+"POT-Creation-Date: 2024-05-06T15:01:36.587Z\n"
+"PO-Revision-Date: 2024-05-06T15:01:36.587Z\n"
+
+msgid "Data store keys created!"
+msgstr "Data store keys created!"
+
+msgid "Failed to create data store keys{{escape}} {{error}}"
+msgstr "Failed to create data store keys{{escape}} {{error}}"
+
+msgid "Data store keys missing"
+msgstr "Data store keys missing"
+
+msgid "It seems like you are missing some required data store keys."
+msgstr "It seems like you are missing some required data store keys."
+
+msgid "Do you want to create them?"
+msgstr "Do you want to create them?"
+
+msgid "Create keys"
+msgstr "Create keys"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -24,24 +42,23 @@ msgstr "Form field plugins"
 msgid "Enrollment overview plugins"
 msgstr "Enrollment overview plugins"
 
-msgid "Loading..."
-msgstr "Loading..."
+msgid "There seems to be an unexpected error. Please refresh the app and try again."
+msgstr "There seems to be an unexpected error. Please refresh the app and try again."
 
-msgid "An error occurred"
-msgstr "An error occurred"
+msgid "Could not find the program or tracked entity type with the provided ID."
+msgstr "Could not find the program or tracked entity type with the provided ID."
 
-msgid ""
-"Could not find the program or tracked entity type with the provided ID. Are "
-"you sure you have access?"
-msgstr ""
-"Could not find the program or tracked entity type with the provided ID. Are "
-"you sure you have access?"
+msgid "Are you sure you have access?"
+msgstr "Are you sure you have access?"
 
 msgid "Available plugins"
 msgstr "Available plugins"
 
 msgid "Drag and drop fields to add them to the form"
 msgstr "Drag and drop fields to add them to the form"
+
+msgid "No plugins available"
+msgstr "No plugins available"
 
 msgid "Select attribute"
 msgstr "Select attribute"
@@ -109,20 +126,17 @@ msgstr "No configured attributes"
 msgid "Edit settings"
 msgstr "Edit settings"
 
-msgid "Import"
-msgstr "Import"
-
-msgid "Validate"
-msgstr "Validate"
-
-msgid "Preview"
-msgstr "Preview"
+msgid "Validation Error"
+msgstr "Validation Error"
 
 msgid "All fields you add here will be shown in the form"
 msgstr "All fields you add here will be shown in the form"
 
-msgid "There is an error with the provided data"
-msgstr "There is an error with the provided data"
+msgid "Configuration saved successfully"
+msgstr "Configuration saved successfully"
+
+msgid "Validation successful - no errors found"
+msgstr "Validation successful - no errors found"
 
 msgid "Profile"
 msgstr "Profile"
@@ -171,6 +185,12 @@ msgstr "New event"
 
 msgid "Edit event"
 msgstr "Edit event"
+
+msgid "Under construction"
+msgstr "Under construction"
+
+msgid "Come back very soon to try out enrollment plugins!"
+msgstr "Come back very soon to try out enrollment plugins!"
 
 msgid "Actions"
 msgstr "Actions"

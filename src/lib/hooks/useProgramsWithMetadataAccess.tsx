@@ -1,6 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {useDataEngine} from "@dhis2/app-runtime";
 import {z} from "zod";
+import {useEffect} from "react";
 
 const trackerProgramSchema = z.object({
     id: z.string({ required_error: 'Program id is required' }),
@@ -34,12 +35,18 @@ export const useProgramsWithMetadataAccess = () => {
         return trackerProgramSchema.array().parse(programsQuery.programs);
     }
 
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError, error } = useQuery({
         queryKey: ['tracker-programs'],
         queryFn: getPrograms,
         staleTime: Infinity,
         cacheTime: Infinity,
     })
+
+    useEffect(() => {
+        if (error) {
+            console.error(error);
+        }
+    }, [error]);
 
     return {
         programs: data,

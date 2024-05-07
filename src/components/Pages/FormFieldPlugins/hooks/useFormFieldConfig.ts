@@ -2,6 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import {useDataEngine} from "@dhis2/app-runtime";
 import {useFormFieldMetadata} from "./useFormFieldMetadata";
 import {ContextFormSchema} from "../../EditFormFieldConfig/FormController/hooks/useValidateAndSave";
+import {useEffect} from "react";
 
 export type FormFieldRecord = {
     id: string,
@@ -40,7 +41,7 @@ export const useFormFieldConfig = () => {
         return formFieldConfigQuery;
     }
 
-    const { isLoading, isError, data } = useQuery({
+    const { isLoading, isError, data, error } = useQuery({
         queryKey: ['formFieldConfig'],
         queryFn: getFormFieldConfig,
         select: (dataEntryForm) => {
@@ -67,7 +68,16 @@ export const useFormFieldConfig = () => {
                 }).filter(Boolean) as FormFieldRecord[];
         },
         enabled: !isLoadingMetadata,
+        retry: false,
+        cacheTime: Infinity,
+        staleTime: Infinity,
     })
+
+    useEffect(() => {
+        if (error) {
+            console.error(error);
+        }
+    }, [error]);
 
     return {
         records: data,

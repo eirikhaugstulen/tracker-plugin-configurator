@@ -36,7 +36,8 @@ const ValidationErrorToast = ({ errorMessage }: { errorMessage: string }) => {
 }
 
 export const FormController = ({ metadata, formFieldId, metadataType, apps, existingFormFieldConfig }: Props) => {
-    const availablePlugins: Array<z.infer<typeof PluginSchema>> = useMemo(() => {
+    const nbInstalledPlugins = apps.filter(app => app.pluginLaunchUrl).length;
+    const availablePlugins = useMemo(() => {
         const filteredApps = apps.filter(app => app.pluginLaunchUrl);
 
         return filteredApps.map(app => ({
@@ -45,8 +46,8 @@ export const FormController = ({ metadata, formFieldId, metadataType, apps, exis
             description: app.description,
             pluginLaunchUrl: app.pluginLaunchUrl,
             version: app.version,
-            type: 'PLUGIN',
-        }))
+            type: 'PLUGIN' as const,
+        })) as Array<z.infer<typeof PluginSchema>>;
     }, [apps])
 
     const {
@@ -110,6 +111,7 @@ export const FormController = ({ metadata, formFieldId, metadataType, apps, exis
                     <ResizablePanel defaultSize={50}>
                         <FieldsPicker
                             plugins={plugins}
+                            nbInstalledPlugins={nbInstalledPlugins}
                         />
                     </ResizablePanel>
                 </ResizablePanelGroup>

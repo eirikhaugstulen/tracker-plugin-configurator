@@ -61,7 +61,7 @@ export const FormFieldTable = ({
         )
     }
 
-    if (!records) {
+    if (!records || records.length === 0) {
         return (
             <Table className={'rounded-md border'}>
                 <Header />
