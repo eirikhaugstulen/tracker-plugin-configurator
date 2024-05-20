@@ -22,15 +22,17 @@ export const FormConfigurator = ({ formFields, formFieldId, metadataType, plugin
                     <Droppable droppableId={section.id} key={section.id}>
                         {(provided) => (
                             <div
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
                                 className={'w-full border rounded'}
                             >
                                 <div className={'border-r border-b bg-sky-200/40 border-slate-300 w-fit px-2 py-1 text-sm'}>
                                     {section.displayName}
                                 </div>
 
-                                <div className={'px-2 py-4'}>
+                                <div
+                                    className={'px-2 py-4'}
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
                                     {section.fields.map((field, index) => {
                                         if (field.type === 'PLUGIN') {
                                             return (

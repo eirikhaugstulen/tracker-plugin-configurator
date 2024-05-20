@@ -3,17 +3,17 @@ import {useTrackedEntityTypes} from "./useTrackedEntityTypes";
 import {useMemo} from "react";
 
 type Props = {
-    formFieldId: string | undefined,
+    contextId: string | undefined,
 }
 
 type Return = {
-    validatedFormFieldId: string | null,
+    validatedContextId: string | null,
     metadataType: 'program' | 'trackedEntityType' | null,
     isLoading: boolean,
     isError: boolean,
 }
 
-export const useValidatedFormFieldId = ({ formFieldId }: Props): Return => {
+export const useValidatedContextId = ({ contextId }: Props): Return => {
     const {
         programs,
         isLoading: isLoadingPrograms,
@@ -26,47 +26,47 @@ export const useValidatedFormFieldId = ({ formFieldId }: Props): Return => {
     } = useTrackedEntityTypes();
 
     const {
-        validatedFormFieldId,
+        validatedContextId,
         metadataType,
     }: {
-        validatedFormFieldId: string | null,
+        validatedContextId: string | null,
         metadataType: 'program' | 'trackedEntityType' | null,
     } = useMemo(() => {
-        if (!formFieldId) {
+        if (!contextId) {
             return {
-                validatedFormFieldId: null,
+                validatedContextId: null,
                 metadataType: null,
             }
         }
 
         const program = programs
-            ?.find(program => program.id === formFieldId);
+            ?.find(program => program.id === contextId);
 
         if (program) {
             return {
-                validatedFormFieldId: program.id,
+                validatedContextId: program.id,
                 metadataType: 'program',
             }
         }
 
         const trackedEntityType = trackedEntityTypes
-            ?.find(trackedEntityType => trackedEntityType.id === formFieldId);
+            ?.find(trackedEntityType => trackedEntityType.id === contextId);
 
         if (trackedEntityType) {
             return {
-                validatedFormFieldId: trackedEntityType.id,
+                validatedContextId: trackedEntityType.id,
                 metadataType: 'trackedEntityType',
             }
         }
 
         return {
-            validatedFormFieldId: null,
+            validatedContextId: null,
             metadataType: null,
         }
-    }, [formFieldId, programs, trackedEntityTypes])
+    }, [contextId, programs, trackedEntityTypes])
 
     return {
-        validatedFormFieldId,
+        validatedContextId,
         metadataType,
         isLoading: isLoadingPrograms || isLoadingTETs,
         isError: isErrorPrograms || isErrorTETs,

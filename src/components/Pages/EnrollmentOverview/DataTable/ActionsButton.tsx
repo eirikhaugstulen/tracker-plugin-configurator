@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 import i18n from '@dhis2/d2-i18n';
+import {useNavigate} from "react-router-dom";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,8 +11,7 @@ import {
 import {Button} from "../../../ui/button";
 import {Loader2, MoreHorizontalIcon} from "lucide-react";
 import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger} from "../../../ui/dialog";
-import {useDeleteFormConfig} from "../hooks/useDeleteFormConfig";
-import {useNavigate} from "react-router-dom";
+import {useDeleteEnrollmentConfig} from "../hooks/useDeleteEnrollmentConfig";
 
 type Props = {
     id: string;
@@ -19,16 +19,11 @@ type Props = {
 
 export const ActionsButton = ({ id }: Props) => {
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
+    const { deleteEnrollmentConfig, isSubmitting } = useDeleteEnrollmentConfig()
     const navigate = useNavigate();
-    const { deleteFormConfig, isSubmitting } = useDeleteFormConfig();
 
-    const onEditClick = () => {
-        navigate(`/formField/${id}`);
-    }
-
-    const handleDelete = async () => {
-        await deleteFormConfig({ id });
-        setDialogIsOpen(false);
+    const onViewClick = () => {
+        navigate(`/enrollmentOverview/${id}`);
     }
 
     return (
@@ -46,17 +41,16 @@ export const ActionsButton = ({ id }: Props) => {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>{i18n.t('Actions')}</DropdownMenuLabel>
                     <DropdownMenuItem
-                        onClick={onEditClick}
+                        onClick={onViewClick}
                     >
-                        {i18n.t('Edit')}
+                        {i18n.t('View')}
                     </DropdownMenuItem>
                     <DialogTrigger asChild>
-                        <DropdownMenuItem >
-                            {i18n.t('Delete')}
-                        </DropdownMenuItem>
+                        <DropdownMenuItem>{i18n.t('Delete')}</DropdownMenuItem>
                     </DialogTrigger>
                 </DropdownMenuContent>
             </DropdownMenu>
+
             <DialogContent>
                 <DialogHeader>
                     {i18n.t('Delete')}
@@ -75,8 +69,8 @@ export const ActionsButton = ({ id }: Props) => {
 
                     <Button
                         variant={'destructive'}
-                        onClick={handleDelete}
-                        disabled={isSubmitting}
+                        type={'button'}
+                        onClick={() => deleteEnrollmentConfig({ id })}
                     >
                         {i18n.t('Delete')}
                         {isSubmitting && (<Loader2 className="ml-2 h-4 w-4 animate-spin" />)}

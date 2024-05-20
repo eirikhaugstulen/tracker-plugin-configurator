@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-06T15:01:36.587Z\n"
-"PO-Revision-Date: 2024-05-06T15:01:36.587Z\n"
+"POT-Creation-Date: 2024-05-20T21:56:44.381Z\n"
+"PO-Revision-Date: 2024-05-20T21:56:44.381Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -42,6 +42,12 @@ msgstr "Form field plugins"
 msgid "Enrollment overview plugins"
 msgstr "Enrollment overview plugins"
 
+msgid "There seems to be an unexpected error. Please go back and try again."
+msgstr "There seems to be an unexpected error. Please go back and try again."
+
+msgid "Loading..."
+msgstr "Loading..."
+
 msgid "There seems to be an unexpected error. Please refresh the app and try again."
 msgstr "There seems to be an unexpected error. Please refresh the app and try again."
 
@@ -50,6 +56,157 @@ msgstr "Could not find the program or tracked entity type with the provided ID."
 
 msgid "Are you sure you have access?"
 msgstr "Are you sure you have access?"
+
+msgid "This page is only available for tracker programs."
+msgstr "This page is only available for tracker programs."
+
+msgid "Cancel without saving"
+msgstr "Cancel without saving"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Enrollment Dashboard"
+msgstr "Enrollment Dashboard"
+
+msgid "Enrollment Dashboard{{escape}} New event"
+msgstr "Enrollment Dashboard{{escape}} New event"
+
+msgid "Enrollment Dashboard{{escape}} Edit event"
+msgstr "Enrollment Dashboard{{escape}} Edit event"
+
+msgid "Enrollment configuration saved"
+msgstr "Enrollment configuration saved"
+
+msgid "Failed to save enrollment configuration"
+msgstr "Failed to save enrollment configuration"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Add widget"
+msgstr "Add widget"
+
+msgid "Add a widget from the list below to add it to the column"
+msgstr "Add a widget from the list below to add it to the column"
+
+msgid "Plugins"
+msgstr "Plugins"
+
+msgid ""
+"There are no plugins installed on your system. You can upload plugins in "
+"the app management application, or download from the DHIS2 App Hub"
+msgstr ""
+"There are no plugins installed on your system. You can upload plugins in "
+"the app management application, or download from the DHIS2 App Hub"
+
+msgid "Widgets"
+msgstr "Widgets"
+
+msgid "There are no more widgets available for this page."
+msgstr "There are no more widgets available for this page."
+
+msgid "Back"
+msgstr "Back"
+
+msgid "Overview"
+msgstr "Overview"
+
+msgid "New event"
+msgstr "New event"
+
+msgid "Edit event"
+msgstr "Edit event"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Quick actions"
+msgstr "Quick actions"
+
+msgid "Simple actions to quickly navigate to common tasks"
+msgstr "Simple actions to quickly navigate to common tasks"
+
+msgid "Stages and events"
+msgstr "Stages and events"
+
+msgid "Overview of all stages and events in the enrollment"
+msgstr "Overview of all stages and events in the enrollment"
+
+msgid "New event workspace"
+msgstr "New event workspace"
+
+msgid "Workspace to create a new event"
+msgstr "Workspace to create a new event"
+
+msgid "Edit event workspace"
+msgstr "Edit event workspace"
+
+msgid "Workspace to edit an event"
+msgstr "Workspace to edit an event"
+
+msgid "Assignee"
+msgstr "Assignee"
+
+msgid "Assignee of the event"
+msgstr "Assignee of the event"
+
+msgid "Error widget"
+msgstr "Error widget"
+
+msgid "Widget to display errors from program rules"
+msgstr "Widget to display errors from program rules"
+
+msgid "Warning widget"
+msgstr "Warning widget"
+
+msgid "Widget to display warnings from program rules"
+msgstr "Widget to display warnings from program rules"
+
+msgid "Event comment"
+msgstr "Event comment"
+
+msgid "Comments and notes for the event"
+msgstr "Comments and notes for the event"
+
+msgid "Enrollment comment"
+msgstr "Enrollment comment"
+
+msgid "Comments and notes for the enrollment"
+msgstr "Comments and notes for the enrollment"
+
+msgid "Feedback widget"
+msgstr "Feedback widget"
+
+msgid "Widget to display feedback from program rules"
+msgstr "Widget to display feedback from program rules"
+
+msgid "Indicator widget"
+msgstr "Indicator widget"
+
+msgid "Widget to display indicators from program rules"
+msgstr "Widget to display indicators from program rules"
+
+msgid "Tracked entity relationship"
+msgstr "Tracked entity relationship"
+
+msgid "Display, edit and create relationships between tracked entities"
+msgstr "Display, edit and create relationships between tracked entities"
+
+msgid "Profile widget"
+msgstr "Profile widget"
+
+msgid "Display and edit the profile of the tracked entity"
+msgstr "Display and edit the profile of the tracked entity"
+
+msgid "Read only mode"
+msgstr "Read only mode"
+
+msgid "Enrollment widget"
+msgstr "Enrollment widget"
+
+msgid "Display and edit the enrollment details"
+msgstr "Display and edit the enrollment details"
 
 msgid "Available plugins"
 msgstr "Available plugins"
@@ -68,9 +225,6 @@ msgstr "Field"
 
 msgid "Plugin attribute"
 msgstr "Plugin attribute"
-
-msgid "Add"
-msgstr "Add"
 
 msgid "Required"
 msgstr "Required"
@@ -98,9 +252,6 @@ msgstr "These settings may break the plugin if not set correctly."
 
 msgid "Plugin launch URL"
 msgstr "Plugin launch URL"
-
-msgid "Save"
-msgstr "Save"
 
 msgid "Only letters allowed"
 msgstr "Only letters allowed"
@@ -156,6 +307,12 @@ msgstr "Add new configuration"
 msgid "Let's start by selecting the program and the page you want to configure."
 msgstr "Let's start by selecting the program and the page you want to configure."
 
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Next"
+msgstr "Next"
+
 msgid "Loading programs..."
 msgstr "Loading programs..."
 
@@ -177,26 +334,52 @@ msgstr "Page"
 msgid "Please select a page"
 msgstr "Please select a page"
 
-msgid "Overview"
-msgstr "Overview"
-
-msgid "New event"
-msgstr "New event"
-
-msgid "Edit event"
-msgstr "Edit event"
-
-msgid "Under construction"
-msgstr "Under construction"
-
-msgid "Come back very soon to try out enrollment plugins!"
-msgstr "Come back very soon to try out enrollment plugins!"
+msgid "Toggle menu"
+msgstr "Toggle menu"
 
 msgid "Actions"
 msgstr "Actions"
 
-msgid "You are using the default configuration for this page"
-msgstr "You are using the default configuration for this page"
+msgid "View"
+msgstr "View"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Are you sure you want to delete this configuration?"
+msgstr "Are you sure you want to delete this configuration?"
+
+msgid "You are using the default layout"
+msgstr "You are using the default layout"
+
+msgid "Valid configuration"
+msgstr "Valid configuration"
+
+msgid ""
+"It looks like there is an issue with this configuration. Please review or "
+"update it."
+msgstr ""
+"It looks like there is an issue with this configuration. Please review or "
+"update it."
+
+msgid ""
+"Something went wrong while fetching the configurations. Please try again "
+"later."
+msgstr ""
+"Something went wrong while fetching the configurations. Please try again "
+"later."
+
+msgid "No records found"
+msgstr "No records found"
+
+msgid "Enrollment Plugins"
+msgstr "Enrollment Plugins"
+
+msgid "Manage your enrollment page configurations"
+msgstr "Manage your enrollment page configurations"
+
+msgid "At least one of title, leftColumn, or rightColumn must be defined"
+msgstr "At least one of title, leftColumn, or rightColumn must be defined"
 
 msgid "Tracked entity type is required"
 msgstr "Tracked entity type is required"
@@ -236,28 +419,6 @@ msgstr "Tracked Entity Type"
 
 msgid "Please select a tracked entity type"
 msgstr "Please select a tracked entity type"
-
-msgid "Toggle menu"
-msgstr "Toggle menu"
-
-msgid "Edit"
-msgstr "Edit"
-
-msgid "Delete"
-msgstr "Delete"
-
-msgid "Are you sure you want to delete this configuration?"
-msgstr "Are you sure you want to delete this configuration?"
-
-msgid "Cancel"
-msgstr "Cancel"
-
-msgid ""
-"Something went wrong while fetching the configurations. Please try again "
-"later."
-msgstr ""
-"Something went wrong while fetching the configurations. Please try again "
-"later."
 
 msgid ""
 "It looks like you don't have any existing configurations. Get started by "

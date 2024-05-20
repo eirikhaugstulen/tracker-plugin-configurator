@@ -30,7 +30,7 @@
     "typescript-eslint": "^7.7.0"
   },
   "dependencies": {
-    "@dhis2/app-runtime": "^3.10.3",
+    "@dhis2/app-runtime": "^3.10.4",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",

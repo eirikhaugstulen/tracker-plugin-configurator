@@ -6,7 +6,7 @@ import {Button} from "../ui/button";
 import {LoaderCircle} from "lucide-react";
 import {toast} from "sonner";
 
-const REQUIRED_KEYS = ['dataEntryForms', 'enrollmentOverviewLayout', 'enrollmentEventNewLayout', 'enrollmentEditEventLayout'];
+const REQUIRED_KEYS = ['dataEntryForms', 'enrollmentOverviewLayout', 'enrollmentEventNewLayout', 'enrollmentEventEditLayout'];
 
 type Props = {
     children: ReactNode,

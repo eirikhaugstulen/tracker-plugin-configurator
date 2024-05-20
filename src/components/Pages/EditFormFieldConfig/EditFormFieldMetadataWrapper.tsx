@@ -1,18 +1,18 @@
 import React from "react";
 import i18n from '@dhis2/d2-i18n';
 import {useParams} from "react-router-dom";
-import {useValidatedFormFieldId} from "../../../lib/hooks/useValidatedFormFieldId";
+import {useValidatedContextId} from "../../../lib/hooks/useValidatedContextId";
 import {EditFormFieldConfig} from "./EditFormFieldConfig";
 import {Loading} from "./Loading";
 
 export const EditFormFieldMetadataWrapper = () => {
     const { formFieldId } = useParams();
     const {
-        validatedFormFieldId,
+        validatedContextId,
         metadataType,
         isLoading,
         isError,
-    } = useValidatedFormFieldId({ formFieldId });
+    } = useValidatedContextId({ contextId: formFieldId });
 
     if (isLoading) {
         return (
@@ -28,7 +28,7 @@ export const EditFormFieldMetadataWrapper = () => {
         )
     }
 
-    if (!validatedFormFieldId || !metadataType) {
+    if (!validatedContextId || !metadataType) {
         return (
             <div className={'w-3/4 mt-4 flex flex-col gap-4 border mx-auto sm:mt-0 sm:w-1/3 px-4 py-6'}>
                 <p>{i18n.t('Could not find the program or tracked entity type with the provided ID.')}</p>
@@ -39,7 +39,7 @@ export const EditFormFieldMetadataWrapper = () => {
 
     return (
         <EditFormFieldConfig
-            formFieldId={validatedFormFieldId}
+            formFieldId={validatedContextId}
             metadataType={metadataType}
         />
     )

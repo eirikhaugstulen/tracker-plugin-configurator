@@ -56,35 +56,6 @@ export const ContextSelector = ({ form }: Props) => {
                     </FormItem>
                 )}
             />
-
-            <FormField
-                control={form.control}
-                name="page"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>{i18n.t('Page')} *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                                <SelectTrigger>
-                                    <SelectValue placeholder={i18n.t('Please select a page')} />
-                                </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                                <SelectItem value="enrollmentOverviewLayout">
-                                    {i18n.t('Overview')}
-                                </SelectItem>
-                                <SelectItem value="enrollmentEventNewLayout">
-                                    {i18n.t('New event')}
-                                </SelectItem>
-                                <SelectItem value="enrollmentEventEditLayout">
-                                    {i18n.t('Edit event')}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
         </div>
     )
 }

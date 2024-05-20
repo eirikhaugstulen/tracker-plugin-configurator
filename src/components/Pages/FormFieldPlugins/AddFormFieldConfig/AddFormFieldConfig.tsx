@@ -17,13 +17,11 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form} from "../../../ui/form";
 import {TrackedEntityTypeSelector} from "./TrackedEntityTypeSelector";
 import {ProgramSelector} from "./ProgramSelector";
-import {ProgramStageSelector} from "./ProgramStageSelector";
 import {useNavigate} from "react-router-dom";
 
 const formSchema = z.object({
     trackedEntityType: z.string().min(1, { message: i18n.t('Tracked entity type is required') }),
     program: z.string().optional(),
-    programStage: z.string().optional(),
 });
 
 export const AddFormFieldConfig = () => {
@@ -33,7 +31,6 @@ export const AddFormFieldConfig = () => {
         defaultValues: {
             trackedEntityType: '',
             program: '',
-            programStage: '',
         }
     })
 
@@ -69,8 +66,6 @@ export const AddFormFieldConfig = () => {
                         <TrackedEntityTypeSelector />
 
                         <ProgramSelector />
-
-                        <ProgramStageSelector />
 
                         <DialogFooter className={'mt-10'}>
                             <DialogTrigger
