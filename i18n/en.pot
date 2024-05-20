@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-20T21:56:44.381Z\n"
-"PO-Revision-Date: 2024-05-20T21:56:44.381Z\n"
+"POT-Creation-Date: 2024-05-20T23:49:29.091Z\n"
+"PO-Revision-Date: 2024-05-20T23:49:29.091Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -94,11 +94,13 @@ msgid "Plugins"
 msgstr "Plugins"
 
 msgid ""
-"There are no plugins installed on your system. You can upload plugins in "
-"the app management application, or download from the DHIS2 App Hub"
+"There are no more plugins available on your instance. You can upload "
+"plugins in the app management application, or download from the DHIS2 App "
+"Hub"
 msgstr ""
-"There are no plugins installed on your system. You can upload plugins in "
-"the app management application, or download from the DHIS2 App Hub"
+"There are no more plugins available on your instance. You can upload "
+"plugins in the app management application, or download from the DHIS2 App "
+"Hub"
 
 msgid "Widgets"
 msgstr "Widgets"
@@ -120,6 +122,19 @@ msgstr "Edit event"
 
 msgid "Edit"
 msgstr "Edit"
+
+msgid "Default layout"
+msgstr "Default layout"
+
+msgid ""
+"You are currently using the default layout for this page. Click on the "
+"button below to start customizing."
+msgstr ""
+"You are currently using the default layout for this page. Click on the "
+"button below to start customizing."
+
+msgid "Start"
+msgstr "Start"
 
 msgid "Quick actions"
 msgstr "Quick actions"
@@ -295,17 +310,14 @@ msgstr "Profile"
 msgid "Program is required"
 msgstr "Program is required"
 
-msgid "Page is required"
-msgstr "Page is required"
-
 msgid "Add configuration"
 msgstr "Add configuration"
 
 msgid "Add new configuration"
 msgstr "Add new configuration"
 
-msgid "Let's start by selecting the program and the page you want to configure."
-msgstr "Let's start by selecting the program and the page you want to configure."
+msgid "Let's start by selecting the program you want to configure."
+msgstr "Let's start by selecting the program you want to configure."
 
 msgid "Cancel"
 msgstr "Cancel"
@@ -327,12 +339,6 @@ msgstr "Program"
 
 msgid "Please select a program"
 msgstr "Please select a program"
-
-msgid "Page"
-msgstr "Page"
-
-msgid "Please select a page"
-msgstr "Please select a page"
 
 msgid "Toggle menu"
 msgstr "Toggle menu"
@@ -369,14 +375,24 @@ msgstr ""
 "Something went wrong while fetching the configurations. Please try again "
 "later."
 
-msgid "No records found"
-msgstr "No records found"
+msgid ""
+"It looks like you don't have any existing configurations. Get started by "
+"clicking the button in the right hand corner!"
+msgstr ""
+"It looks like you don't have any existing configurations. Get started by "
+"clicking the button in the right hand corner!"
 
 msgid "Enrollment Plugins"
 msgstr "Enrollment Plugins"
 
 msgid "Manage your enrollment page configurations"
 msgstr "Manage your enrollment page configurations"
+
+msgid "Configuration deleted successfully"
+msgstr "Configuration deleted successfully"
+
+msgid "Failed to delete configuration"
+msgstr "Failed to delete configuration"
 
 msgid "At least one of title, leftColumn, or rightColumn must be defined"
 msgstr "At least one of title, leftColumn, or rightColumn must be defined"
@@ -420,13 +436,6 @@ msgstr "Tracked Entity Type"
 msgid "Please select a tracked entity type"
 msgstr "Please select a tracked entity type"
 
-msgid ""
-"It looks like you don't have any existing configurations. Get started by "
-"clicking the button in the right hand corner!"
-msgstr ""
-"It looks like you don't have any existing configurations. Get started by "
-"clicking the button in the right hand corner!"
-
 msgid "Validation"
 msgstr "Validation"
 
@@ -448,9 +457,6 @@ msgstr "Form Field Plugins"
 
 msgid "Manage your form configurations"
 msgstr "Manage your form configurations"
-
-msgid "Configuration deleted successfully"
-msgstr "Configuration deleted successfully"
 
 msgid "Undo"
 msgstr "Undo"
