@@ -34,7 +34,6 @@ export const useDeleteFormConfig = () => {
             });
         },
         onSuccess: () => {
-            // const previousData = queryClient.getQueryData(['formFieldConfig']);
             queryClient.invalidateQueries(['formFieldConfig'])
             toast.success(i18n.t('Configuration deleted successfully'), {
                 // action: {

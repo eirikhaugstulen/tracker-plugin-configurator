@@ -13,6 +13,7 @@ import {FormFieldPlugins} from "./components/Pages/FormFieldPlugins";
 import {Toaster} from "./components/ui/sonner";
 import {EditFormFieldMetadataWrapper} from "./components/Pages/EditFormFieldConfig";
 import {DataStoreKeyProvider} from "./components/DataStoreKeyProvider/DataStoreKeyProvider";
+import {EditEnrollmentOverviewWrapper} from "./components/Pages/EditEnrollmentOverview/EditEnrollmentOverviewWrapper";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -39,6 +40,7 @@ const MyApp = () => {
                                 <Route path="/formField" element={<FormFieldPlugins />}/>
                                 <Route path="/formField/:formFieldId" element={<EditFormFieldMetadataWrapper />} />
                                 <Route path="/enrollmentOverview" element={<EnrollmentOverview />}/>
+                                <Route path="/enrollmentOverview/:contextId" element={<EditEnrollmentOverviewWrapper />}/>
                                 <Route path="/" element={<Dashboard />}/>
                             </Routes>
                         </div>

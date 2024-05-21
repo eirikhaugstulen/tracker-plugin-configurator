@@ -1,0 +1,2 @@
+
+export { AddComponent } from './AddComponent';

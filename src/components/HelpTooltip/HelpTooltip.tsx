@@ -4,15 +4,16 @@ import {HelpCircleIcon} from "lucide-react";
 
 type Props = {
     content: string | React.ReactNode,
+    className?: string
 }
 
-export const HelpTooltip = ({ content }: Props) => (
+export const HelpTooltip = ({ content, className }: Props) => (
     <TooltipProvider>
         <Tooltip delayDuration={100}>
             <TooltipTrigger>
                 <HelpCircleIcon className={'h-4 w-4'} />
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent className={className}>
                 <p>
                     {content}
                 </p>

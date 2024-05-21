@@ -6,7 +6,6 @@ import {Skeleton} from "../../../ui/skeleton";
 import {FormFieldRecord} from "../hooks/useFormFieldConfig";
 import {ActionsButton} from "./ActionsButton";
 import {ValidationsIconCell} from "./ValidationsIconCell";
-import {useNavigate} from "react-router-dom";
 
 type Props = {
     records: FormFieldRecord[] | undefined,
@@ -19,8 +18,6 @@ export const FormFieldTable = ({
     isLoading,
     isError,
 }: Props) => {
-    const navigate = useNavigate();
-
     if (isLoading) {
         return (
             <Table className={'rounded-md border'}>
@@ -83,7 +80,6 @@ export const FormFieldTable = ({
                 {records.map((record) => (
                     <TableRow
                         key={record.id}
-                        onClick={() => record.valid && navigate('/formField/' + record.id)}
                         className={`cursor-pointer ${record.valid ? '' : 'bg-gray-100 italic text-gray-600'}`}
                     >
                         <TableCell>{record.program.displayName}</TableCell>

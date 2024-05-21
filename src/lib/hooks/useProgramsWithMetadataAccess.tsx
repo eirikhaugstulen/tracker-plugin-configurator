@@ -3,7 +3,7 @@ import {useDataEngine} from "@dhis2/app-runtime";
 import {z} from "zod";
 import {useEffect} from "react";
 
-const trackerProgramSchema = z.object({
+export const trackerProgramSchema = z.object({
     id: z.string({ required_error: 'Program id is required' }),
     displayName: z.string({ required_error: 'Program display name is required' }),
     trackedEntityType: z.object({

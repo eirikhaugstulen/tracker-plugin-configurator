@@ -16,30 +16,29 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form} from "../../../ui/form";
+import {useNavigate} from "react-router-dom";
 
 export const EnrollmentPages = {
-    ENROLLMENT_OVERVIEW: 'enrollmentOverviewLayout',
-    ENROLLMENT_EVENT_NEW: 'enrollmentEventNewLayout',
-    ENROLLMENT_EVENT_EDIT: 'enrollmentEventEditLayout',
+    ENROLLMENT_OVERVIEW: 'overview',
+    ENROLLMENT_EVENT_NEW: 'newEvent',
+    ENROLLMENT_EVENT_EDIT: 'editEvent',
 } as const;
 
 const formSchema = z.object({
     program: z.string({
         required_error: i18n.t('Program is required')
     }),
-    page: z.string({
-        required_error: i18n.t('Page is required'),
-    })
 })
 
 export const AddEnrollmentPageConfig = () => {
+    const navigate = useNavigate();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {}
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        navigate(`/enrollmentOverview/${values.program}`);
     }
 
     return (
@@ -56,7 +55,7 @@ export const AddEnrollmentPageConfig = () => {
                     <DialogHeader>
                         <DialogTitle>{i18n.t('Add new configuration')}</DialogTitle>
                         <DialogDescription>
-                            {i18n.t('Let\'s start by selecting the program and the page you want to configure.')}
+                            {i18n.t('Let\'s start by selecting the program you want to configure.')}
                         </DialogDescription>
                     </DialogHeader>
 
@@ -69,12 +68,14 @@ export const AddEnrollmentPageConfig = () => {
                                     asChild
                                 >
                                     <Button size="sm" variant="outline" type={'button'}>
-                                        Cancel
+                                        {i18n.t('Cancel')}
                                     </Button>
                                 </DialogTrigger>
                                 <Button size="sm" disabled={form.formState.isSubmitting}>
-                                    Next
-                                    {form.formState.isSubmitting && (<Loader2 className="ml-2 h-4 w-4 animate-spin" />)}
+                                    {i18n.t('Next')}
+                                    {form.formState.isSubmitting && (
+                                        <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                                    )}
                                 </Button>
                             </DialogFooter>
                         </form>

@@ -1,4 +1,5 @@
 const config = {
+    id: '85d156b7-6e3f-43f0-be57-395449393f7d',
     type: 'app',
     name: 'tracker-plugin-configurator',
     title: 'Tracker Plugin Configurator',
