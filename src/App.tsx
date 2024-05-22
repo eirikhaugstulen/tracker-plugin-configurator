@@ -25,33 +25,33 @@ const queryClient = new QueryClient({
 })
 const MyApp = () => {
     return (
-        <span className={''}>
-        <QueryClientProvider
-            client={queryClient}
-        >
-            <HashRouter>
-                <DataStoreKeyProvider>
-                    <div className="flex min-h-[calc(100vh_-_48px)] w-full flex-col bg-muted/40 dark:bg-black">
-                        <Sidebar/>
-                        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-                            <MobileNavigation />
+        <span className={'overflow-x-hidden'}>
+            <QueryClientProvider
+                client={queryClient}
+            >
+                <HashRouter>
+                    <DataStoreKeyProvider>
+                        <div className="flex min-h-[calc(100vh_-_48px)] w-full flex-col bg-muted/40 dark:bg-black">
+                            <Sidebar/>
+                            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+                                <MobileNavigation />
 
-                            <Routes>
-                                <Route path="/formField" element={<FormFieldPlugins />}/>
-                                <Route path="/formField/:formFieldId" element={<EditFormFieldMetadataWrapper />} />
-                                <Route path="/enrollmentOverview" element={<EnrollmentOverview />}/>
-                                <Route path="/enrollmentOverview/:contextId" element={<EditEnrollmentOverviewWrapper />}/>
-                                <Route path="/" element={<Dashboard />}/>
-                            </Routes>
+                                <Routes>
+                                    <Route path="/formField" element={<FormFieldPlugins />}/>
+                                    <Route path="/formField/:formFieldId" element={<EditFormFieldMetadataWrapper />} />
+                                    <Route path="/enrollmentOverview" element={<EnrollmentOverview />}/>
+                                    <Route path="/enrollmentOverview/:contextId" element={<EditEnrollmentOverviewWrapper />}/>
+                                    <Route path="/" element={<Dashboard />}/>
+                                </Routes>
+                            </div>
                         </div>
-                    </div>
-                </DataStoreKeyProvider>
-                <Toaster
-                    closeButton
-                />
-            </HashRouter>
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+                    </DataStoreKeyProvider>
+                    <Toaster
+                        closeButton
+                    />
+                </HashRouter>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
         </span>
     );
 }
