@@ -13,7 +13,7 @@ export const ContextSelector = ({ form }: Props) => {
         programs,
         isLoading,
         isError,
-    } = useProgramsWithMetadataAccess();
+    } = useProgramsWithMetadataAccess({ programType: 'WITH_REGISTRATION' });
 
     if (isLoading) {
         return <p>{i18n.t('Loading programs...')}</p>

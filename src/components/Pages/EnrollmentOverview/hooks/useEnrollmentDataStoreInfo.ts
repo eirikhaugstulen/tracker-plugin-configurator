@@ -52,7 +52,7 @@ export const FormattedEnrollmentDataStoreInfo = z.object({
 
 export const useEnrollmentDataStoreInfo = () => {
     const dataEngine = useDataEngine();
-    const { programs, isLoading: isLoadingPrograms } = useProgramsWithMetadataAccess();
+    const { programs, isLoading: isLoadingPrograms } = useProgramsWithMetadataAccess({  });
 
     const fetchEnrollmentDataStoreConfigs = async () => {
         return dataEngine.query({

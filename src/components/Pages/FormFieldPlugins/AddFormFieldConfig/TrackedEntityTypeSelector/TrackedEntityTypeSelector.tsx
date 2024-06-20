@@ -2,25 +2,43 @@ import React from "react";
 import i18n from '@dhis2/d2-i18n';
 import {useFormContext} from "react-hook-form";
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../../../ui/form";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../../../ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue
+} from "../../../../ui/select";
 import {useTrackedEntityTypes} from "../../hooks/useTrackedEntityTypes";
 import {Skeleton} from "../../../../ui/skeleton";
+import {useProgramsWithMetadataAccess} from "../../../../../lib/hooks/useProgramsWithMetadataAccess";
 
 export const TrackedEntityTypeSelector = () => {
     const { control } = useFormContext();
-    const { trackedEntityTypes, isLoading, isError} = useTrackedEntityTypes();
+    const {
+        trackedEntityTypes,
+        isLoading: isLoadingTETs,
+        isError: isErrorTETs,
+    } = useTrackedEntityTypes();
+    const {
+        programs,
+        isLoading: isLoadingPrograms,
+        isError: isErrorPrograms,
+    } = useProgramsWithMetadataAccess();
 
-    if (isLoading) {
+    if (isLoadingTETs || isLoadingPrograms) {
         return (
             <Skeleton className={'h-7'} />
         )
     }
 
-    if (isError) {
+    if (isErrorTETs || isErrorPrograms) {
         return <p className={'text-neutral-700 text-sm'}>{i18n.t('An error occurred while loading tracked entity types')}</p>
     }
 
-    if (trackedEntityTypes.length === 0) {
+    if (!trackedEntityTypes || trackedEntityTypes.length === 0) {
         return <p className={'text-neutral-700 text-sm'}>{i18n.t('There seems like you don\'t have metadata access to any tracked entity types')}</p>
     }
 
@@ -38,14 +56,40 @@ export const TrackedEntityTypeSelector = () => {
                             </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                            {trackedEntityTypes.map(trackedEntityType => (
-                                <SelectItem
-                                    key={trackedEntityType.id}
-                                    value={trackedEntityType.id}
-                                >
-                                    {trackedEntityType.displayName}
-                                </SelectItem>
-                            ))}
+                            <SelectGroup>
+                                {trackedEntityTypes.length > 1 && (
+                                    <SelectLabel
+                                        className={'pl-4'}
+                                    >
+                                        {i18n.t('Tracked entity types')}
+                                    </SelectLabel>
+                                )}
+                                {trackedEntityTypes.map(trackedEntityType => (
+                                    <SelectItem
+                                        key={trackedEntityType.id}
+                                        value={trackedEntityType.id}
+                                    >
+                                        {trackedEntityType.displayName}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                            <SelectGroup>
+                                {programs && programs.length > 1 && (
+                                    <SelectLabel
+                                        className={'pl-4'}
+                                    >
+                                        {i18n.t('Programs')}
+                                    </SelectLabel>
+                                )}
+                                {programs && programs.map(program => (
+                                    <SelectItem
+                                        key={program.id}
+                                        value={program.id}
+                                    >
+                                        {program.displayName}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
                         </SelectContent>
                     </Select>
                     <FormMessage />
