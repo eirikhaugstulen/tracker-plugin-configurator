@@ -23,6 +23,31 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
+  build-css:
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Create tailwind.css file
+        run: yarn build:css
+
+      - name: Upload CSS-file
+        uses: actions/upload-artifact@v3
+        with:
+          name: tailwind
+          path: ./src/tailwind.css
+          if-no-files-found: error
+
   build:
     runs-on: ubuntu-latest
     needs: install

@@ -7,7 +7,8 @@
   "scripts": {
     "start": "concurrently --names \"CSS,TPC\" \"yarn start:css\" \"d2-app-scripts start\" --hide \"CSS\"",
     "start:css": "tailwindcss -o src/tailwind.css --watch",
-    "build": "d2-app-scripts build",
+    "build:css": "cross-env NODE_ENV=production npx tailwindcss -o src/tailwind.css --minify",
+    "build": "yarn build:css && d2-app-scripts build",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy"
   },
@@ -18,6 +19,7 @@
     "@tanstack/eslint-plugin-query": "^5.28.11",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.25.2",
