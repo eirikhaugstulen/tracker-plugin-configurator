@@ -42,11 +42,15 @@ export const DataStoreKeyProvider = ({ children }: Props) => {
             toast.success(i18n.t('Data store keys created!'));
             queryClient.invalidateQueries(['dataStoreKeys']);
         },
-        onError: (error) => {
-            toast.error(i18n.t('Failed to create data store keys{{escape}} {{error}}', {
-                error,
-                escape: ':'
-            }));
+        onError: (error: { message: string, details: { httpStatusCode: number } }) => {
+            if (error.details.httpStatusCode === 403) {
+                toast.error(i18n.t('You do not have permission to create data store keys. Make sure the user role has the "Create capture datastore configuration" authority in the users app.'));
+            } else {
+                toast.error(i18n.t('Failed to create data store keys{{escape}} {{error}}', {
+                    error: error.message,
+                    escape: ':'
+                }));
+            }
         }
     })
 
