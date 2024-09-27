@@ -31,7 +31,7 @@ export const EditEnrollmentOverview = ({ programId, record, apps }: Props) => {
     const navigate = useNavigate();
 
     const availablePlugins = useMemo(() => {
-        const filteredApps = apps.filter(app => app.pluginLaunchUrl);
+        const filteredApps = apps.filter(app => app.pluginLaunchUrl && !app.core_app);
 
         return filteredApps.map(app => ({
             id: app.key,
