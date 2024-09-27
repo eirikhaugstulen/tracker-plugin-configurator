@@ -1,0 +1,35 @@
+{
+  "javascript": {
+    "preferFunctional": true,
+    "strictFunctionTypes": true,
+    "preferConstOverLet": true,
+    "preferMapOverForEach": true
+  },
+  "react": {
+    "preferFunctionalComponents": true,
+    "defaultProps": false,
+    "useHooks": true,
+    "jsxfmt": "minimal"
+  },
+  "typescript": {
+    "preferInterfacesOverTypes": true,
+    "avoidAny": true
+  },
+  "nextjs": {
+    "version": 14,
+    "useAppRouter": true,
+    "useNextSafeAction": true
+  },
+  "css": {
+    "useTailwindCSS": true,
+    "preferMobileFirst": true
+  },
+  "performance": {
+    "optimizeImages": {
+      "format": "WebP",
+      "lazyLoad": true
+    },
+    "dynamicImports": true,
+    "wrapInSuspense": true
+  }
+}

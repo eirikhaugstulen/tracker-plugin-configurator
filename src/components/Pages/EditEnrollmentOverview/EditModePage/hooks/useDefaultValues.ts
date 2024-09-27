@@ -16,7 +16,6 @@ export const WidgetTypes = {
 } as const;
 
 export const DefaultOverviewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
-    title: i18n.t('Enrollment Dashboard'),
     leftColumn: [
         {
             type: WidgetTypes.COMPONENT,
@@ -66,7 +65,6 @@ export const DefaultOverviewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgra
 }
 
 const DefaultEventNewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
-    title: i18n.t('Enrollment Dashboard{{escape}} New event', { escape: ':' }),
     leftColumn: [
         {
             type: WidgetTypes.COMPONENT,
@@ -108,7 +106,6 @@ const DefaultEventNewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
 }
 
 const DefaultEventEditPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
-    title: i18n.t('Enrollment Dashboard{{escape}} Edit event', { escape: ':' }),
     leftColumn: [
         {
             type: WidgetTypes.COMPONENT,

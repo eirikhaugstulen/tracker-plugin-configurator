@@ -8,7 +8,9 @@ export const appsSchema = z.object({
     key: z.string(),
     pluginLaunchUrl: z.string().optional(),
     description: z.string().optional(),
-    version: z.string().optional()
+    version: z.string().optional(),
+    pluginType: z.string().optional(),
+    core_app: z.boolean(),
 })
 
 export const useInstanceApps = () => {
@@ -19,7 +21,7 @@ export const useInstanceApps = () => {
             apps: {
                 resource: 'apps',
                 params: {
-                    fields: 'name,key,pluginLaunchUrl,description,version',
+                    fields: 'name,key,pluginLaunchUrl,description,version,pluginType,core_app',
                 }
             }
         });

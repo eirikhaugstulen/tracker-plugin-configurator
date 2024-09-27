@@ -5,11 +5,20 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-20T23:49:29.091Z\n"
-"PO-Revision-Date: 2024-05-20T23:49:29.091Z\n"
+"POT-Creation-Date: 2024-09-27T10:49:17.892Z\n"
+"PO-Revision-Date: 2024-09-27T10:49:17.892Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
+
+msgid ""
+"You do not have permission to create data store keys. Make sure the user "
+"role has the \"Create capture datastore configuration\" authority in the "
+"users app."
+msgstr ""
+"You do not have permission to create data store keys. Make sure the user "
+"role has the \"Create capture datastore configuration\" authority in the "
+"users app."
 
 msgid "Failed to create data store keys{{escape}} {{error}}"
 msgstr "Failed to create data store keys{{escape}} {{error}}"
@@ -65,15 +74,6 @@ msgstr "Cancel without saving"
 
 msgid "Save"
 msgstr "Save"
-
-msgid "Enrollment Dashboard"
-msgstr "Enrollment Dashboard"
-
-msgid "Enrollment Dashboard{{escape}} New event"
-msgstr "Enrollment Dashboard{{escape}} New event"
-
-msgid "Enrollment Dashboard{{escape}} Edit event"
-msgstr "Enrollment Dashboard{{escape}} Edit event"
 
 msgid "Enrollment configuration saved"
 msgstr "Enrollment configuration saved"
