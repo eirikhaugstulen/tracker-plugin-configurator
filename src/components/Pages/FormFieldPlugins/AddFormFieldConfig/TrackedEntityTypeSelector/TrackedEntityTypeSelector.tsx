@@ -16,7 +16,7 @@ export const TrackedEntityTypeSelector = () => {
         )
     }
 
-    if (isError) {
+    if (isError || !trackedEntityTypes) {
         return <p className={'text-neutral-700 text-sm'}>{i18n.t('An error occurred while loading tracked entity types')}</p>
     }
 

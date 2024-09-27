@@ -88,11 +88,6 @@ export const ViewModePage = (
             <CardContent>
                 {existingPageData ? (
                     <div>
-                        <h2
-                            className={'text-xl font-bold'}
-                        >
-                            {existingPageData.title}
-                        </h2>
                         <div className={'flex gap-4 mt-4'}>
                             <div className={existingPageData.leftColumn?.length ? 'grow basis-3/4' : 'hidden'}>
                                 {existingPageData.leftColumn?.map((item) => (
