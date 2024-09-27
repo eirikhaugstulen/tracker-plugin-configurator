@@ -10,7 +10,8 @@
     "build:css": "cross-env NODE_ENV=production npx tailwindcss -o src/tailwind.css --minify",
     "build": "yarn build:css && d2-app-scripts build",
     "test": "d2-app-scripts test",
-    "deploy": "d2-app-scripts deploy"
+    "deploy": "d2-app-scripts deploy",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@dhis2/cli-app-scripts": "^11.1.0",

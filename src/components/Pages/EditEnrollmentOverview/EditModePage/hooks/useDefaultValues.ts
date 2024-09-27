@@ -1,5 +1,4 @@
 import {z} from "zod";
-import i18n from "@dhis2/d2-i18n";
 import {
     ApiDataStoreInfoPerProgram, FormattedEnrollmentDataStoreInfo,
 } from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
