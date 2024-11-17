@@ -1,4 +1,4 @@
-import {GripVerticalIcon, SettingsIcon, TriangleAlertIcon} from "lucide-react";
+import {CrossIcon, GripVerticalIcon, SettingsIcon, TrashIcon, TriangleAlertIcon, XIcon} from "lucide-react";
 import {Draggable} from "react-beautiful-dnd";
 import React, {useState} from "react";
 import i18n from '@dhis2/d2-i18n';
@@ -15,6 +15,7 @@ type Props = {
     metadataType: 'program' | 'trackedEntityType',
     pluginConfiguration: z.infer<typeof PluginSettingSchema> | undefined,
     addPluginConfiguration: (id: string, configuration: z.infer<typeof PluginSettingSchema>) => void,
+    onRemovePlugin: (pluginId: string) => void,
 }
 
 export const PluginDraggable = ({
@@ -23,7 +24,8 @@ export const PluginDraggable = ({
     metadataType,
     formFieldId,
     pluginConfiguration,
-    addPluginConfiguration
+    addPluginConfiguration,
+    onRemovePlugin
 }: Props) => {
     const [open, setOpen] = useState(false);
 
@@ -68,6 +70,21 @@ export const PluginDraggable = ({
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     {i18n.t('Edit settings')}
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                        <TooltipProvider>
+                            <Tooltip delayDuration={50}>
+                                <TooltipTrigger asChild>
+                                    <button
+                                        onClick={() => onRemovePlugin(field.id)}
+                                        className={'cursor-pointer transition-colors hover:bg-gray-100 rounded p-1'}
+                                    >
+                                        <XIcon className={'h-4 w-4'}/>
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {i18n.t('Remove plugin')}
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>

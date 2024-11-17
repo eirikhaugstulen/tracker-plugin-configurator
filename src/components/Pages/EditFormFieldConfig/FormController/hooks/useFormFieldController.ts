@@ -37,11 +37,9 @@ type Props = {
 export const useFormFieldController = ({ metadata, availablePlugins, existingFormFieldConfig }: Props) => {
     const {
         initialValues,
-        selectablePlugins,
         existingPluginConfigs
     } = useInitialValues({ metadata, availablePlugins, existingFormFieldConfig });
     const [formFields, setFormFields] = useState<z.infer<typeof SectionSchema>[]>(initialValues);
-    const [plugins, setPlugins] = useState<z.infer<typeof PluginSchema>[]>(selectablePlugins);
 
     const removePluginFromSection = (sectionId: string, pluginId: string) => {
         setFormFields(prev => prev.map(section => {
@@ -53,35 +51,6 @@ export const useFormFieldController = ({ metadata, availablePlugins, existingFor
             }
             return section;
         }))
-    }
-
-    const addPluginToPluginState = (pluginId: string, index: number) => {
-        const plugin = availablePlugins.find(plugin => plugin.id === pluginId);
-        if (!plugin) return;
-
-        setPlugins(prev => [
-            ...prev.slice(0, index),
-            plugin,
-            ...prev.slice(index)
-        ])
-    }
-
-    const reorderPluginState = (pluginId: string, index: number) => {
-        const plugin = availablePlugins.find(plugin => plugin.id === pluginId);
-        if (!plugin) return;
-
-        setPlugins(prev => {
-            const filteredPlugins = prev.filter(plugin => plugin.id !== pluginId);
-            return [
-                ...filteredPlugins.slice(0, index),
-                plugin,
-                ...filteredPlugins.slice(index)
-            ];
-        });
-    }
-
-    const onRemovePluginFromState = (pluginId: string) => {
-        setPlugins(prev => prev.filter(plugin => plugin.id !== pluginId))
     }
 
     const addPluginToSection = (sectionId: string, pluginId: string, index: number) => {
@@ -129,41 +98,46 @@ export const useFormFieldController = ({ metadata, availablePlugins, existingFor
         const sourceSectionId = result.source.droppableId;
         const destinationSectionId = result.destination.droppableId;
 
-        if (sourceSectionId === 'plugins-droppable') {
-            if (destinationSectionId === 'plugins-droppable') {
-                reorderPluginState(result.draggableId, result.destination.index);
-                return;
-            }
-            const pluginId = result.draggableId;
-            const index = result.destination.index;
-            addPluginToSection(destinationSectionId, pluginId, index);
-            onRemovePluginFromState(pluginId);
-            return;
-        }
-
-        if (destinationSectionId === 'plugins-droppable') {
-            const pluginId = result.draggableId;
-            removePluginFromSection(sourceSectionId, pluginId);
-            addPluginToPluginState(pluginId, result.destination.index);
-            return;
-        }
-
         if (sourceSectionId !== destinationSectionId) {
             removePluginFromSection(sourceSectionId, result.draggableId);
             addPluginToSection(destinationSectionId, result.draggableId, result.destination.index);
             return;
         }
 
-
         reorderSectionFields(sourceSectionId, result.draggableId, result.destination.index);
+    }
+
+    const onAddPlugin = (plugin: z.infer<typeof PluginSchema>) => {
+        setFormFields(prev => {
+            const section = prev[0];
+            if (!section) return prev;
+
+            const newFields = [...section.fields, plugin];
+            return [
+                {
+                    ...section,
+                    fields: newFields
+                },
+                ...prev.slice(1)
+            ]
+        })
+    }
+
+    const onRemovePlugin = (pluginId: string) => {
+        setFormFields(prev => {
+            return prev.map(section => ({
+                ...section,
+                fields: section.fields.filter(field => field.id !== pluginId)
+            }))
+        })
     }
 
     return {
         formFields,
-        plugins,
+        onAddPlugin,
+        onRemovePlugin,
         onDragEnd,
         setFormFields,
-        setPlugins,
         existingPluginConfigs
     }
 }
