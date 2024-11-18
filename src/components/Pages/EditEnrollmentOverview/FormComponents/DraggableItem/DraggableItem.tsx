@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
+import i18n from '@dhis2/d2-i18n';
 import { Draggable } from 'react-beautiful-dnd';
 import { Button } from "../../../../ui/button";
-import {GripVerticalIcon, SettingsIcon, XIcon} from "lucide-react";
+import {GripVerticalIcon, InfoIcon, SettingsIcon, XIcon} from "lucide-react";
 import {z} from "zod";
 import {SettingsSchema} from "../../Widgets.constants";
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "../../../../ui/dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../ui/tooltip';
 
 type DraggableItemProps = {
     draggableId: string;
@@ -12,7 +14,8 @@ type DraggableItemProps = {
     title: string;
     description?: string;
     removeComponent: (id: string) => void;
-    settings?: z.infer<typeof SettingsSchema>
+    settings?: z.infer<typeof SettingsSchema>;
+    missingMetadata?: boolean;
 };
 
 export const DraggableItem: React.FC<DraggableItemProps> = (
@@ -23,6 +26,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = (
         description,
         settings,
         removeComponent,
+        missingMetadata,
     }) => {
     const [open, setOpen] = useState(false);
 
@@ -44,7 +48,22 @@ export const DraggableItem: React.FC<DraggableItemProps> = (
                         </p>
 
                     </div>
-                    <div className={'flex items-center'}>
+                    <div className={'flex items-center gap-2'}>
+                        {missingMetadata && (
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger
+                                        asChild
+                                        type={'button'}
+                                    >
+                                        <InfoIcon className={'h-4 w-4'}/>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {i18n.t('Missing plugin metadata. Safe to ignore for local plugins, otherwise please reconfigure.')}
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        )}
                         {settings && (
                             <Button
                                 className={'hidden'}
