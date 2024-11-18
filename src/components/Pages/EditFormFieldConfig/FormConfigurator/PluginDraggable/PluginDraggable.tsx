@@ -1,4 +1,4 @@
-import {CrossIcon, GripVerticalIcon, SettingsIcon, TrashIcon, TriangleAlertIcon, XIcon} from "lucide-react";
+import {GripVerticalIcon, SettingsIcon, TriangleAlertIcon, XIcon} from "lucide-react";
 import {Draggable} from "react-beautiful-dnd";
 import React, {useState} from "react";
 import i18n from '@dhis2/d2-i18n';
