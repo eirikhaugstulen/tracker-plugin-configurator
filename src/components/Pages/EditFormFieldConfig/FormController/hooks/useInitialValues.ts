@@ -34,7 +34,16 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
                 fields: section.elements.map(field => {
                     if (field.type.toLowerCase() === 'plugin') {
                         const plugin = availablePlugins.find(plugin => plugin.id === field.id);
-                        if (!plugin) return null;
+                        if (!plugin) {
+                            return field.pluginSource ? ({
+                                id: field.id,
+                                displayName: 'Local Plugin',
+                                description: 'A plugin that is hosted locally',
+                                pluginLaunchUrl: field.pluginSource,
+                                version: '',
+                                type: 'PLUGIN' as const,
+                            }) : null;
+                        }
 
                         return plugin;
                     }
@@ -53,13 +62,6 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
         }).filter(Boolean)
     }, []) as Array<z.infer<typeof SectionSchema>>;
 
-    const selectablePlugins: Array<z.infer<typeof PluginSchema>> = useMemo(() => {
-        return availablePlugins
-            .filter(plugin => !initialValues
-                .some(section => section!.fields
-                    .some(field => field!.id === plugin.id)))
-    }, [availablePlugins, initialValues]);
-
     const existingPluginConfigs: Record<string, z.infer<typeof PluginSettingSchema>> = useMemo(() => {
         if (!existingFormFieldConfig) return {};
 
@@ -67,7 +69,17 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
             section.elements.forEach(element => {
                 if (element.type.toLowerCase() === 'plugin') {
                     const plugin = availablePlugins.find(plugin => plugin.id === element.id);
-                    if (!plugin) return;
+                    if (!plugin) {
+                        if (element.pluginSource) {
+                            // @ts-ignore
+                            acc[element.id] = {
+                                pluginLaunchUrl: element.pluginSource,
+                                id: element.id,
+                                fieldMap: element.fieldMap,
+                            }
+                        }
+                        return acc;
+                    }
 
                     // @ts-ignore
                     acc[plugin.id] = {
@@ -83,7 +95,6 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
 
     return {
         initialValues,
-        selectablePlugins,
         existingPluginConfigs
     }
 }
