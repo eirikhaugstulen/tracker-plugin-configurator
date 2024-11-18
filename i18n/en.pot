@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-11-17T16:14:38.248Z\n"
-"PO-Revision-Date: 2024-11-17T16:14:38.248Z\n"
+"POT-Creation-Date: 2024-11-18T17:49:00.087Z\n"
+"PO-Revision-Date: 2024-11-18T17:49:00.087Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -93,12 +93,6 @@ msgstr "Add a widget from the list below to add it to the column"
 msgid "Add Local Plugin"
 msgstr "Add Local Plugin"
 
-msgid "Plugin Launch URL"
-msgstr "Plugin Launch URL"
-
-msgid "Enter local plugin URL"
-msgstr "Enter local plugin URL"
-
 msgid "Available Plugins"
 msgstr "Available Plugins"
 
@@ -116,6 +110,25 @@ msgstr "Widgets"
 
 msgid "There are no more widgets available for this page."
 msgstr "There are no more widgets available for this page."
+
+msgid "Plugin Launch URL"
+msgstr "Plugin Launch URL"
+
+msgid "Enter local plugin URL"
+msgstr "Enter local plugin URL"
+
+msgid ""
+"Missing plugin metadata. Safe to ignore for local plugins, otherwise please "
+"reconfigure."
+msgstr ""
+"Missing plugin metadata. Safe to ignore for local plugins, otherwise please "
+"reconfigure."
+
+msgid "Unknown plugin"
+msgstr "Unknown plugin"
+
+msgid "Locally hosted or unknown plugin."
+msgstr "Locally hosted or unknown plugin."
 
 msgid "Back"
 msgstr "Back"
