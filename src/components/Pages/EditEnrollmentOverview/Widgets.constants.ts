@@ -25,7 +25,7 @@ export const WidgetsByNames = {
     ErrorWidget: 'ErrorWidget',
     WarningWidget: 'WarningWidget',
     EventComment: 'EventComment',
-    EnrollmentComment: 'EnrollmentComment',
+    EnrollmentNote: 'EnrollmentNote',
     FeedbackWidget: 'FeedbackWidget',
     IndicatorWidget: 'IndicatorWidget',
     TrackedEntityRelationship: 'TrackedEntityRelationship',
@@ -102,10 +102,10 @@ export const Widgets: Record<string, z.infer<typeof NativeWidgetSchema>> = {
             EnrollmentPages.ENROLLMENT_EVENT_EDIT
         ],
     },
-    [WidgetsByNames.EnrollmentComment]: {
-        name: WidgetsByNames.EnrollmentComment,
-        title: i18n.t('Enrollment comment'),
-        description: i18n.t('Comments and notes for the enrollment'),
+    [WidgetsByNames.EnrollmentNote]: {
+        name: WidgetsByNames.EnrollmentNote,
+        title: i18n.t('Enrollment note'),
+        description: i18n.t('Notes for the enrollment'),
         allowedPages: [
             EnrollmentPages.ENROLLMENT_OVERVIEW
         ],
