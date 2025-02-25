@@ -36,7 +36,7 @@ export const DefaultOverviewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgra
         },
         {
             type: WidgetTypes.COMPONENT,
-            name: 'EnrollmentComment',
+            name: 'EnrollmentNote',
         },
         {
             type: WidgetTypes.COMPONENT,
@@ -118,7 +118,7 @@ const DefaultEventEditPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
         },
         {
             type: WidgetTypes.COMPONENT,
-            name: 'EventComment',
+            name: 'EventNote',
         },
         {
             type: WidgetTypes.COMPONENT,
