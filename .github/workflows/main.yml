@@ -42,7 +42,7 @@ jobs:
         run: yarn build:css
 
       - name: Upload CSS-file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tailwind
           path: ./src/tailwind.css
