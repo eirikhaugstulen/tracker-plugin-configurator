@@ -6,7 +6,7 @@ import { EditFormFieldConfig } from "./EditFormFieldConfig";
 import { Loading } from "./Loading";
 
 export const EditFormFieldMetadataWrapper = () => {
-    const { formFieldId } = useParams();
+    const { formFieldId, programStageId: programStageIdParam } = useParams();
     const {
         validatedContextId,
         programStageId,
@@ -44,9 +44,13 @@ export const EditFormFieldMetadataWrapper = () => {
             ? 'program'
             : metadataType;
 
+    // Only use program stage ID when it's an explicitly selected program stage in a tracker program
+    // For event programs and tracker programs, use the program ID
+    const formFieldIdToUse = metadataType === 'programStage' ? programStageId : validatedContextId;
+
     return (
         <EditFormFieldConfig
-            formFieldId={validatedContextId}
+            formFieldId={formFieldIdToUse}
             metadataType={mappedMetadataType}
             programStageId={programStageId}
         />

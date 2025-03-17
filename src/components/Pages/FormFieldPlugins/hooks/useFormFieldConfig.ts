@@ -4,16 +4,16 @@ import {useFormFieldMetadata} from "./useFormFieldMetadata";
 import {ContextFormSchema} from "../../EditFormFieldConfig/FormController/hooks/useValidateAndSave";
 import {useEffect} from "react";
 
+export type MetadataType = 'TRACKER_PROGRAM' | 'EVENT_PROGRAM' | 'TRACKED_ENTITY_TYPE' | 'PROGRAM_STAGE';
+
 export type FormFieldRecord = {
     id: string,
-    program: {
-        id: string,
-        displayName: string,
-    },
-    trackedEntityType: {
-        id: string,
-        displayName: string,
-    },
+    name: string,
+    metadataType: MetadataType,
+    metadataId: string,
+    parentId?: string,
+    parentName?: string,
+    parentHasConfiguration?: boolean,
     sections: {
         id: string,
         name: string,
@@ -29,7 +29,7 @@ export type FormFieldRecord = {
 
 export const useFormFieldConfig = () => {
     const dataEngine = useDataEngine();
-    const { programs, isLoading: isLoadingMetadata } = useFormFieldMetadata();
+    const { programs, programStages, trackedEntityTypes, isLoading: isLoadingMetadata } = useFormFieldMetadata();
 
     const getFormFieldConfig = async () => {
         const { formFieldConfigQuery } = await dataEngine.query({
@@ -37,7 +37,6 @@ export const useFormFieldConfig = () => {
                 resource: 'dataStore/capture/dataEntryForms',
             }
         });
-
         return formFieldConfigQuery;
     }
 
@@ -46,25 +45,72 @@ export const useFormFieldConfig = () => {
         queryFn: getFormFieldConfig,
         select: (dataEntryForm) => {
             if (!dataEntryForm) return [];
+            
             return Object
                 .entries(dataEntryForm)
                 .map(([id, record]) => {
+                    // 1. First check if it's a program (most common case)
                     const programMetadata = programs?.find((program) => program.id === id);
-                    if (!programMetadata) return null;
-                    if (programMetadata.programType !== 'WITH_REGISTRATION') return null;
-
-                    const { success } = ContextFormSchema.safeParse(record);
-
-                    return ({
-                        id,
-                        program: {
-                            id: programMetadata.id,
-                            displayName: programMetadata.displayName,
-                        },
-                        trackedEntityType: programMetadata.trackedEntityType,
-                        sections: record,
-                        valid: success,
-                    });
+                    if (programMetadata) {
+                        const { success } = ContextFormSchema.safeParse(record);
+                        
+                        if (programMetadata.programType === 'WITH_REGISTRATION') {
+                            return {
+                                id,
+                                name: programMetadata.displayName,
+                                metadataType: 'TRACKER_PROGRAM' as MetadataType,
+                                metadataId: programMetadata.id,
+                                sections: record,
+                                valid: success,
+                            };
+                        } else {
+                            return {
+                                id,
+                                name: programMetadata.displayName,
+                                metadataType: 'EVENT_PROGRAM' as MetadataType,
+                                metadataId: programMetadata.id,
+                                sections: record,
+                                valid: success,
+                            };
+                        }
+                    }
+                    
+                    // 2. Then check if it's a tracked entity type
+                    const tetMetadata = trackedEntityTypes?.find((tet) => tet.id === id);
+                    if (tetMetadata) {
+                        const { success } = ContextFormSchema.safeParse(record);
+                        
+                        return {
+                            id,
+                            name: tetMetadata.displayName,
+                            metadataType: 'TRACKED_ENTITY_TYPE' as MetadataType,
+                            metadataId: tetMetadata.id,
+                            sections: record,
+                            valid: success,
+                        };
+                    }
+                    
+                    // 3. Finally check if it's a program stage (least common case)
+                    const programStageMetadata = programStages?.find((stage) => stage.id === id);
+                    if (programStageMetadata) {
+                        const { success } = ContextFormSchema.safeParse(record);
+                        const parentProgram = programs?.find(program => program.id === programStageMetadata.program.id);
+                        const parentHasConfiguration = Object.keys(dataEntryForm).includes(programStageMetadata.program.id);
+                        
+                        return {
+                            id,
+                            name: programStageMetadata.displayName,
+                            metadataType: 'PROGRAM_STAGE' as MetadataType,
+                            metadataId: programStageMetadata.id,
+                            parentId: programStageMetadata.program.id,
+                            parentName: parentProgram?.displayName,
+                            parentHasConfiguration,
+                            sections: record,
+                            valid: success,
+                        };
+                    }
+                    
+                    return null;
                 }).filter(Boolean) as FormFieldRecord[];
         },
         enabled: !isLoadingMetadata,
@@ -75,7 +121,7 @@ export const useFormFieldConfig = () => {
 
     useEffect(() => {
         if (error) {
-            console.error(error);
+            console.error('Error in useFormFieldConfig:', error);
         }
     }, [error]);
 

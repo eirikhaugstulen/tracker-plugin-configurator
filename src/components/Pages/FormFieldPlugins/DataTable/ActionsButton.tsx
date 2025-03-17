@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import i18n from '@dhis2/d2-i18n';
 import {
     DropdownMenu,
@@ -7,23 +7,32 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from "../../../ui/dropdown-menu";
-import {Button} from "../../../ui/button";
-import {Loader2, MoreHorizontalIcon} from "lucide-react";
-import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger} from "../../../ui/dialog";
-import {useDeleteFormConfig} from "../hooks/useDeleteFormConfig";
-import {useNavigate} from "react-router-dom";
+import { Button } from "../../../ui/button";
+import { Loader2, MoreHorizontalIcon } from "lucide-react";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "../../../ui/dialog";
+import { useDeleteFormConfig } from "../hooks/useDeleteFormConfig";
+import { useNavigate } from "react-router-dom";
+import { MetadataType } from "../hooks/useFormFieldConfig";
 
 type Props = {
     id: string;
+    metadataType: MetadataType;
+    parentId?: string;
 }
 
-export const ActionsButton = ({ id }: Props) => {
+export const ActionsButton = ({ id, metadataType, parentId }: Props) => {
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
     const navigate = useNavigate();
     const { deleteFormConfig, isSubmitting } = useDeleteFormConfig();
 
     const onEditClick = () => {
-        navigate(`/formField/${id}`);
+        // For program stages, use the /formField/:formFieldId/programStage/:programStageId route
+        if (metadataType === 'PROGRAM_STAGE' && parentId) {
+            navigate(`/formField/${parentId}/programStage/${id}`);
+        } else {
+            // For all other types (tracker programs, event programs, tracked entity types)
+            navigate(`/formField/${id}`);
+        }
     }
 
     const handleDelete = async () => {
@@ -39,7 +48,7 @@ export const ActionsButton = ({ id }: Props) => {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button aria-haspopup="true" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="h-4 w-4"/>
+                        <MoreHorizontalIcon className="h-4 w-4" />
                         <span className="sr-only">{i18n.t('Toggle menu')}</span>
                     </Button>
                 </DropdownMenuTrigger>

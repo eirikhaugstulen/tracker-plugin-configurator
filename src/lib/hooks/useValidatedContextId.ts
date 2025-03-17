@@ -17,7 +17,8 @@ type Return = {
 
 export const useValidatedContextId = ({ contextId }: Props): Return => {
     // Check if we have a program stage in the URL
-    const { programStageId } = useParams<{ programStageId?: string }>();
+    const params = useParams<{ programStageId?: string }>();
+    const programStageId = params.programStageId || null;
     
     const {
         programs,
@@ -54,8 +55,8 @@ export const useValidatedContextId = ({ contextId }: Props): Return => {
             // Determine if this is a tracker program or event program
             const isTrackerProgram = program.programType === 'WITH_REGISTRATION';
             
-            // Only consider program stages for tracker programs
-            if (programStageId && isTrackerProgram) {
+            // For tracker programs, check if a specific program stage is requested
+            if (programStageId) {
                 return {
                     validatedContextId: program.id,
                     metadataType: 'programStage',

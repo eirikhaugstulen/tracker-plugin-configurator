@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 import i18n from '@dhis2/d2-i18n';
-import {Table, TableBody, TableCell, TableRow} from "../../../ui/table";
-import {Header} from "./Header";
-import {Skeleton} from "../../../ui/skeleton";
-import {FormFieldRecord} from "../hooks/useFormFieldConfig";
-import {ActionsButton} from "./ActionsButton";
-import {ValidationsIconCell} from "./ValidationsIconCell";
+import { Table, TableBody, TableCell, TableRow } from "../../../ui/table";
+import { Header } from "./Header";
+import { Skeleton } from "../../../ui/skeleton";
+import { FormFieldRecord, MetadataType } from "../hooks/useFormFieldConfig";
+import { ActionsButton } from "./ActionsButton";
+import { ValidationsIconCell } from "./ValidationsIconCell";
+import { ArrowRightIcon, CornerDownRightIcon } from "lucide-react";
 
 type Props = {
     records: FormFieldRecord[] | undefined,
@@ -13,17 +14,91 @@ type Props = {
     isError: boolean,
 }
 
+const getMetadataTypeLabel = (type: MetadataType): string => {
+    switch (type) {
+        case 'TRACKER_PROGRAM':
+            return i18n.t('Tracker Program');
+        case 'EVENT_PROGRAM':
+            return i18n.t('Event Program');
+        case 'TRACKED_ENTITY_TYPE':
+            return i18n.t('Tracked Entity Type');
+        case 'PROGRAM_STAGE':
+            return i18n.t('Program Stage');
+        default:
+            return type;
+    }
+}
+
 export const FormFieldTable = ({
     records,
     isLoading,
     isError,
 }: Props) => {
+    // Sort records to group program stages with their parent programs
+    const sortedRecords = useMemo(() => {
+        if (!records) return [];
+
+        // First create a map of program IDs to program records
+        const programMap = new Map<string, FormFieldRecord>();
+        records.forEach(record => {
+            if (record.metadataType === 'TRACKER_PROGRAM' || record.metadataType === 'EVENT_PROGRAM') {
+                programMap.set(record.id, record);
+            }
+        });
+
+        // Create a map to store program stages by parent program ID
+        const programStagesByProgram = new Map<string, FormFieldRecord[]>();
+
+        // Categorize records
+        const programStages: FormFieldRecord[] = [];
+        const programs: FormFieldRecord[] = [];
+        const trackedEntityTypes: FormFieldRecord[] = [];
+
+        records.forEach(record => {
+            if (record.metadataType === 'PROGRAM_STAGE') {
+                programStages.push(record);
+
+                // Group by parent program
+                if (record.parentId) {
+                    const existing = programStagesByProgram.get(record.parentId) || [];
+                    programStagesByProgram.set(record.parentId, [...existing, record]);
+                }
+            } else if (record.metadataType === 'TRACKER_PROGRAM' || record.metadataType === 'EVENT_PROGRAM') {
+                programs.push(record);
+            } else if (record.metadataType === 'TRACKED_ENTITY_TYPE') {
+                trackedEntityTypes.push(record);
+            }
+        });
+
+        // Create sorted list with programs followed by their stages
+        const sorted: FormFieldRecord[] = [];
+
+        // Add programs with their stages
+        programs.forEach(program => {
+            sorted.push(program);
+            const stages = programStagesByProgram.get(program.id) || [];
+            stages.sort((a, b) => a.name.localeCompare(b.name));
+            sorted.push(...stages);
+        });
+
+        // Add orphaned program stages (those without a program in the records)
+        const orphanedStages = programStages.filter(stage =>
+            !programMap.has(stage.parentId || '')
+        );
+        sorted.push(...orphanedStages);
+
+        // Add tracked entity types at the end
+        sorted.push(...trackedEntityTypes);
+
+        return sorted;
+    }, [records]);
+
     if (isLoading) {
         return (
             <Table className={'rounded-md border'}>
                 <Header />
                 <TableBody>
-                    {Array.from({length: 3}).map((_, index) => (
+                    {Array.from({ length: 3 }).map((_, index) => (
                         <TableRow
                             key={index}
                         >
@@ -77,27 +152,62 @@ export const FormFieldTable = ({
         <Table className={'rounded-md border'}>
             <Header />
             <TableBody>
-                {records.map((record) => (
-                    <TableRow
-                        key={record.id}
-                        className={`cursor-pointer ${record.valid ? '' : 'bg-gray-100 italic text-gray-600'}`}
-                    >
-                        <TableCell>{record.program.displayName}</TableCell>
-                        <TableCell>{record.trackedEntityType.displayName}</TableCell>
+                {sortedRecords.map((record) => {
+                    const isProgramStage = record.metadataType === 'PROGRAM_STAGE';
+                    const isInvalid = !record.valid;
 
-                        <TableCell align={'center'}>
-                            <ValidationsIconCell
-                                valid={record.valid}
-                            />
-                        </TableCell>
+                    let rowClassName = 'cursor-pointer';
+                    if (isInvalid) {
+                        rowClassName += ' bg-gray-100 italic text-gray-600';
+                    } else if (isProgramStage) {
+                        rowClassName += ' bg-gray-50';
+                    }
 
-                        <TableCell align={'right'}>
-                            <ActionsButton
-                                id={record.id}
-                            />
-                        </TableCell>
-                    </TableRow>
-                ))}
+                    return (
+                        <TableRow
+                            key={record.id}
+                            className={rowClassName}
+                        >
+                            <TableCell>
+                                {isProgramStage && record.parentName ? (
+                                    <div className="flex items-center relative">
+                                        {record.parentHasConfiguration && (
+                                            <CornerDownRightIcon className="h-4 w-4 -mt-1 mr-1 text-gray-400" />
+                                        )}
+                                        <span>{record.name}</span>
+                                    </div>
+                                ) : (
+                                    <div className="font-medium">{record.name}</div>
+                                )}
+                            </TableCell>
+                            <TableCell>
+                                {isProgramStage && record.parentName ? (
+                                    <div className="flex items-center text-sm">
+                                        <span className="text-gray-500 mr-1">{record.parentName}</span>
+                                        <ArrowRightIcon className="h-3 w-3 text-gray-400 mx-1" />
+                                        <span>{getMetadataTypeLabel(record.metadataType)}</span>
+                                    </div>
+                                ) : (
+                                    getMetadataTypeLabel(record.metadataType)
+                                )}
+                            </TableCell>
+
+                            <TableCell align={'center'}>
+                                <ValidationsIconCell
+                                    valid={record.valid}
+                                />
+                            </TableCell>
+
+                            <TableCell align={'right'}>
+                                <ActionsButton
+                                    id={record.id}
+                                    metadataType={record.metadataType}
+                                    parentId={record.parentId}
+                                />
+                            </TableCell>
+                        </TableRow>
+                    );
+                })}
             </TableBody>
         </Table>
     )

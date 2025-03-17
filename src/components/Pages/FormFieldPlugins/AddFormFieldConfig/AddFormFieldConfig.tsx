@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../../ui/form";
 import { useNavigate } from "react-router-dom";
 import { ContextSelector } from "./ContextSelector";
+import { useProgramsWithMetadataAccess } from "../../../../lib/hooks/useProgramsWithMetadataAccess";
 
 const formSchema = z.object({
     contextId: z.string().min(1, { message: i18n.t('Configuration context is required') }),
@@ -25,6 +26,8 @@ const formSchema = z.object({
 
 export const AddFormFieldConfig = () => {
     const navigate = useNavigate();
+    const { programs } = useProgramsWithMetadataAccess();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -44,13 +47,20 @@ export const AddFormFieldConfig = () => {
         } else if (contextId.startsWith('program-')) {
             actualId = contextId.substring(8); // Remove 'program-' prefix
 
-            // If there's a program stage selected, we need to include it in the path
-            if (programStageId) {
-                navigate(`/formField/${actualId}/programStage/${programStageId}`);
-                return;
+            // Check if this is a tracker program and a program stage was selected
+            if (programStageId && programs) {
+                const program = programs.find(p => p.id === actualId);
+                const isTrackerProgram = program?.programType === 'WITH_REGISTRATION';
+
+                // Only use program stage routing for tracker programs with explicit stage selection
+                if (isTrackerProgram) {
+                    navigate(`/formField/${actualId}/programStage/${programStageId}`);
+                    return;
+                }
             }
         }
 
+        // Default route for event programs, tracker programs without stage, and TETs
         navigate(`/formField/${actualId}`);
     }
 

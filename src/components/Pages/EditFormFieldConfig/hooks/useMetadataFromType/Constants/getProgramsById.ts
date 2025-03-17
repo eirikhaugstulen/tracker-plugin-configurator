@@ -64,24 +64,29 @@ const convert = (data: z.infer<typeof ApiProgramSchema>): z.infer<typeof Convert
     if (data.programSections.length > 0) {
         sections = data.programSections
             .sort((a, b) => a.sortOrder - b.sortOrder)
-            .map(section => ({
-            id: section.id,
-            displayName: section.displayName,
-            attributes: section.trackedEntityAttributes.map(attribute => {
-                const metadata = data.programTrackedEntityAttributes.find(meta => meta.trackedEntityAttribute.id === attribute.id);
+            .map(section => {
+                // Get valid attributes for this section
+                const sectionAttributes = section.trackedEntityAttributes.map(attribute => {
+                    const metadata = data.programTrackedEntityAttributes.find(meta => meta.trackedEntityAttribute.id === attribute.id);
 
-                if (!metadata) {
-                    console.error(`Metadata for attribute ${attribute.id} not found`);
-                    return null;
-                }
+                    if (!metadata) {
+                        console.error(`Metadata for attribute ${attribute.id} not found`);
+                        return null;
+                    }
 
+                    return {
+                        id: attribute.id,
+                        displayName: metadata.trackedEntityAttribute.displayName,
+                        valueType: metadata.trackedEntityAttribute.valueType,
+                    }
+                }).filter(Boolean);
+                
                 return {
-                    id: attribute.id,
-                    displayName: metadata.trackedEntityAttribute.displayName,
-                    valueType: metadata.trackedEntityAttribute.valueType,
-                }
-            }).filter(Boolean),
-        }));
+                    id: section.id,
+                    displayName: section.displayName,
+                    attributes: sectionAttributes,
+                };
+            });
     } else {
         sections = [
             {
@@ -129,32 +134,29 @@ const convertProgramStage = (data: z.infer<typeof ApiProgramStageSchema>): z.inf
 
     // If program stage has sections
     if (data.programStageSections && data.programStageSections.length > 0) {
+        // Sort sections by sortOrder
         const stageSectionsSorted = [...data.programStageSections].sort((a, b) => a.sortOrder - b.sortOrder);
 
         for (const section of stageSectionsSorted) {
+            // Always create section even if empty
             const sectionAttributes = [];
 
-            for (const elementRef of section.dataElements) {
-                const element = data.programStageDataElements.find(
-                    de => de.dataElement.id === elementRef.id
-                );
-
-                if (!element) continue;
-
-                sectionAttributes.push({
-                    id: element.dataElement.id,
-                    displayName: element.dataElement.displayName,
-                    valueType: element.dataElement.valueType,
-                });
+            // Process data elements if they exist
+            if (section.dataElements && section.dataElements.length > 0) {
+                for (const elementRef of section.dataElements) {
+                    // Get data element details from our lookup
+                    if (attributes[elementRef.id]) {
+                        sectionAttributes.push(attributes[elementRef.id]);
+                    }
+                }
             }
 
-            if (sectionAttributes.length) {
-                sections.push({
-                    id: section.id,
-                    displayName: section.displayName,
-                    attributes: sectionAttributes,
-                });
-            }
+            // Add section with its attributes (even if empty)
+            sections.push({
+                id: section.id,
+                displayName: section.displayName,
+                attributes: sectionAttributes.filter((attr): attr is NonNullable<typeof attr> => attr !== undefined),
+            });
         }
     }
     // If program stage doesn't have sections, create a default one
@@ -185,9 +187,13 @@ const convertProgramStage = (data: z.infer<typeof ApiProgramStageSchema>): z.inf
 
 export const getProgramsById = async ({ resourceId, dataEngine, programStageId }: FunctionProps) => {
     // If we have a program stage ID, fetch program stage data
-    // Note: This only applies to tracker programs (WITH_REGISTRATION)
+    // This applies to both:
+    // 1. Tracker programs (WITH_REGISTRATION) when a specific stage is selected
+    // 2. Event programs (WITHOUT_REGISTRATION) where we use the program's single stage
     if (programStageId) {
-        const fields = 'id,displayName,programStageDataElements[dataElement[id,displayName,valueType]],access[read,write,data[read,write]],programStageSections[id,displayName,sortOrder,dataElements]';
+        const fields = 'id,displayName,programStageDataElements[dataElement[id,displayName,valueType]],access[read,write,data[read,write]],' +
+                      'programStageSections[id,displayName,sortOrder,dataElements[id]]';
+        
         const { programStage }: any = await dataEngine.query({
             programStage: {
                 resource: 'programStages',
@@ -202,7 +208,7 @@ export const getProgramsById = async ({ resourceId, dataEngine, programStageId }
         return convertProgramStage(stage);
     }
     
-    // Otherwise fetch program data (this works for both tracker and event programs)
+    // Otherwise fetch program data (only for tracker programs without a specific stage)
     const fields = 'id,displayName,programTrackedEntityAttributes[sortOrder,trackedEntityAttribute[id,displayName,valueType]],access[read,write,data[read,write]],programSections[id,displayName,sortOrder,trackedEntityAttributes]';
     const { programs }: any = await dataEngine.query({
         programs: {

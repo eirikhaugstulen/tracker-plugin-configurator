@@ -21,9 +21,10 @@ export const ProgramStageSelector = () => {
         ? contextId.substring(8) // Remove 'program-' prefix
         : undefined;
 
-    // Check if the selected program is a tracker program
+    // Check the selected program type
     const selectedProgram = programs?.find(p => p.id === programId);
     const isTrackerProgram = selectedProgram?.programType === 'WITH_REGISTRATION';
+    const isEventProgram = selectedProgram?.programType === 'WITHOUT_REGISTRATION';
 
     const { programStages, isLoading } = useProgramStages({ programId });
 
@@ -34,8 +35,15 @@ export const ProgramStageSelector = () => {
         }
     }, [contextId, setValue]);
 
-    // Only show for tracker programs, not for event programs or other contexts
-    if (!contextId?.startsWith('program-') || !isTrackerProgram) {
+    // Auto-select the single stage for event programs (silently, without showing to user)
+    React.useEffect(() => {
+        if (isEventProgram && programStages.length === 1) {
+            setValue('programStageId', programStages[0].id);
+        }
+    }, [isEventProgram, programStages, setValue]);
+
+    // Don't show anything for event programs or non-program selections
+    if (!contextId?.startsWith('program-') || isEventProgram) {
         return null;
     }
 
@@ -51,6 +59,7 @@ export const ProgramStageSelector = () => {
         );
     }
 
+    // For tracker programs, show stage selection
     return (
         <FormField
             control={control}

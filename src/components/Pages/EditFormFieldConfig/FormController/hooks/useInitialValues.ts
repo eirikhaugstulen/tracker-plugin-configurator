@@ -28,36 +28,38 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
             const metadataSection = metadata.sections.find(metadataSection => metadataSection.id === section.id);
             if (!metadataSection) return null;
 
+            const fields = section.elements.map(field => {
+                if (field.type.toLowerCase() === 'plugin') {
+                    const plugin = availablePlugins.find(plugin => plugin.id === field.id);
+                    if (!plugin) {
+                        return field.pluginSource ? ({
+                            id: field.id,
+                            displayName: 'Local Plugin',
+                            description: 'A plugin that is hosted locally',
+                            pluginLaunchUrl: field.pluginSource,
+                            version: '',
+                            type: 'PLUGIN' as const,
+                        }) : null;
+                    }
+
+                    return plugin;
+                }
+
+                const attribute = metadata.attributes[field.id]
+                if (!attribute) return null;
+
+                return {
+                    id: attribute.id,
+                    displayName: attribute.displayName,
+                    valueType: attribute.valueType,
+                    type: 'TrackedEntityAttribute' as const,
+                }
+            }).filter(Boolean);
+
             return {
                 id: section.id,
                 displayName: metadataSection.displayName,
-                fields: section.elements.map(field => {
-                    if (field.type.toLowerCase() === 'plugin') {
-                        const plugin = availablePlugins.find(plugin => plugin.id === field.id);
-                        if (!plugin) {
-                            return field.pluginSource ? ({
-                                id: field.id,
-                                displayName: 'Local Plugin',
-                                description: 'A plugin that is hosted locally',
-                                pluginLaunchUrl: field.pluginSource,
-                                version: '',
-                                type: 'PLUGIN' as const,
-                            }) : null;
-                        }
-
-                        return plugin;
-                    }
-
-                    const attribute = metadata.attributes[field.id]
-                    if (!attribute) return null;
-
-                    return {
-                        id: attribute.id,
-                        displayName: attribute.displayName,
-                        valueType: attribute.valueType,
-                        type: 'TrackedEntityAttribute' as const,
-                    }
-                }).filter(Boolean)
+                fields,
             }
         }).filter(Boolean)
     }, []) as Array<z.infer<typeof SectionSchema>>;
