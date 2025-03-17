@@ -12,9 +12,17 @@ type Props = {
     pluginConfigurations: Record<string, z.infer<typeof PluginSettingSchema>>,
     addPluginConfiguration: (id: string, configuration: z.infer<typeof PluginSettingSchema>) => void,
     metadataType: 'program' | 'trackedEntityType',
+    onRemovePlugin: (pluginId: string) => void,
 }
 
-export const FormConfigurator = ({ formFields, formFieldId, metadataType, pluginConfigurations, addPluginConfiguration }: Props) => {
+export const FormConfigurator = ({
+    formFields,
+    formFieldId,
+    metadataType,
+    pluginConfigurations,
+    addPluginConfiguration,
+    onRemovePlugin
+}: Props) => {
     return (
         <div className={'border-collapse space-y-4'}>
             {formFields.map(section => {
@@ -44,6 +52,7 @@ export const FormConfigurator = ({ formFields, formFieldId, metadataType, plugin
                                                     metadataType={metadataType}
                                                     pluginConfiguration={pluginConfigurations[field.id]}
                                                     addPluginConfiguration={addPluginConfiguration}
+                                                    onRemovePlugin={onRemovePlugin}
                                                 />
                                             )
                                         }

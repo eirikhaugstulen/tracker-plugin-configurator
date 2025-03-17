@@ -1,5 +1,4 @@
 import {z} from "zod";
-import i18n from "@dhis2/d2-i18n";
 import {
     ApiDataStoreInfoPerProgram, FormattedEnrollmentDataStoreInfo,
 } from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
@@ -16,7 +15,6 @@ export const WidgetTypes = {
 } as const;
 
 export const DefaultOverviewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
-    title: i18n.t('Enrollment Dashboard'),
     leftColumn: [
         {
             type: WidgetTypes.COMPONENT,
@@ -38,7 +36,7 @@ export const DefaultOverviewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgra
         },
         {
             type: WidgetTypes.COMPONENT,
-            name: 'EnrollmentComment',
+            name: 'EnrollmentNote',
         },
         {
             type: WidgetTypes.COMPONENT,
@@ -66,7 +64,6 @@ export const DefaultOverviewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgra
 }
 
 const DefaultEventNewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
-    title: i18n.t('Enrollment Dashboard{{escape}} New event', { escape: ':' }),
     leftColumn: [
         {
             type: WidgetTypes.COMPONENT,
@@ -108,7 +105,6 @@ const DefaultEventNewPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
 }
 
 const DefaultEventEditPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
-    title: i18n.t('Enrollment Dashboard{{escape}} Edit event', { escape: ':' }),
     leftColumn: [
         {
             type: WidgetTypes.COMPONENT,
@@ -122,7 +118,7 @@ const DefaultEventEditPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
         },
         {
             type: WidgetTypes.COMPONENT,
-            name: 'EventComment',
+            name: 'EventNote',
         },
         {
             type: WidgetTypes.COMPONENT,

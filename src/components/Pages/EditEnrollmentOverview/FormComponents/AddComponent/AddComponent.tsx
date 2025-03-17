@@ -10,6 +10,7 @@ import {PluginSchema} from "../../../EditFormFieldConfig/FormController";
 import {Button} from "../../../../ui/button";
 import {ApiDataStoreInfoPerProgram} from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
 import {useFormContext} from "react-hook-form";
+import {LocalPluginForm} from "./LocalPluginForm";
 
 type Props = {
     columnName: 'leftColumn' | 'rightColumn'
@@ -24,6 +25,19 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
         setValue,
         getValues,
     } = useFormContext<z.infer<typeof ApiDataStoreInfoPerProgram>>();
+
+    const handleLocalPluginSubmit = (pluginUrl: string) => {
+        const pluginMetadata = {
+            id: pluginUrl,
+            displayName: 'Local Plugin',
+            description: 'A plugin that is hosted locally',
+            pluginLaunchUrl: pluginUrl,
+            type: 'PLUGIN' as const,
+        };
+
+        addPluginToColumn({ id: pluginMetadata.id, pluginLaunchUrl: pluginMetadata.pluginLaunchUrl });
+    };
+
     const addComponentToColumn = (componentName: string) => {
         const values = getValues();
         const column = values[columnName] ?? [];
@@ -41,18 +55,24 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
         setValue(columnName, newValues);
     }
 
-    const addPluginToColumn = (pluginId: string) => {
+    const addPluginToColumn = ({ id, pluginLaunchUrl }: { id: string, pluginLaunchUrl: string }) => {
         const values = getValues();
         const column = values[columnName] ?? [];
         const newValues = [...column];
-        const pluginMetadata = allPlugins.find(plugin => plugin.id === pluginId);
-        if (!pluginMetadata) return;
+        const pluginMetadata = allPlugins.find(plugin => plugin.id === id);
 
-        newValues.unshift({
-            type: 'plugin',
-            source: pluginMetadata.pluginLaunchUrl,
-        });
-
+        if (!pluginMetadata) {
+            newValues.unshift({
+                type: 'plugin',
+                source: pluginLaunchUrl,
+            });
+        } else {
+            newValues.unshift({
+                type: 'plugin',
+                source: pluginMetadata.pluginLaunchUrl,
+            });
+        }
+        
         setValue(columnName, newValues);
     }
 
@@ -81,8 +101,15 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
                         </SheetHeader>
 
                         <div className={'mt-4'}>
-                            <h2 className={'my-2'}>{i18n.t('Plugins')}</h2>
+                            <h2 className={'my-2'}>{i18n.t('Add Local Plugin')}</h2>
                             <Separator className={'mb-4'} />
+                            
+                            <LocalPluginForm onSubmit={handleLocalPluginSubmit} />
+
+                            <h2 className={'mt-6 mb-2'}>{i18n.t('Available Plugins')}</h2>
+                            <Separator className={'mb-4'} />
+                            
+
                             {availablePlugins.length ? availablePlugins.map(plugin => (
                                 <div key={plugin.id} className={'border space-y-4 p-4 rounded mt-2 bg-white'}>
                                     <div className={'space-y-1'}>
@@ -90,7 +117,7 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
                                         <p className={'text-gray-600'}>{plugin.description}</p>
                                     </div>
                                     <Button
-                                        onClick={() => addPluginToColumn(plugin.id)}
+                                        onClick={() => addPluginToColumn({ id: plugin.id, pluginLaunchUrl: plugin.pluginLaunchUrl })}
                                     >
                                         {i18n.t('Add')}
                                     </Button>

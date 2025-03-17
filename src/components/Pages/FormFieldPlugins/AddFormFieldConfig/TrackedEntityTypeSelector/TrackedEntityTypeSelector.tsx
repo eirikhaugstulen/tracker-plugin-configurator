@@ -34,11 +34,11 @@ export const TrackedEntityTypeSelector = () => {
         )
     }
 
-    if (isErrorTETs || isErrorPrograms) {
+    if (isErrorTETs || isErrorPrograms || !trackedEntityTypes) {
         return <p className={'text-neutral-700 text-sm'}>{i18n.t('An error occurred while loading tracked entity types')}</p>
     }
 
-    if (!trackedEntityTypes || trackedEntityTypes.length === 0) {
+    if (trackedEntityTypes.length === 0) {
         return <p className={'text-neutral-700 text-sm'}>{i18n.t('There seems like you don\'t have metadata access to any tracked entity types')}</p>
     }
 

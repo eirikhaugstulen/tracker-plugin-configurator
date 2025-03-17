@@ -73,13 +73,16 @@ export const FormWidgetColumn = ({ columnName, availableWidgets, availablePlugin
                                 )
                             }
 
+                            const pluginMetadata = allPlugins.find(plugin => plugin.pluginLaunchUrl === column.source);
+
                             return (
                                 <DraggableItem
                                     key={key}
                                     draggableId={key}
                                     index={index}
-                                    title={allPlugins.find(plugin => plugin.pluginLaunchUrl === column.source)?.displayName ?? 'Unknown Plugin'}
+                                    title={pluginMetadata?.displayName ?? 'Local or unknown plugin'}
                                     removeComponent={removeComponentFromColumn}
+                                    missingMetadata={!pluginMetadata}
                                 />
                             );
                         })}

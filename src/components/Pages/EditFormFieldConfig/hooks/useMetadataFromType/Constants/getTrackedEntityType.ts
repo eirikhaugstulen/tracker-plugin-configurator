@@ -6,7 +6,9 @@ const ApiTrackedEntityTypeSchema = z.object({
     id: z.string({ required_error: 'Tracked entity type id is missing in the API Payload. Please report the issue to the app maintainer.' }),
     displayName: z.string({ required_error: 'Tracked entity type display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
     trackedEntityTypeAttributes: z.array(z.object({
-        id: z.string({ required_error: 'Tracked entity type attribute id is missing in the API Payload. Please report the issue to the app maintainer.' }),
+        trackedEntityAttribute: z.object({
+            id: z.string({ required_error: 'Tracked entity type attribute id is missing in the API Payload. Please report the issue to the app maintainer.' }),
+        }),
         displayName: z.string({ required_error: 'Tracked entity type attribute display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
         valueType: z.string({ required_error: 'Tracked entity type attribute value type is missing in the API Payload. Please report the issue to the app maintainer.' }),
     })),
@@ -25,8 +27,8 @@ const convert = (data: z.infer<typeof ApiTrackedEntityTypeSchema>): z.infer<type
     displayName: data.displayName,
     access: data.access,
     attributes: data.trackedEntityTypeAttributes.reduce((acc, attribute) => {
-        acc[attribute.id] = {
-            id: attribute.id,
+        acc[attribute.trackedEntityAttribute.id] = {
+            id: attribute.trackedEntityAttribute.id,
             displayName: attribute.displayName,
             valueType: attribute.valueType,
         }
@@ -37,7 +39,7 @@ const convert = (data: z.infer<typeof ApiTrackedEntityTypeSchema>): z.infer<type
             id: 'default',
             displayName: i18n.t('Profile'),
             attributes: data.trackedEntityTypeAttributes.map((attribute: any) => ({
-                id: attribute.id,
+                id: attribute.trackedEntityAttribute.id,
                 displayName: attribute.displayName,
                 valueType: attribute.valueType,
             })),
@@ -46,7 +48,7 @@ const convert = (data: z.infer<typeof ApiTrackedEntityTypeSchema>): z.infer<type
 })
 
 export const getTrackedEntityTypeById = async ({ resourceId, dataEngine }: FunctionProps) => {
-    const fields = 'id,displayName,trackedEntityTypeAttributes[id,displayName,valueType],access[read,write,data[read,write]]';
+    const fields = 'id,displayName,trackedEntityTypeAttributes[trackedEntityAttribute[id],displayName,valueType],access[read,write,data[read,write]]';
     const { trackedEntityTypes }: any = await dataEngine.query({
         trackedEntityTypes: {
             resource: 'trackedEntityTypes',
