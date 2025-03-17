@@ -5,6 +5,7 @@ import {z} from "zod";
 export type FunctionProps = {
     resourceId: string,
     dataEngine: any,
+    programStageId?: string | null,
 }
 
 export const FormAttribute = z.object({

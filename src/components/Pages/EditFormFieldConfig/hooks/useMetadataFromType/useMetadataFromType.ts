@@ -6,15 +6,16 @@ import {useEffect} from "react";
 type Props = {
     resourceId: string,
     metadataType: 'program' | 'trackedEntityType',
+    programStageId?: string | null,
 }
 
-export const useMetadataFromType = ({ resourceId, metadataType }: Props) => {
+export const useMetadataFromType = ({ resourceId, metadataType, programStageId = null }: Props) => {
     const dataEngine = useDataEngine();
     const fetchFunction = FetchFunctionsByType[metadataType];
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: [metadataType, resourceId],
-        queryFn: () => fetchFunction({ resourceId, dataEngine }),
+        queryKey: [metadataType, resourceId, programStageId],
+        queryFn: () => fetchFunction({ resourceId, dataEngine, programStageId }),
         staleTime: Infinity,
         cacheTime: Infinity,
     })

@@ -1,21 +1,27 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import i18n from '@dhis2/d2-i18n';
-import {useMetadataFromType} from "./hooks/useMetadataFromType/useMetadataFromType";
-import {FormController} from "./FormController";
-import {useInstanceApps} from "./hooks/useInstanceApps";
-import {useFormFieldConfig} from "../FormFieldPlugins/hooks/useFormFieldConfig";
-import {Loading} from "./Loading";
+import { useMetadataFromType } from "./hooks/useMetadataFromType/useMetadataFromType";
+import { FormController } from "./FormController";
+import { useInstanceApps } from "./hooks/useInstanceApps";
+import { useFormFieldConfig } from "../FormFieldPlugins/hooks/useFormFieldConfig";
+import { Loading } from "./Loading";
 
 type Props = {
     formFieldId: string,
     metadataType: 'program' | 'trackedEntityType',
+    programStageId?: string | null,
 }
 
 export const EditFormFieldConfig = ({
     formFieldId,
     metadataType,
+    programStageId = null,
 }: Props) => {
-    const { metadata, isLoading, isError } = useMetadataFromType({ resourceId: formFieldId, metadataType })
+    const { metadata, isLoading, isError } = useMetadataFromType({
+        resourceId: formFieldId,
+        metadataType,
+        programStageId
+    })
     const { apps, isLoading: isLoadingApps, isError: isErrorApps } = useInstanceApps();
     const {
         records,
