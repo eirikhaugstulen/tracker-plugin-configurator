@@ -1,1 +1,2 @@
-export { MetadataRouterComponent } from './MetadataRouterComponent'
+export { FormFieldConfiguratorWrapper } from './FormFieldConfiguratorWrapper'
+export { FormFieldConfigurator } from './FormFieldConfigurator'

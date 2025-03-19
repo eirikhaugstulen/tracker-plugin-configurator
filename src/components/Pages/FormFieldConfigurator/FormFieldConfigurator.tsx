@@ -1,22 +1,24 @@
 import React, { useMemo } from "react";
 import i18n from '@dhis2/d2-i18n';
-import { useMetadataFromType } from "../hooks/useMetadataFromType/useMetadataFromType";
-import { FormController } from "../FormController";
-import { useInstanceApps } from "../hooks/useInstanceApps";
-import { MetadataTypes, useFormFieldConfig } from "../../FormFieldPlugins/hooks/useFormFieldConfig";
-import { Loading } from "../Loading";
+import { useMetadataFromType } from "./hooks/useMetadataFromType/useMetadataFromType";
+import { FormController } from "./FormController";
+import { useInstanceApps } from "./hooks/useInstanceApps";
+import { MetadataType, useFormFieldConfig } from "../FormFieldPlugins/hooks/useFormFieldConfig";
+import { Loading } from "./Loading";
 
 interface Props {
     formFieldId: string;
+    metadataType: MetadataType;
 }
 
-export const ProgramStageFormConfig: React.FC<Props> = ({ formFieldId }) => {
+export const FormFieldConfigurator: React.FC<Props> = ({ formFieldId, metadataType }) => {
     const { metadata, isLoading, isError } = useMetadataFromType({
         resourceId: formFieldId,
-        metadataType: MetadataTypes.programStage,
+        metadataType,
     });
 
     const { apps, isLoading: isLoadingApps, isError: isErrorApps } = useInstanceApps();
+
     const {
         records,
         isLoading: isLoadingConfig,
@@ -25,7 +27,6 @@ export const ProgramStageFormConfig: React.FC<Props> = ({ formFieldId }) => {
 
     const existingFormFieldConfig = useMemo(() => {
         if (!records) return null;
-
         return records.find(record => record.id === formFieldId);
     }, [records, formFieldId]);
 
@@ -44,8 +45,8 @@ export const ProgramStageFormConfig: React.FC<Props> = ({ formFieldId }) => {
     return (
         <div className={'px-4 space-y-4'}>
             <FormController
-                formFieldId={formFieldId}
                 metadata={metadata}
+                formFieldId={formFieldId}
                 apps={apps}
                 existingFormFieldConfig={existingFormFieldConfig}
             />

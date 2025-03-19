@@ -11,7 +11,7 @@ import { MobileNavigation } from "./components/MobileNavigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FormFieldPlugins } from "./components/Pages/FormFieldPlugins";
 import { Toaster } from "./components/ui/sonner";
-import { MetadataRouterComponent } from "./components/Pages/FormFieldConfigurator";
+import { FormFieldConfiguratorWrapper } from "./components/Pages/FormFieldConfigurator";
 import { DataStoreKeyProvider } from "./components/DataStoreKeyProvider/DataStoreKeyProvider";
 import { EditEnrollmentOverviewWrapper } from "./components/Pages/EditEnrollmentOverview/EditEnrollmentOverviewWrapper";
 
@@ -38,7 +38,7 @@ const MyApp = () => {
 
                                 <Routes>
                                     <Route path="/formField" element={<FormFieldPlugins />} />
-                                    <Route path="/formField/:formFieldId" element={<MetadataRouterComponent />} />
+                                    <Route path="/formField/:formFieldId" element={<FormFieldConfiguratorWrapper />} />
                                     <Route path="/enrollmentOverview" element={<EnrollmentOverview />} />
                                     <Route path="/enrollmentOverview/:contextId" element={<EditEnrollmentOverviewWrapper />} />
                                     <Route path="/" element={<Dashboard />} />
