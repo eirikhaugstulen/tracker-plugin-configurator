@@ -3,10 +3,10 @@ import i18n from '@dhis2/d2-i18n';
 import { useFormContext } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../ui/form";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../../../../ui/select";
-import { useTrackedEntityTypes } from "../../hooks/useTrackedEntityTypes";
 import { useProgramsWithMetadataAccess } from "../../../../../lib/hooks/useProgramsWithMetadataAccess";
 import { Skeleton } from "../../../../ui/skeleton";
 import { ProgramStageSelector } from "./ProgramStageSelector";
+import { useTrackedEntityTypes } from "../../../../../lib/hooks/useTrackedEntityTypes";
 
 export const ContextSelector = () => {
     const { control } = useFormContext();
