@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-03-19T21:06:59.875Z\n"
-"PO-Revision-Date: 2025-03-19T21:06:59.875Z\n"
+"POT-Creation-Date: 2025-03-19T23:18:06.076Z\n"
+"PO-Revision-Date: 2025-03-19T23:18:06.076Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -65,6 +65,9 @@ msgstr "Could not find the program or tracked entity type with the provided ID."
 
 msgid "Are you sure you have access?"
 msgstr "Are you sure you have access?"
+
+msgid "Enrollment plugins are only available for tracker programs."
+msgstr "Enrollment plugins are only available for tracker programs."
 
 msgid "Cancel without saving"
 msgstr "Cancel without saving"
@@ -536,3 +539,13 @@ msgstr "Manage your form configurations"
 
 msgid "Undo"
 msgstr "Undo"
+
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "Tracker Plugin Configurator"
+
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr ""
+"Tracker plugin configurator allows you to easily set up and configure "
+"plugins into your core Capture environment."
