@@ -6,7 +6,6 @@ import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "../.
 import {Button} from "../../../../../ui/button";
 import {z} from "zod";
 import {PluginSchema} from "../../../FormController";
-import {useMetadataFromType} from "../../../hooks/useMetadataFromType/useMetadataFromType";
 import {Input} from "../../../../../ui/input";
 import {PluginTable} from "./Table";
 import {Separator} from "../../../../../ui/separator";
@@ -15,11 +14,11 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../../../../ui/form";
 import {LoaderCircle, TriangleAlertIcon} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "../../../../../ui/alert";
+import { ConvertedMetadataSchema } from "../../../hooks/useMetadataFromType/Constants/constants";
 
 type Props = {
     field: z.infer<typeof PluginSchema>,
-    formFieldId: string,
-    metadataType: 'program' | 'trackedEntityType',
+    metadata: z.infer<typeof ConvertedMetadataSchema>,
     setOpen: (open: boolean) => void,
     pluginConfiguration: z.infer<typeof PluginSettingSchema> | undefined,
     addPluginConfiguration: (id: string, configuration: z.infer<typeof PluginSettingSchema>) => void,
@@ -41,8 +40,7 @@ export const PluginSettingSchema = z.object({
 
 export const PluginDialogContent = ({
     field,
-    formFieldId,
-    metadataType,
+    metadata,
     setOpen,
     pluginConfiguration,
     addPluginConfiguration,
@@ -68,11 +66,6 @@ export const PluginDialogContent = ({
             [IdFromApp]: IdFromPlugin,
         }
     }, {}) ?? {});
-
-    const { metadata} = useMetadataFromType({
-        resourceId: formFieldId,
-        metadataType,
-    });
 
     const removeAttribute = (IdFromApp: string) => {
         setSelectedAttributes((prev) => {
@@ -133,7 +126,7 @@ export const PluginDialogContent = ({
                         selectedAttributes={selectedAttributes}
                         addAttribute={addAttribute}
                         removeAttribute={removeAttribute}
-                        attributes={metadata.attributes}
+                        attributes={metadata.fields}
                     />
                 </ScrollArea>
             </div>

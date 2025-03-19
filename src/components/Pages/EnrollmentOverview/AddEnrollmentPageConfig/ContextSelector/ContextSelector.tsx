@@ -27,6 +27,8 @@ export const ContextSelector = ({ form }: Props) => {
         return <p>{i18n.t('There seems like you don\'t have metadata access to any programs')}</p>
     }
 
+    const trackerPrograms = programs.filter(program => program.programType === 'WITH_REGISTRATION');
+
     return (
         <div className="flex flex-col gap-4">
             <FormField
@@ -42,7 +44,7 @@ export const ContextSelector = ({ form }: Props) => {
                                 </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                                {programs.map(apiProgram => (
+                                {trackerPrograms.map(apiProgram => (
                                     <SelectItem
                                         key={apiProgram.id}
                                         value={apiProgram.id}

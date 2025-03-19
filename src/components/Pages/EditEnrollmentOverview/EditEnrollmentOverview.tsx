@@ -1,15 +1,15 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import i18n from '@dhis2/d2-i18n';
 import {
     FormattedEnrollmentDataStoreInfo,
 } from "../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
-import {z} from "zod";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import {CardContent} from "../../ui/card";
-import {EditModePage} from "./EditModePage";
-import { appsSchema } from '../EditFormFieldConfig/hooks/useInstanceApps';
-import {PluginSchema} from "../EditFormFieldConfig/FormController";
-import {ViewModePage} from "./ViewModePage";
+import { z } from "zod";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { CardContent } from "../../ui/card";
+import { EditModePage } from "./EditModePage";
+import { appsSchema } from '../FormFieldConfigurator/hooks/useInstanceApps';
+import { PluginSchema } from "../FormFieldConfigurator/FormController";
+import { ViewModePage } from "./ViewModePage";
 
 type Props = {
     programId: string;

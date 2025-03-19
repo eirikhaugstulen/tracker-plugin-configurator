@@ -1,22 +1,24 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import i18n from '@dhis2/d2-i18n';
-import {useMetadataFromType} from "./hooks/useMetadataFromType/useMetadataFromType";
-import {FormController} from "./FormController";
-import {useInstanceApps} from "./hooks/useInstanceApps";
-import {useFormFieldConfig} from "../FormFieldPlugins/hooks/useFormFieldConfig";
-import {Loading} from "./Loading";
+import { useMetadataFromType } from "./hooks/useMetadataFromType/useMetadataFromType";
+import { FormController } from "./FormController";
+import { useInstanceApps } from "./hooks/useInstanceApps";
+import { MetadataType, useFormFieldConfig } from "../FormFieldPlugins/hooks/useFormFieldConfig";
+import { Loading } from "./Loading";
 
-type Props = {
-    formFieldId: string,
-    metadataType: 'program' | 'trackedEntityType',
+interface Props {
+    formFieldId: string;
+    metadataType: MetadataType;
 }
 
-export const EditFormFieldConfig = ({
-    formFieldId,
-    metadataType,
-}: Props) => {
-    const { metadata, isLoading, isError } = useMetadataFromType({ resourceId: formFieldId, metadataType })
+export const FormFieldConfigurator: React.FC<Props> = ({ formFieldId, metadataType }) => {
+    const { metadata, isLoading, isError } = useMetadataFromType({
+        resourceId: formFieldId,
+        metadataType,
+    });
+
     const { apps, isLoading: isLoadingApps, isError: isErrorApps } = useInstanceApps();
+
     const {
         records,
         isLoading: isLoadingConfig,
@@ -29,9 +31,7 @@ export const EditFormFieldConfig = ({
     }, [records, formFieldId]);
 
     if (isLoading || isLoadingApps || isLoadingConfig) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (isError || isErrorApps || isErrorConfig || !metadata || !apps) {
@@ -39,7 +39,7 @@ export const EditFormFieldConfig = ({
             <div className={'w-3/4 mt-4 flex flex-col gap-4 border mx-auto sm:mt-0 sm:w-1/3 px-4 py-6'}>
                 {i18n.t('There seems to be an unexpected error. Please refresh the app and try again.')}
             </div>
-        )
+        );
     }
 
     return (
@@ -47,10 +47,9 @@ export const EditFormFieldConfig = ({
             <FormController
                 metadata={metadata}
                 formFieldId={formFieldId}
-                metadataType={metadataType}
                 apps={apps}
                 existingFormFieldConfig={existingFormFieldConfig}
             />
         </div>
-    )
-}
+    );
+}; 

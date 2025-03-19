@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import i18n from '@dhis2/d2-i18n';
 import {
     DropdownMenu,
@@ -7,11 +7,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from "../../../ui/dropdown-menu";
-import {Button} from "../../../ui/button";
-import {Loader2, MoreHorizontalIcon} from "lucide-react";
-import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger} from "../../../ui/dialog";
-import {useDeleteFormConfig} from "../hooks/useDeleteFormConfig";
-import {useNavigate} from "react-router-dom";
+import { Button } from "../../../ui/button";
+import { Loader2, MoreHorizontalIcon } from "lucide-react";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "../../../ui/dialog";
+import { useDeleteFormConfig } from "../hooks/useDeleteFormConfig";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     id: string;
@@ -39,7 +39,7 @@ export const ActionsButton = ({ id }: Props) => {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button aria-haspopup="true" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="h-4 w-4"/>
+                        <MoreHorizontalIcon className="h-4 w-4" />
                         <span className="sr-only">{i18n.t('Toggle menu')}</span>
                     </Button>
                 </DropdownMenuTrigger>

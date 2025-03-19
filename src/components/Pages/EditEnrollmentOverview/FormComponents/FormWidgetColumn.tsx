@@ -1,13 +1,13 @@
 import React from "react";
-import {useFormContext, useWatch} from "react-hook-form";
-import {ApiColumnSchema, ApiDataStoreInfoPerProgram} from "../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
-import {z} from "zod";
-import {WidgetTypes} from "../EditModePage/hooks/useDefaultValues";
-import {Droppable} from "react-beautiful-dnd";
-import {NativeWidgetSchema, Widgets} from "../Widgets.constants";
-import {AddComponent} from "./AddComponent";
-import {PluginSchema} from "../../EditFormFieldConfig/FormController";
-import {DraggableItem} from "./DraggableItem";
+import { useFormContext, useWatch } from "react-hook-form";
+import { ApiColumnSchema, ApiDataStoreInfoPerProgram } from "../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
+import { z } from "zod";
+import { WidgetTypes } from "../EditModePage/hooks/useDefaultValues";
+import { Droppable } from "react-beautiful-dnd";
+import { NativeWidgetSchema, Widgets } from "../Widgets.constants";
+import { AddComponent } from "./AddComponent";
+import { PluginSchema } from "../../FormFieldConfigurator/FormController";
+import { DraggableItem } from "./DraggableItem";
 
 type Props = {
     columnName: 'leftColumn' | 'rightColumn'

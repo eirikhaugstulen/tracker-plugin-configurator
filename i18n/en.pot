@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-02-25T18:14:24.506Z\n"
-"PO-Revision-Date: 2025-02-25T18:14:24.506Z\n"
+"POT-Creation-Date: 2025-03-19T21:06:59.875Z\n"
+"PO-Revision-Date: 2025-03-19T21:06:59.875Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -65,9 +65,6 @@ msgstr "Could not find the program or tracked entity type with the provided ID."
 
 msgid "Are you sure you have access?"
 msgstr "Are you sure you have access?"
-
-msgid "This page is only available for tracker programs."
-msgstr "This page is only available for tracker programs."
 
 msgid "Cancel without saving"
 msgstr "Cancel without saving"
@@ -245,93 +242,6 @@ msgstr "Enrollment widget"
 msgid "Display and edit the enrollment details"
 msgstr "Display and edit the enrollment details"
 
-msgid "Available plugins"
-msgstr "Available plugins"
-
-msgid "Drag and drop fields to add them to the form"
-msgstr "Drag and drop fields to add them to the form"
-
-msgid "No plugins available"
-msgstr "No plugins available"
-
-msgid "Select attribute"
-msgstr "Select attribute"
-
-msgid "Field"
-msgstr "Field"
-
-msgid "Plugin attribute"
-msgstr "Plugin attribute"
-
-msgid "Required"
-msgstr "Required"
-
-msgid "Plugin settings"
-msgstr "Plugin settings"
-
-msgid "You are currently editing the settings for {{pluginName}}."
-msgstr "You are currently editing the settings for {{pluginName}}."
-
-msgid "Attributes"
-msgstr "Attributes"
-
-msgid "Plugins are sandboxed and can only access the attributes you specify here."
-msgstr "Plugins are sandboxed and can only access the attributes you specify here."
-
-msgid "Advanced settings"
-msgstr "Advanced settings"
-
-msgid "Danger zone"
-msgstr "Danger zone"
-
-msgid "These settings may break the plugin if not set correctly."
-msgstr "These settings may break the plugin if not set correctly."
-
-msgid "Plugin launch URL"
-msgstr "Plugin launch URL"
-
-msgid "Only letters allowed"
-msgstr "Only letters allowed"
-
-msgid "Plugin ID already in use"
-msgstr "Plugin ID already in use"
-
-msgid "Name"
-msgstr "Name"
-
-msgid "Plugin alias"
-msgstr "Plugin alias"
-
-msgid "This is the generic ID that the plugin will use to refer to this attribute."
-msgstr "This is the generic ID that the plugin will use to refer to this attribute."
-
-msgid "Remove"
-msgstr "Remove"
-
-msgid "No configured attributes"
-msgstr "No configured attributes"
-
-msgid "Edit settings"
-msgstr "Edit settings"
-
-msgid "Remove plugin"
-msgstr "Remove plugin"
-
-msgid "Validation Error"
-msgstr "Validation Error"
-
-msgid "All fields you add here will be shown in the form"
-msgstr "All fields you add here will be shown in the form"
-
-msgid "Configuration saved successfully"
-msgstr "Configuration saved successfully"
-
-msgid "Validation successful - no errors found"
-msgstr "Validation successful - no errors found"
-
-msgid "Profile"
-msgstr "Profile"
-
 msgid "Program is required"
 msgstr "Program is required"
 
@@ -422,11 +332,143 @@ msgstr "Failed to delete configuration"
 msgid "At least one of title, leftColumn, or rightColumn must be defined"
 msgstr "At least one of title, leftColumn, or rightColumn must be defined"
 
-msgid "Tracked entity type is required"
-msgstr "Tracked entity type is required"
+msgid "Available plugins"
+msgstr "Available plugins"
 
-msgid "Let's start by selecting the context you want to customize."
-msgstr "Let's start by selecting the context you want to customize."
+msgid "Drag and drop fields to add them to the form"
+msgstr "Drag and drop fields to add them to the form"
+
+msgid "No plugins available"
+msgstr "No plugins available"
+
+msgid "Select attribute"
+msgstr "Select attribute"
+
+msgid "Field"
+msgstr "Field"
+
+msgid "Plugin attribute"
+msgstr "Plugin attribute"
+
+msgid "Required"
+msgstr "Required"
+
+msgid "Plugin settings"
+msgstr "Plugin settings"
+
+msgid "You are currently editing the settings for {{pluginName}}."
+msgstr "You are currently editing the settings for {{pluginName}}."
+
+msgid "Attributes"
+msgstr "Attributes"
+
+msgid "Plugins are sandboxed and can only access the attributes you specify here."
+msgstr "Plugins are sandboxed and can only access the attributes you specify here."
+
+msgid "Advanced settings"
+msgstr "Advanced settings"
+
+msgid "Danger zone"
+msgstr "Danger zone"
+
+msgid "These settings may break the plugin if not set correctly."
+msgstr "These settings may break the plugin if not set correctly."
+
+msgid "Plugin launch URL"
+msgstr "Plugin launch URL"
+
+msgid "Only letters allowed"
+msgstr "Only letters allowed"
+
+msgid "Plugin ID already in use"
+msgstr "Plugin ID already in use"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Plugin alias"
+msgstr "Plugin alias"
+
+msgid "This is the generic ID that the plugin will use to refer to this attribute."
+msgstr "This is the generic ID that the plugin will use to refer to this attribute."
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "No configured attributes"
+msgstr "No configured attributes"
+
+msgid "Edit settings"
+msgstr "Edit settings"
+
+msgid "Remove plugin"
+msgstr "Remove plugin"
+
+msgid "Validation Error"
+msgstr "Validation Error"
+
+msgid "All fields you add here will be shown in the form"
+msgstr "All fields you add here will be shown in the form"
+
+msgid "Configuration saved successfully"
+msgstr "Configuration saved successfully"
+
+msgid "Validation successful - no errors found"
+msgstr "Validation successful - no errors found"
+
+msgid ""
+"Could not find the program, event program or tracked entity type with the "
+"provided ID."
+msgstr ""
+"Could not find the program, event program or tracked entity type with the "
+"provided ID."
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Configuration context is required"
+msgstr "Configuration context is required"
+
+msgid ""
+"Let's start by selecting the context you want to customize. You can "
+"configure for tracked entity types, tracker programs, or event programs."
+msgstr ""
+"Let's start by selecting the context you want to customize. You can "
+"configure for tracked entity types, tracker programs, or event programs."
+
+msgid "An error occurred while loading metadata"
+msgstr "An error occurred while loading metadata"
+
+msgid ""
+"There seems like you don't have metadata access to any tracked entity types "
+"or programs"
+msgstr ""
+"There seems like you don't have metadata access to any tracked entity types "
+"or programs"
+
+msgid "Configuration Context"
+msgstr "Configuration Context"
+
+msgid "Please select a configuration context"
+msgstr "Please select a configuration context"
+
+msgid "Tracked Entity Types"
+msgstr "Tracked Entity Types"
+
+msgid "Tracker Programs"
+msgstr "Tracker Programs"
+
+msgid "Event Programs"
+msgstr "Event Programs"
+
+msgid "No program stages available for this program"
+msgstr "No program stages available for this program"
+
+msgid "Program Stage (optional)"
+msgstr "Program Stage (optional)"
+
+msgid "Select to configure a specific program stage (optional)"
+msgstr "Select to configure a specific program stage (optional)"
 
 msgid "Program (optional)"
 msgstr "Program (optional)"
@@ -461,8 +503,17 @@ msgstr "Tracked Entity Type"
 msgid "Please select a tracked entity type"
 msgstr "Please select a tracked entity type"
 
-msgid "Validation"
-msgstr "Validation"
+msgid "Tracker Program"
+msgstr "Tracker Program"
+
+msgid "Event Program"
+msgstr "Event Program"
+
+msgid "Metadata type"
+msgstr "Metadata type"
+
+msgid "Valid"
+msgstr "Valid"
 
 msgid ""
 "There is an error with this configuration. Please delete and create a new "

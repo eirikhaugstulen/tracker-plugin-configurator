@@ -5,20 +5,19 @@ import {Droppable} from "react-beautiful-dnd";
 import {MetadataDraggable} from "./MetadataDraggable";
 import {PluginDraggable} from "./PluginDraggable";
 import {PluginSettingSchema} from "./PluginDraggable/PluginDialogContent";
+import { ConvertedMetadataSchema } from "../hooks/useMetadataFromType";
 
 type Props = {
     formFields: Array<z.infer<typeof SectionSchema>>,
-    formFieldId: string,
+    metadata: z.infer<typeof ConvertedMetadataSchema>,
     pluginConfigurations: Record<string, z.infer<typeof PluginSettingSchema>>,
     addPluginConfiguration: (id: string, configuration: z.infer<typeof PluginSettingSchema>) => void,
-    metadataType: 'program' | 'trackedEntityType',
     onRemovePlugin: (pluginId: string) => void,
 }
 
 export const FormConfigurator = ({
     formFields,
-    formFieldId,
-    metadataType,
+    metadata,
     pluginConfigurations,
     addPluginConfiguration,
     onRemovePlugin
@@ -48,8 +47,7 @@ export const FormConfigurator = ({
                                                     field={field}
                                                     index={index}
                                                     key={field.id}
-                                                    formFieldId={formFieldId}
-                                                    metadataType={metadataType}
+                                                    metadata={metadata}
                                                     pluginConfiguration={pluginConfigurations[field.id]}
                                                     addPluginConfiguration={addPluginConfiguration}
                                                     onRemovePlugin={onRemovePlugin}

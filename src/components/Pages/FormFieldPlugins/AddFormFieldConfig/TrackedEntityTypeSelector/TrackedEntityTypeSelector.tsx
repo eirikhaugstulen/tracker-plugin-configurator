@@ -3,7 +3,7 @@ import i18n from '@dhis2/d2-i18n';
 import {useFormContext} from "react-hook-form";
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../../../ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../../../ui/select";
-import {useTrackedEntityTypes} from "../../hooks/useTrackedEntityTypes";
+import {useTrackedEntityTypes} from "../../../../../lib/hooks/useTrackedEntityTypes";
 import {Skeleton} from "../../../../ui/skeleton";
 
 export const TrackedEntityTypeSelector = () => {

@@ -13,10 +13,8 @@ export const useProgramsByTETId = ({ trackedEntityTypeId }: Props) => {
         }
 
         return programs
-            .filter(program => program
-                .trackedEntityType
-                .id === trackedEntityTypeId
-            );
+            .filter(program => program.programType === 'WITH_REGISTRATION')
+            .filter(program => program.trackedEntityType?.id === trackedEntityTypeId)
     }, [programs, trackedEntityTypeId])
 
     return {

@@ -1,7 +1,7 @@
-import {ConvertedMetadataSchema, FormAttribute, FunctionProps} from "./constants";
+import {ConvertedMetadataSchema, FormField, FunctionProps} from "./constants";
 import {z} from "zod";
 
-const ApiProgramSchema = z.object({
+const ApiTrackerProgramSchema = z.object({
     id: z.string({ required_error: 'Tracked entity type id is missing in the API Payload. Please report the issue to the app maintainer.' }),
     displayName: z.string({ required_error: 'Tracked entity type display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
     programTrackedEntityAttributes: z.array(z.object({
@@ -29,7 +29,7 @@ const ApiProgramSchema = z.object({
     })),
 });
 
-const convert = (data: z.infer<typeof ApiProgramSchema>): z.infer<typeof ConvertedMetadataSchema> => {
+const convert = (data: z.infer<typeof ApiTrackerProgramSchema>): z.infer<typeof ConvertedMetadataSchema> => {
     let sections;
 
     if (data.programSections.length > 0) {
@@ -38,7 +38,7 @@ const convert = (data: z.infer<typeof ApiProgramSchema>): z.infer<typeof Convert
             .map(section => ({
             id: section.id,
             displayName: section.displayName,
-            attributes: section.trackedEntityAttributes.map(attribute => {
+            fields: section.trackedEntityAttributes.map(attribute => {
                 const metadata = data.programTrackedEntityAttributes.find(meta => meta.trackedEntityAttribute.id === attribute.id);
 
                 if (!metadata) {
@@ -51,14 +51,14 @@ const convert = (data: z.infer<typeof ApiProgramSchema>): z.infer<typeof Convert
                     displayName: metadata.trackedEntityAttribute.displayName,
                     valueType: metadata.trackedEntityAttribute.valueType,
                 }
-            }).filter(Boolean),
+            }).filter((item): item is { id: string; displayName: string; valueType: string } => item !== null),
         }));
     } else {
         sections = [
             {
                 id: 'default',
                 displayName: 'Profile',
-                attributes: data.programTrackedEntityAttributes.map(attribute => ({
+                fields: data.programTrackedEntityAttributes.map(attribute => ({
                     id: attribute.trackedEntityAttribute.id,
                     displayName: attribute.trackedEntityAttribute.displayName,
                     valueType: attribute.trackedEntityAttribute.valueType,
@@ -71,25 +71,26 @@ const convert = (data: z.infer<typeof ApiProgramSchema>): z.infer<typeof Convert
         id: data.id,
         displayName: data.displayName,
         access: data.access,
-        attributes: data.programTrackedEntityAttributes.reduce((acc, attribute) => {
+        fields: data.programTrackedEntityAttributes.reduce((acc: Record<string, z.infer<typeof FormField>>, attribute) => {
             acc[attribute.trackedEntityAttribute.id] = {
                 id: attribute.trackedEntityAttribute.id,
                 displayName: attribute.trackedEntityAttribute.displayName,
                 valueType: attribute.trackedEntityAttribute.valueType,
             }
             return acc;
-        }, {} as Record<string, z.infer<typeof FormAttribute>>),
-        // @ts-ignore
+        }, {}),
         sections,
     });
 }
 
-export const getProgramsById = async ({ resourceId, dataEngine }: FunctionProps) => {
+export const getTrackerProgramById = async ({ resourceId, dataEngine }: FunctionProps) => {
     const fields = 'id,displayName,programTrackedEntityAttributes[sortOrder,trackedEntityAttribute[id,displayName,valueType]],access[read,write,data[read,write]],programSections[id,displayName,sortOrder,trackedEntityAttributes]';
+    
     const { programs }: any = await dataEngine.query({
         programs: {
             resource: 'programs',
             id: resourceId,
+            filter: 'programType:eq:WITH_REGISTRATION',
             params: {
                 fields,
                 pageSize: 1000,
@@ -97,6 +98,6 @@ export const getProgramsById = async ({ resourceId, dataEngine }: FunctionProps)
         }
     });
 
-    const program = ApiProgramSchema.parse(programs) as z.infer<typeof ApiProgramSchema>;
+    const program = ApiTrackerProgramSchema.parse(programs) as z.infer<typeof ApiTrackerProgramSchema>;
     return convert(program);
 }

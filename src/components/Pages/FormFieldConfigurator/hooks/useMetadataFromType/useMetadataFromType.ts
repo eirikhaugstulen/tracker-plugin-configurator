@@ -2,10 +2,11 @@ import {useDataEngine} from "@dhis2/app-runtime";
 import {FetchFunctionsByType} from "./Constants/constants";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect} from "react";
+import { MetadataType } from "../../../FormFieldPlugins/hooks/useFormFieldConfig";
 
 type Props = {
     resourceId: string,
-    metadataType: 'program' | 'trackedEntityType',
+    metadataType: MetadataType,
 }
 
 export const useMetadataFromType = ({ resourceId, metadataType }: Props) => {

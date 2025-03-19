@@ -1,13 +1,13 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import i18n from "@dhis2/d2-i18n";
-import {CardContent, CardHeader} from "../../../ui/card";
-import {Button} from "../../../ui/button";
-import {ENROLLMENT_PAGES} from "../EditEnrollmentOverview";
-import {z} from "zod";
-import {FormattedEnrollmentDataStoreInfo} from "../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
-import {WidgetTypes} from "../EditModePage/hooks/useDefaultValues";
-import {PluginSchema} from "../../EditFormFieldConfig/FormController";
-import {ItemDisplay} from "./ItemDisplay";
+import { CardContent, CardHeader } from "../../../ui/card";
+import { Button } from "../../../ui/button";
+import { ENROLLMENT_PAGES } from "../EditEnrollmentOverview";
+import { z } from "zod";
+import { FormattedEnrollmentDataStoreInfo } from "../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
+import { WidgetTypes } from "../EditModePage/hooks/useDefaultValues";
+import { PluginSchema } from "../../FormFieldConfigurator/FormController";
+import { ItemDisplay } from "./ItemDisplay";
 
 type Props = {
     goBackToTableView: () => void;

@@ -1,21 +1,21 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import i18n from "@dhis2/d2-i18n";
-import {z} from "zod";
+import { z } from "zod";
 import {
     ApiDataStoreInfoPerProgram,
     FormattedEnrollmentDataStoreInfo
 } from "../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
-import {useDefaultValues} from "./hooks/useDefaultValues";
-import {useForm, useWatch} from "react-hook-form";
-import {Form} from "../../../ui/form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {FormWidgetColumn} from "../FormComponents/FormWidgetColumn";
-import {Button} from "../../../ui/button";
-import {DragDropContext, DropResult} from "react-beautiful-dnd";
-import {PluginSchema} from "../../EditFormFieldConfig/FormController";
-import {Widgets} from "../Widgets.constants";
-import {useValidateAndSave} from "./hooks/useValidateAndSave";
-import {LoaderCircle} from "lucide-react";
+import { useDefaultValues } from "./hooks/useDefaultValues";
+import { useForm, useWatch } from "react-hook-form";
+import { Form } from "../../../ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormWidgetColumn } from "../FormComponents/FormWidgetColumn";
+import { Button } from "../../../ui/button";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { PluginSchema } from "../../FormFieldConfigurator/FormController";
+import { Widgets } from "../Widgets.constants";
+import { useValidateAndSave } from "./hooks/useValidateAndSave";
+import { LoaderCircle } from "lucide-react";
 
 type Props = {
     programId: string;

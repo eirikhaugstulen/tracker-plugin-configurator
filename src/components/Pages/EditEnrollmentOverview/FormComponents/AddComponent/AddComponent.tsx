@@ -1,16 +1,16 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import i18n from "@dhis2/d2-i18n";
-import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger} from "../../../../ui/sheet";
-import {PlusCircleIcon} from "lucide-react";
-import {ScrollArea} from "../../../../ui/scroll-area";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../../../../ui/sheet";
+import { PlusCircleIcon } from "lucide-react";
+import { ScrollArea } from "../../../../ui/scroll-area";
 import { Separator } from "../../../../ui/separator";
-import {NativeWidgetSchema, Widgets} from "../../Widgets.constants";
-import {z} from "zod";
-import {PluginSchema} from "../../../EditFormFieldConfig/FormController";
-import {Button} from "../../../../ui/button";
-import {ApiDataStoreInfoPerProgram} from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
-import {useFormContext} from "react-hook-form";
-import {LocalPluginForm} from "./LocalPluginForm";
+import { NativeWidgetSchema, Widgets } from "../../Widgets.constants";
+import { z } from "zod";
+import { PluginSchema } from "../../../FormFieldConfigurator/FormController";
+import { Button } from "../../../../ui/button";
+import { ApiDataStoreInfoPerProgram } from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
+import { useFormContext } from "react-hook-form";
+import { LocalPluginForm } from "./LocalPluginForm";
 
 type Props = {
     columnName: 'leftColumn' | 'rightColumn'
@@ -72,7 +72,7 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
                 source: pluginMetadata.pluginLaunchUrl,
             });
         }
-        
+
         setValue(columnName, newValues);
     }
 
@@ -84,7 +84,7 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
             >
                 <SheetTrigger asChild>
                     <button className={'border w-full border-dashed border-gray-200 py-6 flex flex-col gap-2 justify-center items-center cursor-pointer hover:border-gray-300'}>
-                        <PlusCircleIcon className={'h-8 w-8 mx-auto text-gray-400'}/>
+                        <PlusCircleIcon className={'h-8 w-8 mx-auto text-gray-400'} />
                         <p className={'text-center text-gray-600'}>
                             {i18n.t('Add')}
                         </p>
@@ -103,12 +103,12 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
                         <div className={'mt-4'}>
                             <h2 className={'my-2'}>{i18n.t('Add Local Plugin')}</h2>
                             <Separator className={'mb-4'} />
-                            
+
                             <LocalPluginForm onSubmit={handleLocalPluginSubmit} />
 
                             <h2 className={'mt-6 mb-2'}>{i18n.t('Available Plugins')}</h2>
                             <Separator className={'mb-4'} />
-                            
+
 
                             {availablePlugins.length ? availablePlugins.map(plugin => (
                                 <div key={plugin.id} className={'border space-y-4 p-4 rounded mt-2 bg-white'}>

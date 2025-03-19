@@ -18,7 +18,6 @@ import { PluginAdderComponent } from "../../../plugin-adder";
 type Props = {
     metadata: z.infer<typeof ConvertedMetadataSchema>,
     formFieldId: string,
-    metadataType: 'program' | 'trackedEntityType',
     apps: Array<z.infer<typeof appsSchema>>
     existingFormFieldConfig: FormFieldRecord | null | undefined,
 }
@@ -34,7 +33,7 @@ const ValidationErrorToast = ({ errorMessage }: { errorMessage: string }) => {
     )
 }
 
-export const FormController = ({ metadata, formFieldId, metadataType, apps, existingFormFieldConfig }: Props) => {
+export const FormController = ({ metadata, formFieldId, apps, existingFormFieldConfig }: Props) => {
     const availablePlugins = useMemo(() => {
         const filteredApps = apps.filter(app => app.pluginLaunchUrl);
 
@@ -103,8 +102,7 @@ export const FormController = ({ metadata, formFieldId, metadataType, apps, exis
                     <CardContent>
                         <FormConfigurator
                             formFields={formFields}
-                            formFieldId={formFieldId}
-                            metadataType={metadataType}
+                            metadata={metadata}
                             addPluginConfiguration={addPluginConfiguration}
                             pluginConfigurations={pluginConfigurations}
                             onRemovePlugin={onRemovePlugin}

@@ -1,10 +1,11 @@
 import React from "react";
 import i18n from "@dhis2/d2-i18n";
-import {useParams} from "react-router-dom";
-import {useValidatedContextId} from "../../../lib/hooks/useValidatedContextId";
-import {EditEnrollmentOverview} from "./EditEnrollmentOverview";
-import {useEnrollmentDataStoreInfo} from "../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
-import {useInstanceApps} from "../EditFormFieldConfig/hooks/useInstanceApps";
+import { useParams } from "react-router-dom";
+import { useValidatedContextId } from "../../../lib/hooks/useValidatedContextId";
+import { EditEnrollmentOverview } from "./EditEnrollmentOverview";
+import { useEnrollmentDataStoreInfo } from "../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
+import { useInstanceApps } from "../FormFieldConfigurator/hooks/useInstanceApps";
+import { MetadataTypes } from "../FormFieldPlugins/hooks/useFormFieldConfig";
 
 export const EditEnrollmentOverviewWrapper = () => {
     const { contextId } = useParams();
@@ -55,10 +56,10 @@ export const EditEnrollmentOverviewWrapper = () => {
         )
     }
 
-    if (metadataType !== 'program') {
+    if (metadataType !== MetadataTypes.trackerProgram) {
         return (
             <div className={'w-3/4 mt-4 flex flex-col gap-4 border mx-auto sm:mt-0 sm:w-1/3 px-4 py-6'}>
-                <p>{i18n.t('This page is only available for tracker programs.')}</p>
+                <p>{i18n.t('Enrollment plugins are only available for tracker programs.')}</p>
             </div>
         )
     }
