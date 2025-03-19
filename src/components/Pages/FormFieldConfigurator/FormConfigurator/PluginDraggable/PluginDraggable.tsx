@@ -7,22 +7,21 @@ import {PluginSchema} from "../../FormController";
 import {PluginDialogContent, PluginSettingSchema} from "./PluginDialogContent/PluginDialogContent";
 import {Dialog} from "../../../../ui/dialog";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "../../../../ui/tooltip";
+import { ConvertedMetadataSchema } from "../../hooks/useMetadataFromType/Constants/constants";
 
 type Props = {
     index: number,
     field: z.infer<typeof PluginSchema>,
-    formFieldId: string,
-    metadataType: 'program' | 'trackedEntityType',
     pluginConfiguration: z.infer<typeof PluginSettingSchema> | undefined,
     addPluginConfiguration: (id: string, configuration: z.infer<typeof PluginSettingSchema>) => void,
     onRemovePlugin: (pluginId: string) => void,
+    metadata: z.infer<typeof ConvertedMetadataSchema>,
 }
 
 export const PluginDraggable = ({
     field,
     index,
-    metadataType,
-    formFieldId,
+    metadata,
     pluginConfiguration,
     addPluginConfiguration,
     onRemovePlugin
@@ -102,11 +101,10 @@ export const PluginDraggable = ({
                         {open && (
                             <PluginDialogContent
                                 field={field}
-                                formFieldId={formFieldId}
-                                metadataType={metadataType}
                                 setOpen={setOpen}
                                 pluginConfiguration={pluginConfiguration}
                                 addPluginConfiguration={addPluginConfiguration}
+                                metadata={metadata}
                             />
                         )}
                     </Dialog>

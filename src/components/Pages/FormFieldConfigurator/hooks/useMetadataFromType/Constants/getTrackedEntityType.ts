@@ -1,4 +1,4 @@
-import {ConvertedMetadataSchema, FormAttribute, FunctionProps} from "./constants";
+import {ConvertedMetadataSchema, FormField, FunctionProps} from "./constants";
 import i18n from '@dhis2/d2-i18n';
 import {z} from "zod";
 
@@ -26,19 +26,19 @@ const convert = (data: z.infer<typeof ApiTrackedEntityTypeSchema>): z.infer<type
     id: data.id,
     displayName: data.displayName,
     access: data.access,
-    attributes: data.trackedEntityTypeAttributes.reduce((acc, attribute) => {
+    fields: data.trackedEntityTypeAttributes.reduce((acc: Record<string, z.infer<typeof FormField>>, attribute) => {
         acc[attribute.trackedEntityAttribute.id] = {
             id: attribute.trackedEntityAttribute.id,
             displayName: attribute.displayName,
             valueType: attribute.valueType,
         }
         return acc;
-    }, {} as Record<string, z.infer<typeof FormAttribute>>),
+    }, {}),
     sections: [
         {
             id: 'default',
             displayName: i18n.t('Profile'),
-            attributes: data.trackedEntityTypeAttributes.map((attribute: any) => ({
+            fields: data.trackedEntityTypeAttributes.map((attribute: any) => ({
                 id: attribute.trackedEntityAttribute.id,
                 displayName: attribute.displayName,
                 valueType: attribute.valueType,

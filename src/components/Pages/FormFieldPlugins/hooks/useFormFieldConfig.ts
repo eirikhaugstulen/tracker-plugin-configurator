@@ -1,10 +1,17 @@
 import {useQuery} from "@tanstack/react-query";
 import {useDataEngine} from "@dhis2/app-runtime";
 import {useFormFieldMetadata} from "./useFormFieldMetadata";
-import {ContextFormSchema} from "../../EditFormFieldConfig/FormController/hooks/useValidateAndSave";
+import {ContextFormSchema} from "../../FormFieldConfigurator/FormController/hooks/useValidateAndSave";
 import {useEffect} from "react";
 
-export type MetadataType = 'TRACKER_PROGRAM' | 'EVENT_PROGRAM' | 'TRACKED_ENTITY_TYPE' | 'PROGRAM_STAGE';
+export type MetadataType = (typeof MetadataTypes)[keyof typeof MetadataTypes];
+
+export const MetadataTypes = Object.freeze({
+    trackerProgram: 'trackerProgram',
+    eventProgram: 'eventProgram',
+    trackedEntityType: 'trackedEntityType',
+    programStage: 'programStage',
+} as const);
 
 export type FormFieldRecord = {
     id: string,
@@ -14,6 +21,7 @@ export type FormFieldRecord = {
     parentId?: string,
     parentName?: string,
     parentHasConfiguration?: boolean,
+    sortOrder?: number,
     sections: {
         id: string,
         name: string,
@@ -29,7 +37,13 @@ export type FormFieldRecord = {
 
 export const useFormFieldConfig = () => {
     const dataEngine = useDataEngine();
-    const { programs, programStages, trackedEntityTypes, isLoading: isLoadingMetadata } = useFormFieldMetadata();
+
+    const { 
+        programs,
+        programStages,
+        trackedEntityTypes,
+        isLoading: isLoadingMetadata
+    } = useFormFieldMetadata();
 
     const getFormFieldConfig = async () => {
         const { formFieldConfigQuery } = await dataEngine.query({
@@ -58,7 +72,7 @@ export const useFormFieldConfig = () => {
                             return {
                                 id,
                                 name: programMetadata.displayName,
-                                metadataType: 'TRACKER_PROGRAM' as MetadataType,
+                                metadataType: MetadataTypes.trackerProgram,
                                 metadataId: programMetadata.id,
                                 sections: record,
                                 valid: success,
@@ -67,7 +81,7 @@ export const useFormFieldConfig = () => {
                             return {
                                 id,
                                 name: programMetadata.displayName,
-                                metadataType: 'EVENT_PROGRAM' as MetadataType,
+                                metadataType: MetadataTypes.eventProgram,
                                 metadataId: programMetadata.id,
                                 sections: record,
                                 valid: success,
@@ -83,7 +97,7 @@ export const useFormFieldConfig = () => {
                         return {
                             id,
                             name: tetMetadata.displayName,
-                            metadataType: 'TRACKED_ENTITY_TYPE' as MetadataType,
+                            metadataType: MetadataTypes.trackedEntityType,
                             metadataId: tetMetadata.id,
                             sections: record,
                             valid: success,
@@ -92,6 +106,7 @@ export const useFormFieldConfig = () => {
                     
                     // 3. Finally check if it's a program stage (least common case)
                     const programStageMetadata = programStages?.find((stage) => stage.id === id);
+
                     if (programStageMetadata) {
                         const { success } = ContextFormSchema.safeParse(record);
                         const parentProgram = programs?.find(program => program.id === programStageMetadata.program.id);
@@ -100,11 +115,12 @@ export const useFormFieldConfig = () => {
                         return {
                             id,
                             name: programStageMetadata.displayName,
-                            metadataType: 'PROGRAM_STAGE' as MetadataType,
+                            metadataType: MetadataTypes.programStage,
                             metadataId: programStageMetadata.id,
                             parentId: programStageMetadata.program.id,
                             parentName: parentProgram?.displayName,
                             parentHasConfiguration,
+                            sortOrder: programStageMetadata.sortOrder,
                             sections: record,
                             valid: success,
                         };

@@ -1,0 +1,1 @@
+export { MetadataRouterComponent } from './MetadataRouterComponent'

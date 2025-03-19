@@ -14,7 +14,7 @@ import { ScrollArea } from "../components/ui/scroll-area"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { z } from "zod"
-import { PluginSchema } from "./Pages/EditFormFieldConfig/FormController/hooks/useFormFieldController"
+import { PluginSchema } from "./Pages/FormFieldConfigurator/FormController/hooks/useFormFieldController"
 
 interface Props {
   plugins: Array<z.infer<typeof PluginSchema>>
@@ -30,7 +30,7 @@ type LocalPluginFormValues = z.infer<typeof LocalPluginFormSchema>
 
 export function PluginAdderComponent({ plugins, onAddPlugin }: Props) {
   const [open, setOpen] = useState(false)
-  
+
   const form = useForm<LocalPluginFormValues>({
     resolver: zodResolver(LocalPluginFormSchema),
     defaultValues: {
@@ -78,9 +78,9 @@ export function PluginAdderComponent({ plugins, onAddPlugin }: Props) {
                   {...form.register('localPluginUrl')}
                   className="flex-grow"
                 />
-                <Button 
-                  type="submit" 
-                  className="ml-2" 
+                <Button
+                  type="submit"
+                  className="ml-2"
                   disabled={!form.formState.isValid}
                 >
                   Add

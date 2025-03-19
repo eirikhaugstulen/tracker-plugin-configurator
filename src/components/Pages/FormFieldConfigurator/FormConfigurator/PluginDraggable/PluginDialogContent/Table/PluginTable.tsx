@@ -9,14 +9,14 @@ import {Form} from "../../../../../../ui/form";
 import {z} from "zod";
 import useNestedForm from "../../../../../FormFieldPlugins/hooks/useNestedForm";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {FormAttribute} from "../../../../hooks/useMetadataFromType/Constants";
+import { FormField } from "../../../../hooks/useMetadataFromType/Constants";
 import { HelpTooltip } from "../../../../../../HelpTooltip";
 
 type Props = {
     selectedAttributes: Record<string, string>,
     addAttribute: (IdFromApp: string, IdFromPlugin: string) => void,
     removeAttribute: (IdFromApp: string) => void,
-    attributes: Record<string, z.infer<typeof FormAttribute>>,
+    attributes: Record<string, z.infer<typeof FormField>>,
 }
 
 export const PluginTable = ({ selectedAttributes, addAttribute, removeAttribute, attributes }: Props) => {
@@ -65,18 +65,19 @@ export const PluginTable = ({ selectedAttributes, addAttribute, removeAttribute,
                     <TableBody>
                         {Object.keys(selectedAttributes).length > 0 ? Object.entries(selectedAttributes)
                             .map(([IdFromApp, IdFromPlugin]) => {
-                                    return (
-                                        <TableRow key={IdFromApp}>
-                                            <TableCell>
+                                const attribute = attributes[IdFromApp];
+                                return (
+                                    <TableRow key={IdFromApp}>
+                                        <TableCell>
                                                 <TooltipProvider>
                                                     <Tooltip>
                                                         <TooltipTrigger className={'text-left'}>
                                                             <p className={'truncate w-32'}>
-                                                                {attributes[IdFromApp]?.displayName}
+                                                                {attribute?.displayName}
                                                             </p>
                                                         </TooltipTrigger>
                                                         <TooltipContent>
-                                                            {attributes[IdFromApp]?.displayName}
+                                                            {attribute?.displayName}
                                                         </TooltipContent>
                                                     </Tooltip>
                                                 </TooltipProvider>

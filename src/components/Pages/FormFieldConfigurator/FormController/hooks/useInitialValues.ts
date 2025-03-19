@@ -16,10 +16,10 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
         if (!existingFormFieldConfig) return metadata.sections.map(section => ({
             id: section.id,
             displayName: section.displayName,
-            fields: section.attributes.map(attribute => ({
-                id: attribute.id,
-                displayName: attribute.displayName,
-                valueType: attribute.valueType,
+            fields: section.fields.map(field => ({
+                id: field.id,
+                displayName: field.displayName,
+                valueType: field.valueType,
                 type: 'TrackedEntityAttribute' as const,
             }))
         }))
@@ -45,13 +45,13 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
                     return plugin;
                 }
 
-                const attribute = metadata.attributes[field.id]
-                if (!attribute) return null;
+                const fieldMetadata = metadata.fields[field.id]
+                if (!fieldMetadata) return null;
 
                 return {
-                    id: attribute.id,
-                    displayName: attribute.displayName,
-                    valueType: attribute.valueType,
+                    id: field.id,
+                    displayName: fieldMetadata.displayName,
+                    valueType: fieldMetadata.valueType,
                     type: 'TrackedEntityAttribute' as const,
                 }
             }).filter(Boolean);

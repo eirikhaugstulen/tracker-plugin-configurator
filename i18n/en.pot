@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-03-17T18:30:47.826Z\n"
-"PO-Revision-Date: 2025-03-17T18:30:47.826Z\n"
+"POT-Creation-Date: 2025-03-19T14:17:34.721Z\n"
+"PO-Revision-Date: 2025-03-19T14:17:34.721Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -245,6 +245,13 @@ msgstr "Enrollment widget"
 msgid "Display and edit the enrollment details"
 msgstr "Display and edit the enrollment details"
 
+msgid ""
+"Could not find the program, event program or tracked entity type with the "
+"provided ID."
+msgstr ""
+"Could not find the program, event program or tracked entity type with the "
+"provided ID."
+
 msgid "Available plugins"
 msgstr "Available plugins"
 
@@ -328,6 +335,12 @@ msgstr "Configuration saved successfully"
 
 msgid "Validation successful - no errors found"
 msgstr "Validation successful - no errors found"
+
+msgid "Unsupported metadata type."
+msgstr "Unsupported metadata type."
+
+msgid "Program stage ID is required"
+msgstr "Program stage ID is required"
 
 msgid "Profile"
 msgstr "Profile"
@@ -422,11 +435,49 @@ msgstr "Failed to delete configuration"
 msgid "At least one of title, leftColumn, or rightColumn must be defined"
 msgstr "At least one of title, leftColumn, or rightColumn must be defined"
 
-msgid "Tracked entity type is required"
-msgstr "Tracked entity type is required"
+msgid "Configuration context is required"
+msgstr "Configuration context is required"
 
-msgid "Let's start by selecting the context you want to customize."
-msgstr "Let's start by selecting the context you want to customize."
+msgid ""
+"Let's start by selecting the context you want to customize. You can "
+"configure for tracked entity types, tracker programs, or event programs."
+msgstr ""
+"Let's start by selecting the context you want to customize. You can "
+"configure for tracked entity types, tracker programs, or event programs."
+
+msgid "An error occurred while loading metadata"
+msgstr "An error occurred while loading metadata"
+
+msgid ""
+"There seems like you don't have metadata access to any tracked entity types "
+"or programs"
+msgstr ""
+"There seems like you don't have metadata access to any tracked entity types "
+"or programs"
+
+msgid "Configuration Context"
+msgstr "Configuration Context"
+
+msgid "Please select a configuration context"
+msgstr "Please select a configuration context"
+
+msgid "Tracked Entity Types"
+msgstr "Tracked Entity Types"
+
+msgid "Tracker Programs"
+msgstr "Tracker Programs"
+
+msgid "Event Programs"
+msgstr "Event Programs"
+
+msgid "No program stages available for this program"
+msgstr "No program stages available for this program"
+
+msgid "Program Stage (optional)"
+msgstr "Program Stage (optional)"
+
+msgid "Select to configure a specific program stage (optional)"
+msgstr "Select to configure a specific program stage (optional)"
 
 msgid "Program (optional)"
 msgstr "Program (optional)"
@@ -461,14 +512,17 @@ msgstr "Tracked Entity Type"
 msgid "Please select a tracked entity type"
 msgstr "Please select a tracked entity type"
 
-msgid "Tracked entity types"
-msgstr "Tracked entity types"
+msgid "Tracker Program"
+msgstr "Tracker Program"
 
-msgid "Programs"
-msgstr "Programs"
+msgid "Event Program"
+msgstr "Event Program"
 
-msgid "Validation"
-msgstr "Validation"
+msgid "Metadata type"
+msgstr "Metadata type"
+
+msgid "Valid"
+msgstr "Valid"
 
 msgid ""
 "There is an error with this configuration. Please delete and create a new "

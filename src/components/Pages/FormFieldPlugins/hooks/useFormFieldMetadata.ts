@@ -21,16 +21,12 @@ const ProgramMetadataSchema = z.object({
     programType: z.string({ required_error: 'Program type is missing in the API Payload. Please report the issue to the app maintainer.' }),
     programStages: z.array(z.object({
         id: z.string(),
-        displayName: z.string()
+        displayName: z.string(),
+        sortOrder: z.number().optional(),
+        program: z.object({
+            id: z.string(),
+        }),
     })).optional(),
-});
-
-const ProgramStageMetadataSchema = z.object({
-    id: z.string({ required_error: 'Program stage id is missing in the API Payload.' }),
-    displayName: z.string({ required_error: 'Program stage display name is missing in the API Payload.' }),
-    program: z.object({
-        id: z.string({ required_error: 'Program id is missing in the API Payload.' }),
-    }),
 });
 
 const TrackedEntityTypeMetadataSchema = z.object({
@@ -46,28 +42,13 @@ export const useFormFieldMetadata = () => {
             programsQuery: {
                 resource: 'programs',
                 params: {
-                    fields: 'id,displayName,access[read,write,data[read,write]],trackedEntityType[id,displayName],programType,programStages[id,displayName]',
+                    fields: 'id,displayName,access[read,write,data[read,write]],trackedEntityType[id,displayName],programType,programStages[id,displayName,sortOrder,program[id]]',
                     pageSize: 1000,
                 }
             },
         });
 
         return ProgramMetadataSchema.array().parse(programsQuery.programs);
-    }
-
-    const getProgramStages = async () => {
-        const { programStagesQuery }: any = await dataEngine.query({
-            programStagesQuery: {
-                resource: 'programStages',
-                params: {
-                    fields: 'id,displayName,program[id]',
-                    pageSize: 2000,
-                }
-            },
-        });
-
-        console.log('Raw program stages data:', programStagesQuery);
-        return ProgramStageMetadataSchema.array().parse(programStagesQuery.programStages);
     }
 
     const getTrackedEntityTypes = async () => {
@@ -91,53 +72,13 @@ export const useFormFieldMetadata = () => {
         staleTime: Infinity,
     });
 
-    const { data: programStagesFromApi, error: programStagesError, isLoading: isLoadingProgramStages } = useQuery({
-        queryKey: ['formFieldMetadata', 'programStages'],
-        queryFn: getProgramStages,
-        cacheTime: Infinity,
-        staleTime: Infinity,
-        onSuccess: (data) => {
-            console.log('Successfully fetched program stages from API:', data?.length);
-        }
-    });
-
-    // Extract program stages from programs as a backup
-    const programStagesFromPrograms = useMemo(() => {
+    const programStages = useMemo(() => {
         if (!programs) return [];
         
-        const stages: {
-            id: string;
-            displayName: string;
-            program: {
-                id: string;
-            };
-        }[] = [];
-        
-        programs.forEach(program => {
-            if (program.programStages) {
-                program.programStages.forEach(stage => {
-                    stages.push({
-                        id: stage.id,
-                        displayName: stage.displayName,
-                        program: {
-                            id: program.id
-                        }
-                    });
-                });
-            }
-        });
-        
-        console.log('Extracted program stages from programs:', stages.length);
-        return stages;
+        return programs
+            .filter((program: any) => program.programType === 'WITH_REGISTRATION')
+            .flatMap((program: any) => program.programStages);
     }, [programs]);
-    
-    // Combine program stages from both sources, preferring the API result if available
-    const programStages = useMemo(() => {
-        if (programStagesFromApi && programStagesFromApi.length > 0) {
-            return programStagesFromApi;
-        }
-        return programStagesFromPrograms;
-    }, [programStagesFromApi, programStagesFromPrograms]);
 
     const { data: trackedEntityTypes, error: tetError, isLoading: isLoadingTet } = useQuery({
         queryKey: ['formFieldMetadata', 'trackedEntityTypes'],
@@ -147,16 +88,16 @@ export const useFormFieldMetadata = () => {
     });
 
     useEffect(() => {
-        const errors = [programsError, programStagesError, tetError].filter(Boolean);
+        const errors = [programsError, tetError].filter(Boolean);
         if (errors.length > 0) {
             errors.forEach(error => console.error(error));
         }
-    }, [programsError, programStagesError, tetError]);
+    }, [programsError, tetError]);
 
     return {
         programs,
         programStages,
         trackedEntityTypes,
-        isLoading: isLoadingPrograms || isLoadingProgramStages || isLoadingTet,
+        isLoading: isLoadingPrograms || isLoadingTet,
     }
 }

@@ -1,10 +1,10 @@
 import React from "react";
 import i18n from '@dhis2/d2-i18n';
-import {WidgetTypes} from "../../EditModePage/hooks/useDefaultValues";
-import {Widgets} from "../../Widgets.constants";
-import {PluginSchema} from "../../../EditFormFieldConfig/FormController";
-import {z} from "zod";
-import {ApiColumnSchema} from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
+import { WidgetTypes } from "../../EditModePage/hooks/useDefaultValues";
+import { Widgets } from "../../Widgets.constants";
+import { PluginSchema } from "../../../FormFieldConfigurator/FormController";
+import { z } from "zod";
+import { ApiColumnSchema } from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
 
 type ItemDisplayProps = {
     item: z.infer<typeof ApiColumnSchema>[0]

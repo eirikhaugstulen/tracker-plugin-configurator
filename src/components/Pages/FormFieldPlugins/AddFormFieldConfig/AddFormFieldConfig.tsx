@@ -52,10 +52,8 @@ export const AddFormFieldConfig = () => {
                 const program = programs.find(p => p.id === actualId);
                 const isTrackerProgram = program?.programType === 'WITH_REGISTRATION';
 
-                // Only use program stage routing for tracker programs with explicit stage selection
                 if (isTrackerProgram) {
-                    navigate(`/formField/${actualId}/programStage/${programStageId}`);
-                    return;
+                    actualId = programStageId;
                 }
             }
         }

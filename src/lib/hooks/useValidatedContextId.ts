@@ -1,7 +1,7 @@
 import {useProgramsWithMetadataAccess} from "./useProgramsWithMetadataAccess";
 import {useTrackedEntityTypes} from "./useTrackedEntityTypes";
 import {useMemo} from "react";
-import { useParams } from "react-router-dom";
+import { MetadataType, MetadataTypes } from "../../components/Pages/FormFieldPlugins/hooks/useFormFieldConfig";
 
 type Props = {
     contextId: string | undefined,
@@ -9,22 +9,18 @@ type Props = {
 
 type Return = {
     validatedContextId: string | null,
-    programStageId: string | null,
-    metadataType: 'trackerProgram' | 'eventProgram' | 'trackedEntityType' | 'programStage' | null,
+    metadataType: MetadataType | null,
     isLoading: boolean,
     isError: boolean,
 }
 
 export const useValidatedContextId = ({ contextId }: Props): Return => {
-    // Check if we have a program stage in the URL
-    const params = useParams<{ programStageId?: string }>();
-    const programStageId = params.programStageId || null;
-    
     const {
         programs,
         isLoading: isLoadingPrograms,
         isError: isErrorPrograms,
     } = useProgramsWithMetadataAccess();
+
     const {
         trackedEntityTypes,
         isLoading: isLoadingTETs,
@@ -34,11 +30,9 @@ export const useValidatedContextId = ({ contextId }: Props): Return => {
     const {
         validatedContextId,
         metadataType,
-        validatedProgramStageId,
     }: {
         validatedContextId: string | null,
-        metadataType: 'trackerProgram' | 'eventProgram' | 'trackedEntityType' | 'programStage' | null,
-        validatedProgramStageId: string | null,
+        metadataType: MetadataType | null,
     } = useMemo(() => {
         if (!contextId) {
             return {
@@ -55,19 +49,9 @@ export const useValidatedContextId = ({ contextId }: Props): Return => {
             // Determine if this is a tracker program or event program
             const isTrackerProgram = program.programType === 'WITH_REGISTRATION';
             
-            // For tracker programs, check if a specific program stage is requested
-            if (programStageId) {
-                return {
-                    validatedContextId: program.id,
-                    metadataType: 'programStage',
-                    validatedProgramStageId: programStageId,
-                }
-            }
-            
             return {
                 validatedContextId: program.id,
-                metadataType: isTrackerProgram ? 'trackerProgram' : 'eventProgram',
-                validatedProgramStageId: null,
+                metadataType: isTrackerProgram ? MetadataTypes.trackerProgram : MetadataTypes.eventProgram,
             }
         }
 
@@ -77,21 +61,32 @@ export const useValidatedContextId = ({ contextId }: Props): Return => {
         if (trackedEntityType) {
             return {
                 validatedContextId: trackedEntityType.id,
-                metadataType: 'trackedEntityType',
-                validatedProgramStageId: null,
+                metadataType: MetadataTypes.trackedEntityType,
+            }
+        }
+
+        // Check if contextId is a program stage
+        const programStage = programs
+            ?.filter(program => program.programType === 'WITH_REGISTRATION')
+            ?.flatMap(program => program.programStages || [])
+            ?.find(programStage => programStage.id === contextId);
+
+        if (programStage) {
+            return {
+                validatedContextId: programStage.id,
+                metadataType: MetadataTypes.programStage,
             }
         }
 
         return {
             validatedContextId: null,
             metadataType: null,
-            validatedProgramStageId: null,
         }
-    }, [contextId, programs, trackedEntityTypes, programStageId])
+        
+    }, [contextId, programs, trackedEntityTypes])
 
     return {
         validatedContextId,
-        programStageId: validatedProgramStageId,
         metadataType,
         isLoading: isLoadingPrograms || isLoadingTETs,
         isError: isErrorPrograms || isErrorTETs,

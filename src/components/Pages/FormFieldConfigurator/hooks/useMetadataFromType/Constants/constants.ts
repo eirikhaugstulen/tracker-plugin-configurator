@@ -1,6 +1,9 @@
-import {getTrackedEntityTypeById} from "./getTrackedEntityType";
-import {getProgramsById} from "./getProgramsById";
 import {z} from "zod";
+import {getTrackedEntityTypeById} from "./getTrackedEntityType";
+import {getTrackerProgramById} from "./getTrackerProgramById";
+import {getEventProgramById} from "./getEventProgramById";
+import { MetadataTypes } from "../../../../FormFieldPlugins/hooks/useFormFieldConfig";
+import { getProgramStageById } from "./getProgramStageById";
 
 export type FunctionProps = {
     resourceId: string,
@@ -8,7 +11,7 @@ export type FunctionProps = {
     programStageId?: string | null,
 }
 
-export const FormAttribute = z.object({
+export const FormField = z.object({
     id: z.string(),
     displayName: z.string(),
     valueType: z.string(),
@@ -17,11 +20,7 @@ export const FormAttribute = z.object({
 export const FormSection = z.object({
     id: z.string(),
     displayName: z.string(),
-    attributes: z.array(z.object({
-        id: z.string(),
-        displayName: z.string(),
-        valueType: z.string(),
-    })),
+    fields: z.array(FormField),
 })
 
 export const ConvertedMetadataSchema = z.object({
@@ -35,11 +34,13 @@ export const ConvertedMetadataSchema = z.object({
             write: z.boolean(),
         }),
     }),
-    attributes: z.record(z.string(), FormAttribute),
+    fields: z.record(z.string(), FormField),
     sections: z.array(FormSection),
 });
 
 export const FetchFunctionsByType = {
-    program: getProgramsById,
-    trackedEntityType: getTrackedEntityTypeById,
+    [MetadataTypes.trackerProgram]: getTrackerProgramById,
+    [MetadataTypes.eventProgram]: getEventProgramById,
+    [MetadataTypes.trackedEntityType]: getTrackedEntityTypeById,
+    [MetadataTypes.programStage]: getProgramStageById,
 }

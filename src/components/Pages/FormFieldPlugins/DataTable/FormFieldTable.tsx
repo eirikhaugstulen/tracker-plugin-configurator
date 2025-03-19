@@ -1,9 +1,10 @@
+import clsx from "clsx";
 import React, { useMemo } from "react";
 import i18n from '@dhis2/d2-i18n';
 import { Table, TableBody, TableCell, TableRow } from "../../../ui/table";
 import { Header } from "./Header";
 import { Skeleton } from "../../../ui/skeleton";
-import { FormFieldRecord, MetadataType } from "../hooks/useFormFieldConfig";
+import { FormFieldRecord, MetadataType, MetadataTypes } from "../hooks/useFormFieldConfig";
 import { ActionsButton } from "./ActionsButton";
 import { ValidationsIconCell } from "./ValidationsIconCell";
 import { ArrowRightIcon, CornerDownRightIcon } from "lucide-react";
@@ -14,15 +15,16 @@ type Props = {
     isError: boolean,
 }
 
+
 const getMetadataTypeLabel = (type: MetadataType): string => {
     switch (type) {
-        case 'TRACKER_PROGRAM':
+        case MetadataTypes.trackerProgram:
             return i18n.t('Tracker Program');
-        case 'EVENT_PROGRAM':
+        case MetadataTypes.eventProgram:
             return i18n.t('Event Program');
-        case 'TRACKED_ENTITY_TYPE':
+        case MetadataTypes.trackedEntityType:
             return i18n.t('Tracked Entity Type');
-        case 'PROGRAM_STAGE':
+        case MetadataTypes.programStage:
             return i18n.t('Program Stage');
         default:
             return type;
@@ -41,7 +43,7 @@ export const FormFieldTable = ({
         // First create a map of program IDs to program records
         const programMap = new Map<string, FormFieldRecord>();
         records.forEach(record => {
-            if (record.metadataType === 'TRACKER_PROGRAM' || record.metadataType === 'EVENT_PROGRAM') {
+            if (record.metadataType === MetadataTypes.trackerProgram || record.metadataType === MetadataTypes.eventProgram) {
                 programMap.set(record.id, record);
             }
         });
@@ -55,7 +57,7 @@ export const FormFieldTable = ({
         const trackedEntityTypes: FormFieldRecord[] = [];
 
         records.forEach(record => {
-            if (record.metadataType === 'PROGRAM_STAGE') {
+            if (record.metadataType === MetadataTypes.programStage) {
                 programStages.push(record);
 
                 // Group by parent program
@@ -63,9 +65,9 @@ export const FormFieldTable = ({
                     const existing = programStagesByProgram.get(record.parentId) || [];
                     programStagesByProgram.set(record.parentId, [...existing, record]);
                 }
-            } else if (record.metadataType === 'TRACKER_PROGRAM' || record.metadataType === 'EVENT_PROGRAM') {
+            } else if (record.metadataType === MetadataTypes.trackerProgram || record.metadataType === MetadataTypes.eventProgram) {
                 programs.push(record);
-            } else if (record.metadataType === 'TRACKED_ENTITY_TYPE') {
+            } else if (record.metadataType === MetadataTypes.trackedEntityType) {
                 trackedEntityTypes.push(record);
             }
         });
@@ -77,7 +79,7 @@ export const FormFieldTable = ({
         programs.forEach(program => {
             sorted.push(program);
             const stages = programStagesByProgram.get(program.id) || [];
-            stages.sort((a, b) => a.name.localeCompare(b.name));
+            stages.sort((a, b) => a.sortOrder - b.sortOrder);
             sorted.push(...stages);
         });
 
@@ -153,15 +155,15 @@ export const FormFieldTable = ({
             <Header />
             <TableBody>
                 {sortedRecords.map((record) => {
-                    const isProgramStage = record.metadataType === 'PROGRAM_STAGE';
+                    const isProgramStage = record.metadataType === MetadataTypes.programStage;
                     const isInvalid = !record.valid;
 
-                    let rowClassName = 'cursor-pointer';
-                    if (isInvalid) {
-                        rowClassName += ' bg-gray-100 italic text-gray-600';
-                    } else if (isProgramStage) {
-                        rowClassName += ' bg-gray-50';
-                    }
+                    let rowClassName = clsx(
+                        'cursor-pointer',
+                        isInvalid && 'bg-gray-100 italic text-gray-600',
+                        isProgramStage && 'bg-gray-50'
+                    );
+
 
                     return (
                         <TableRow
