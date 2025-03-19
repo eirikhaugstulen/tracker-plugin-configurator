@@ -79,7 +79,7 @@ export const FormFieldTable = ({
         programs.forEach(program => {
             sorted.push(program);
             const stages = programStagesByProgram.get(program.id) || [];
-            stages.sort((a, b) => a.sortOrder - b.sortOrder);
+            stages.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
             sorted.push(...stages);
         });
 
@@ -203,8 +203,6 @@ export const FormFieldTable = ({
                             <TableCell align={'right'}>
                                 <ActionsButton
                                     id={record.id}
-                                    metadataType={record.metadataType}
-                                    parentId={record.parentId}
                                 />
                             </TableCell>
                         </TableRow>

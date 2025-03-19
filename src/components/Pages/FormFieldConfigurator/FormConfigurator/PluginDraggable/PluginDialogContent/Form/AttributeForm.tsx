@@ -3,14 +3,14 @@ import {TableCell, TableRow} from "../../../../../../ui/table";
 import i18n from '@dhis2/d2-i18n';
 import React from "react";
 import {z} from "zod";
-import {FormAttribute} from "../../../../hooks/useMetadataFromType/Constants";
+import type { FormField as FormFieldMetadata } from "../../../../hooks/useMetadataFromType/Constants";
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../../../../../ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../../../../../ui/select";
 import {Input} from "../../../../../../ui/input";
 import {Control} from "react-hook-form";
 
 type Props = {
-    attributes: Record<string, z.infer<typeof FormAttribute>>,
+    attributes: Record<string, z.infer<typeof FormFieldMetadata>>,
     selectedAttributes: Record<string, string>,
     control: Control<{IdFromApp: string, IdFromPlugin: string}>
 }

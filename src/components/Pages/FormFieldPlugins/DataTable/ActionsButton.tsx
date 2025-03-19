@@ -12,27 +12,18 @@ import { Loader2, MoreHorizontalIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "../../../ui/dialog";
 import { useDeleteFormConfig } from "../hooks/useDeleteFormConfig";
 import { useNavigate } from "react-router-dom";
-import { MetadataType } from "../hooks/useFormFieldConfig";
 
 type Props = {
     id: string;
-    metadataType: MetadataType;
-    parentId?: string;
 }
 
-export const ActionsButton = ({ id, metadataType, parentId }: Props) => {
+export const ActionsButton = ({ id }: Props) => {
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
     const navigate = useNavigate();
     const { deleteFormConfig, isSubmitting } = useDeleteFormConfig();
 
     const onEditClick = () => {
-        // For program stages, use the /formField/:formFieldId/programStage/:programStageId route
-        if (metadataType === 'PROGRAM_STAGE' && parentId) {
-            navigate(`/formField/${parentId}/programStage/${id}`);
-        } else {
-            // For all other types (tracker programs, event programs, tracked entity types)
-            navigate(`/formField/${id}`);
-        }
+        navigate(`/formField/${id}`);
     }
 
     const handleDelete = async () => {

@@ -17,7 +17,7 @@ export const trackerProgramSchema = z.object({
     programStages: z.array(z.object({
         id: z.string({ required_error: 'Program stage id is required' }),
         displayName: z.string({ required_error: 'Program stage display name is required' }),
-    })).optional(),
+    })),
 });
 
 export const useProgramsWithMetadataAccess = () => {
@@ -39,7 +39,7 @@ export const useProgramsWithMetadataAccess = () => {
     }
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['tracker-programs'],
+        queryKey: ['programs'],
         queryFn: getPrograms,
         staleTime: Infinity,
         cacheTime: Infinity,

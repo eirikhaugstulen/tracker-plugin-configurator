@@ -6,7 +6,6 @@ import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "../.
 import {Button} from "../../../../../ui/button";
 import {z} from "zod";
 import {PluginSchema} from "../../../FormController";
-import {useMetadataFromType} from "../../../hooks/useMetadataFromType/useMetadataFromType";
 import {Input} from "../../../../../ui/input";
 import {PluginTable} from "./Table";
 import {Separator} from "../../../../../ui/separator";

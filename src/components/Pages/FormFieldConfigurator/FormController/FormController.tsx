@@ -20,11 +20,6 @@ type Props = {
     formFieldId: string,
     apps: Array<z.infer<typeof appsSchema>>
     existingFormFieldConfig: FormFieldRecord | null | undefined,
-    onSave?: (formData: {
-        formFields: Array<any>,
-        formFieldId: string,
-        pluginConfigurations: Record<string, any>
-    }) => Promise<void>
 }
 
 const ValidationErrorToast = ({ errorMessage }: { errorMessage: string }) => {
@@ -38,7 +33,7 @@ const ValidationErrorToast = ({ errorMessage }: { errorMessage: string }) => {
     )
 }
 
-export const FormController = ({ metadata, formFieldId, apps, existingFormFieldConfig, onSave }: Props) => {
+export const FormController = ({ metadata, formFieldId, apps, existingFormFieldConfig }: Props) => {
     const availablePlugins = useMemo(() => {
         const filteredApps = apps.filter(app => app.pluginLaunchUrl);
 
@@ -76,25 +71,6 @@ export const FormController = ({ metadata, formFieldId, apps, existingFormFieldC
             toast.error(<ValidationErrorToast errorMessage={e} />)
         }
     });
-
-    const handleSave = async () => {
-        try {
-            if (onSave) {
-                // Use the type-specific save handler if provided
-                await onSave({
-                    formFields,
-                    formFieldId,
-                    pluginConfigurations,
-                });
-            } else {
-                // Fall back to the default save behavior
-                await validateAndSave();
-            }
-        } catch (error) {
-            // Error handling is done in the individual save handlers
-            // or in the validateAndSave function
-        }
-    };
 
     return (
         <>

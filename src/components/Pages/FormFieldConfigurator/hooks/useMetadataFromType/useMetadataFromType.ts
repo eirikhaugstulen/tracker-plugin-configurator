@@ -2,8 +2,7 @@ import {useDataEngine} from "@dhis2/app-runtime";
 import {FetchFunctionsByType} from "./Constants/constants";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect} from "react";
-import { MetadataType } from "src/components/Pages/FormFieldPlugins/hooks/useFormFieldConfig";
-
+import { MetadataType } from "../../../FormFieldPlugins/hooks/useFormFieldConfig";
 
 type Props = {
     resourceId: string,
