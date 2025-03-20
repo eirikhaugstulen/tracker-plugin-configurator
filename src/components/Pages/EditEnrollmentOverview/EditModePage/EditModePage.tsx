@@ -137,22 +137,23 @@ export const EditModePage = ({ programId, record, page, allPlugins, onBack }: Pr
                     <DragDropContext
                         onDragEnd={onDragEnd}
                     >
-                        <div className={'flex gap-4'}>
-                            <div className={'w-3/4'}>
+                        <div className={'flex gap-4 mt-4'}>
+                            <div className={'grow basis-3/4'}>
                                 <FormWidgetColumn
                                     columnName={'leftColumn'}
                                     availableWidgets={availableWidgets}
                                     availablePlugins={availablePlugins}
                                     allPlugins={allPlugins}
+                                    page={page}
                                 />
                             </div>
-
-                            <div className={'w-1/4'}>
+                            <div className={'grow basis-1/4'}>
                                 <FormWidgetColumn
                                     columnName={'rightColumn'}
                                     availableWidgets={availableWidgets}
                                     availablePlugins={availablePlugins}
                                     allPlugins={allPlugins}
+                                    page={page}
                                 />
                             </div>
                         </div>

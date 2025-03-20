@@ -11,15 +11,18 @@ import { Button } from "../../../../ui/button";
 import { ApiDataStoreInfoPerProgram } from "../../../EnrollmentOverview/hooks/useEnrollmentDataStoreInfo";
 import { useFormContext } from "react-hook-form";
 import { LocalPluginForm } from "./LocalPluginForm";
+import { DefaultPageLayout } from "../../EditModePage/hooks/useDefaultValues";
+import { WidgetTypes } from "../../EditModePage/hooks/useDefaultValues";
 
 type Props = {
     columnName: 'leftColumn' | 'rightColumn'
     availableWidgets: Array<z.infer<typeof NativeWidgetSchema>>,
     availablePlugins: Array<z.infer<typeof PluginSchema>>,
     allPlugins: Array<z.infer<typeof PluginSchema>>;
+    page: 'overview' | 'newEvent' | 'editEvent';
 }
 
-export const AddComponent = ({ columnName, availablePlugins, availableWidgets, allPlugins }: Props) => {
+export const AddComponent = ({ columnName, availablePlugins, availableWidgets, allPlugins, page }: Props) => {
     const [open, setOpen] = useState(false);
     const {
         setValue,
@@ -46,10 +49,17 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
         const widget = Widgets[componentName as keyof typeof Widgets];
         if (!widget) return;
 
+        // Get the default settings for this page
+        const defaultPageLayout = DefaultPageLayout[page];
+        const defaultComponent = defaultPageLayout[columnName]?.find(
+            (item: { type: 'plugin'; source: string; settings?: Record<string, any> } | { type: 'component'; name: string; settings?: Record<string, any> }) =>
+                item.type === WidgetTypes.COMPONENT && 'name' in item && item.name === componentName
+        );
+
         newValues.unshift({
             type: 'component',
             name: widget.name,
-            settings: widget.settings,
+            settings: defaultComponent?.settings ?? widget.settings,
         });
 
         setValue(columnName, newValues);

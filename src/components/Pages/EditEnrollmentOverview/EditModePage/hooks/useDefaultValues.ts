@@ -153,7 +153,7 @@ const DefaultEventEditPageLayout: z.infer<typeof ApiDataStoreInfoPerProgram> = {
     ],
 }
 
-const DefaultPageLayout = {
+export const DefaultPageLayout = {
     overview: DefaultOverviewPageLayout,
     newEvent: DefaultEventNewPageLayout,
     editEvent: DefaultEventEditPageLayout,
