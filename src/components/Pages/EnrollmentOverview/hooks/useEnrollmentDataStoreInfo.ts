@@ -2,6 +2,7 @@ import {z} from "zod";
 import i18n from "@dhis2/d2-i18n";
 import {useDataEngine} from "@dhis2/app-runtime";
 import {useQuery} from "@tanstack/react-query";
+import {useMemo} from "react";
 import {useProgramsWithMetadataAccess} from "../../../../lib/hooks/useProgramsWithMetadataAccess";
 
 const ApiPluginSchema = z.object({
@@ -50,12 +51,18 @@ export const FormattedEnrollmentDataStoreInfo = z.object({
     }),
 });
 
+export interface RawDataStoreConfigs {
+    enrollmentOverviewLayout: z.infer<typeof ApiEnrollmentDataStoreSchema>;
+    enrollmentEventNewLayout: z.infer<typeof ApiEnrollmentDataStoreSchema>;
+    enrollmentEventEditLayout: z.infer<typeof ApiEnrollmentDataStoreSchema>;
+}
+
 export const useEnrollmentDataStoreInfo = () => {
     const dataEngine = useDataEngine();
     const { programs, isLoading: isLoadingPrograms } = useProgramsWithMetadataAccess();
 
-    const fetchEnrollmentDataStoreConfigs = async () => {
-        return dataEngine.query({
+    const fetchEnrollmentDataStoreConfigs = async (): Promise<RawDataStoreConfigs> => {
+        const response = await dataEngine.query({
             enrollmentOverviewLayout: {
                 resource: 'dataStore/capture',
                 id: 'enrollmentOverviewLayout'
@@ -68,24 +75,26 @@ export const useEnrollmentDataStoreInfo = () => {
                 resource: 'dataStore/capture',
                 id: 'enrollmentEventEditLayout'
             }
-        });
+        }) as unknown;
+
+        return {
+            enrollmentOverviewLayout: (response as any).enrollmentOverviewLayout ?? {},
+            enrollmentEventNewLayout: (response as any).enrollmentEventNewLayout ?? {},
+            enrollmentEventEditLayout: (response as any).enrollmentEventEditLayout ?? {},
+        };
     }
 
-    const { data, isLoading, isError } = useQuery({
-        // @ts-ignore
-        queryKey: ['enrollmentDataStoreConfigs'],
-        queryFn: fetchEnrollmentDataStoreConfigs,
-        staleTime: Infinity,
-        cacheTime: Infinity,
-        enabled: !isLoadingPrograms,
-        select: ({
-                     enrollmentOverviewLayout = {},
-                     enrollmentEventNewLayout = {},
-                     enrollmentEventEditLayout = {},
-                 }: Record<string, z.infer<typeof ApiEnrollmentDataStoreSchema>>) => {
+    const formatRecords = useMemo(() => {
+        return (rawData: RawDataStoreConfigs) => {
             if (!programs) {
                 throw new Error('Could not get programs');
             }
+
+            const {
+                enrollmentOverviewLayout = {},
+                enrollmentEventNewLayout = {},
+                enrollmentEventEditLayout = {},
+            } = rawData;
 
             return programs
                 .map(({ id: programId, displayName }) => {
@@ -116,11 +125,25 @@ export const useEnrollmentDataStoreInfo = () => {
                     };
                 })
                 .filter(Boolean);
-        }
+        };
+    }, [programs]);
+
+    const { data: rawData, isLoading, isError } = useQuery({
+        queryKey: ['enrollmentDataStoreConfigs'] as const,
+        queryFn: fetchEnrollmentDataStoreConfigs,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        enabled: !isLoadingPrograms,
     });
 
+    const records = useMemo(() => {
+        if (!rawData) return [];
+        return formatRecords(rawData);
+    }, [rawData, formatRecords]);
+
     return {
-        records: data as Array<z.infer<typeof FormattedEnrollmentDataStoreInfo>>,
+        records: records as Array<z.infer<typeof FormattedEnrollmentDataStoreInfo>>,
+        rawData,
         isLoading,
         isError,
     }

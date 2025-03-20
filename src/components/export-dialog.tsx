@@ -1,5 +1,5 @@
 import React, { useState, type JSX } from "react"
-import { Download, Copy, FileDown, Check, AlertCircle } from "lucide-react"
+import { Copy, FileDown, Check, AlertCircle } from "lucide-react"
 
 import { Button } from "../components/ui/button"
 import {
@@ -16,14 +16,19 @@ interface ExportDialogProps {
   data: object
   title?: string
   description?: string
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  trigger?: React.ReactNode
 }
 
 export function ExportDialog({
   data,
   title = "JSON Export",
   description = "Review your JSON data before exporting.",
+  open,
+  onOpenChange,
+  trigger
 }: ExportDialogProps) {
-  const [open, setOpen] = useState(false)
   const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle")
   const [downloadStatus, setDownloadStatus] = useState<"idle" | "success" | "error">("idle")
 
@@ -58,13 +63,8 @@ export function ExportDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Download className="mr-2 h-4 w-4" />
-          Export
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className="sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
