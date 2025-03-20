@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-03-19T23:18:06.076Z\n"
-"PO-Revision-Date: 2025-03-19T23:18:06.076Z\n"
+"POT-Creation-Date: 2025-03-20T22:01:28.568Z\n"
+"PO-Revision-Date: 2025-03-20T22:01:28.568Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -124,6 +124,12 @@ msgstr ""
 "Missing plugin metadata. Safe to ignore for local plugins, otherwise please "
 "reconfigure."
 
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Close"
+msgstr "Close"
+
 msgid "Unknown plugin"
 msgstr "Unknown plugin"
 
@@ -238,6 +244,9 @@ msgstr "Display and edit the profile of the tracked entity"
 
 msgid "Read only mode"
 msgstr "Read only mode"
+
+msgid "When enabled, the widget will hide the edit button."
+msgstr "When enabled, the widget will hide the edit button."
 
 msgid "Enrollment widget"
 msgstr "Enrollment widget"
@@ -528,8 +537,11 @@ msgstr ""
 msgid "Configuration is valid"
 msgstr "Configuration is valid"
 
-msgid "Export"
-msgstr "Export"
+msgid "Export Form Field Configurations"
+msgstr "Export Form Field Configurations"
+
+msgid "Review your raw form field configurations before exporting."
+msgstr "Review your raw form field configurations before exporting."
 
 msgid "Form Field Plugins"
 msgstr "Form Field Plugins"
