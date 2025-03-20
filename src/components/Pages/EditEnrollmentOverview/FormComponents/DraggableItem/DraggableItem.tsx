@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import i18n from '@dhis2/d2-i18n';
 import { Draggable } from 'react-beautiful-dnd';
 import { Button } from "../../../../ui/button";
-import {GripVerticalIcon, InfoIcon, SettingsIcon, XIcon} from "lucide-react";
-import {z} from "zod";
-import {SettingsSchema} from "../../Widgets.constants";
-import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "../../../../ui/dialog";
+import { GripVerticalIcon, InfoIcon, XIcon } from "lucide-react";
+import { z } from "zod";
+import { SettingsSchema } from "../../Widgets.constants";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../ui/tooltip';
+import { SettingsDialog } from './SettingsDialog';
 
 type DraggableItemProps = {
     draggableId: string;
@@ -28,8 +28,6 @@ export const DraggableItem: React.FC<DraggableItemProps> = (
         removeComponent,
         missingMetadata,
     }) => {
-    const [open, setOpen] = useState(false);
-
     return (
         <Draggable draggableId={draggableId} key={draggableId} index={index}>
             {(provided) => (
@@ -40,13 +38,12 @@ export const DraggableItem: React.FC<DraggableItemProps> = (
                     {...provided.dragHandleProps}
                 >
                     <div className={'p-1 cursor-grab'}>
-                        <GripVerticalIcon className={'h-4 w-4'}/>
+                        <GripVerticalIcon className={'h-4 w-4'} />
                     </div>
                     <div className={'w-full flex flex-col gap-2'}>
                         <p className={'truncate'}>
                             {title}
                         </p>
-
                     </div>
                     <div className={'flex items-center gap-2'}>
                         {missingMetadata && (
@@ -56,7 +53,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = (
                                         asChild
                                         type={'button'}
                                     >
-                                        <InfoIcon className={'h-4 w-4'}/>
+                                        <InfoIcon className={'h-4 w-4'} />
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         {i18n.t('Missing plugin metadata. Safe to ignore for local plugins, otherwise please reconfigure.')}
@@ -65,17 +62,12 @@ export const DraggableItem: React.FC<DraggableItemProps> = (
                             </TooltipProvider>
                         )}
                         {settings && (
-                            <Button
-                                className={'hidden'}
-                                variant={'ghost'}
-                                type={'button'}
-                                size={'sm'}
-                            >
-                                <SettingsIcon
-                                    className={'h-4 w-4 cursor-pointer'}
-                                    onClick={() => setOpen(true)}
-                                />
-                            </Button>
+                            <SettingsDialog
+                                title={title}
+                                description={description}
+                                draggableId={draggableId}
+                                settings={settings}
+                            />
                         )}
                         <Button
                             size={'sm'}
@@ -83,30 +75,9 @@ export const DraggableItem: React.FC<DraggableItemProps> = (
                             variant={'ghost'}
                             onClick={() => removeComponent(draggableId)}
                         >
-                            <XIcon className={'h-4 w-4'}/>
+                            <XIcon className={'h-4 w-4'} />
                         </Button>
                     </div>
-
-                    {settings && false && (
-                        <Dialog
-                            open={open}
-                            onOpenChange={setOpen}
-                        >
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>
-                                        {title}
-                                    </DialogTitle>
-                                    {description && (
-                                        <DialogDescription>
-                                            {description}
-                                        </DialogDescription>
-                                    )}
-                                </DialogHeader>
-
-                            </DialogContent>
-                        </Dialog>
-                    )}
                 </div>
             )}
         </Draggable>
