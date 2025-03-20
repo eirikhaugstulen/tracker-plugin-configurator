@@ -14,9 +14,10 @@ type Props = {
     availableWidgets: Array<z.infer<typeof NativeWidgetSchema>>,
     availablePlugins: Array<z.infer<typeof PluginSchema>>,
     allPlugins: Array<z.infer<typeof PluginSchema>>;
+    page: 'overview' | 'newEvent' | 'editEvent';
 }
 
-export const FormWidgetColumn = ({ columnName, availableWidgets, availablePlugins, allPlugins }: Props) => {
+export const FormWidgetColumn = ({ columnName, availableWidgets, availablePlugins, allPlugins, page }: Props) => {
     const { control, setValue } = useFormContext();
     const columnContents: z.infer<typeof ApiColumnSchema> = useWatch<z.infer<typeof ApiDataStoreInfoPerProgram>>({
         control,
@@ -43,6 +44,7 @@ export const FormWidgetColumn = ({ columnName, availableWidgets, availablePlugin
                 availableWidgets={availableWidgets}
                 availablePlugins={availablePlugins}
                 allPlugins={allPlugins}
+                page={page}
             />
 
             <Droppable

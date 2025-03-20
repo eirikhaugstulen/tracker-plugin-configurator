@@ -6,6 +6,7 @@ export const SettingsSchema = z.record(z.string(), z.object({
     dataStoreKey: z.string(),
     valueType: z.string(),
     label: z.string(),
+    description: z.string().optional(),
 }));
 
 export const NativeWidgetSchema = z.object({
@@ -153,7 +154,8 @@ export const Widgets: Record<string, z.infer<typeof NativeWidgetSchema>> = {
             readOnlyMode: {
                 dataStoreKey: 'readOnlyMode',
                 valueType: 'boolean',
-                label: i18n.t('Read only mode')
+                label: i18n.t('Read only mode'),
+                description: i18n.t('When enabled, the widget will hide the edit button.'),
             }
         }
     },
@@ -170,8 +172,9 @@ export const Widgets: Record<string, z.infer<typeof NativeWidgetSchema>> = {
             readOnlyMode: {
                 dataStoreKey: 'readOnlyMode',
                 valueType: 'boolean',
-                label: i18n.t('Read only mode')
-            }
+                label: i18n.t('Read only mode'),
+                description: i18n.t('When enabled, the widget will hide the edit button.'),
+            },
         }
     },
 } as const;
