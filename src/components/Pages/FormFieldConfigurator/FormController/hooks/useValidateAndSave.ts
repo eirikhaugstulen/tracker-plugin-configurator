@@ -19,6 +19,7 @@ const PluginFieldMapSchema = z.object({
 
 const PluginElementSchema = z.object({
     id: z.string(),
+    pluginId: z.string().optional(),
     type: z.literal('plugin'),
     pluginSource: z.string().min(1, { message: 'Missing plugin source' }),
     fieldMap: z.array(PluginFieldMapSchema),

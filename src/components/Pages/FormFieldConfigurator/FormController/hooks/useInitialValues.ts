@@ -30,10 +30,13 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
 
             const fields = section.elements.map(field => {
                 if (field.type.toLowerCase() === 'plugin') {
-                    const plugin = availablePlugins.find(plugin => plugin.id === field.id);
+                    const originalPluginId = field.id.split('_')[0];
+                    const plugin = availablePlugins.find(plugin => plugin.id === originalPluginId);
+                    
                     if (!plugin) {
                         return field.pluginSource ? ({
                             id: field.id,
+                            pluginId: originalPluginId,
                             displayName: 'Local Plugin',
                             description: 'A plugin that is hosted locally',
                             pluginLaunchUrl: field.pluginSource,
@@ -42,7 +45,11 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
                         }) : null;
                     }
 
-                    return plugin;
+                    return {
+                        ...plugin,
+                        id: field.id,
+                        pluginId: plugin.id
+                    };
                 }
 
                 const fieldMetadata = metadata.fields[field.id]
@@ -67,13 +74,14 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
     const existingPluginConfigs: Record<string, z.infer<typeof PluginSettingSchema>> = useMemo(() => {
         if (!existingFormFieldConfig) return {};
 
-        return existingFormFieldConfig.sections.reduce((acc, section) => {
+        return existingFormFieldConfig.sections.reduce((acc: Record<string, z.infer<typeof PluginSettingSchema>>, section) => {
             section.elements.forEach(element => {
                 if (element.type.toLowerCase() === 'plugin') {
-                    const plugin = availablePlugins.find(plugin => plugin.id === element.id);
+                    const originalPluginId = element.id.split('_')[0];
+                    const plugin = availablePlugins.find(plugin => plugin.id === originalPluginId);
+                    
                     if (!plugin) {
                         if (element.pluginSource) {
-                            // @ts-ignore
                             acc[element.id] = {
                                 pluginLaunchUrl: element.pluginSource,
                                 id: element.id,
@@ -83,13 +91,13 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
                         return acc;
                     }
 
-                    // @ts-ignore
-                    acc[plugin.id] = {
+                    acc[element.id] = {
                         pluginLaunchUrl: plugin.pluginLaunchUrl,
-                        id: plugin.id,
+                        id: element.id,
                         fieldMap: element.fieldMap,
+                    }
                 }
-            }})
+            })
 
             return acc;
         }, {})
