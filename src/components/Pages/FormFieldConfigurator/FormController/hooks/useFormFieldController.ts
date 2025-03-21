@@ -8,6 +8,7 @@ import {useInitialValues} from "./useInitialValues";
 
 export const PluginSchema = z.object({
     id: z.string(),
+    pluginId: z.string().optional(),
     displayName: z.string(),
     pluginLaunchUrl: z.string(),
     description: z.string().optional(),
@@ -54,8 +55,37 @@ export const useFormFieldController = ({ metadata, availablePlugins, existingFor
     }
 
     const addPluginToSection = (sectionId: string, pluginId: string, index: number) => {
+        // First try to find the plugin in the existing fields (for drag and drop)
+        const existingPlugin = formFields.flatMap(section => section.fields).find(field => field.id === pluginId);
+        
+        if (existingPlugin && existingPlugin.type === 'PLUGIN') {
+            // If we found an existing plugin, reuse it with its unique ID
+            setFormFields(prev => prev.map(section => {
+                if (section.id === sectionId) {
+                    return {
+                        ...section,
+                        fields: [
+                            ...section.fields.slice(0, index),
+                            existingPlugin,
+                            ...section.fields.slice(index)
+                        ]
+                    }
+                }
+                return section;
+            }))
+            return;
+        }
+
+        // If not found in existing fields, it's a new plugin being added
         const plugin = availablePlugins.find(plugin => plugin.id === pluginId);
         if (!plugin) return;
+
+        const uniqueId = `${plugin.id}_${Date.now()}`;
+        const pluginWithUniqueId = {
+            ...plugin,
+            id: uniqueId,
+            pluginId: plugin.id
+        };
 
         setFormFields(prev => prev.map(section => {
             if (section.id === sectionId) {
@@ -63,7 +93,7 @@ export const useFormFieldController = ({ metadata, availablePlugins, existingFor
                     ...section,
                     fields: [
                         ...section.fields.slice(0, index),
-                        plugin,
+                        pluginWithUniqueId,
                         ...section.fields.slice(index)
                     ]
                 }
@@ -75,15 +105,17 @@ export const useFormFieldController = ({ metadata, availablePlugins, existingFor
     const reorderSectionFields = (sectionId: string, fieldId: string, index: number) => {
         setFormFields(prev => prev.map(section => {
             if (section.id === sectionId) {
+                // Find the field by its unique ID
                 const field = section.fields.find(field => field.id === fieldId);
                 if (!field) return section;
 
+                // Filter out the field by its unique ID
                 const filteredFields = section.fields.filter(field => field.id !== fieldId);
                 return {
                     ...section,
                     fields: [
                         ...filteredFields.slice(0, index),
-                        field,
+                        field, // Reuse the exact same field object to maintain its unique ID
                         ...filteredFields.slice(index)
                     ]
                 }
@@ -108,11 +140,18 @@ export const useFormFieldController = ({ metadata, availablePlugins, existingFor
     }
 
     const onAddPlugin = (plugin: z.infer<typeof PluginSchema>) => {
+        const uniqueId = `${plugin.id}_${Date.now()}`;
+        const pluginWithUniqueId = {
+            ...plugin,
+            id: uniqueId,
+            pluginId: plugin.id
+        };
+
         setFormFields(prev => {
             const section = prev[0];
             if (!section) return prev;
 
-            const newFields = [...section.fields, plugin];
+            const newFields = [...section.fields, pluginWithUniqueId];
             return [
                 {
                     ...section,
