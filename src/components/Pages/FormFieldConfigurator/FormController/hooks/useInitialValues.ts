@@ -74,7 +74,7 @@ export const useInitialValues = ({ existingFormFieldConfig, availablePlugins, me
     const existingPluginConfigs: Record<string, z.infer<typeof PluginSettingSchema>> = useMemo(() => {
         if (!existingFormFieldConfig) return {};
 
-        return existingFormFieldConfig.sections.reduce((acc, section) => {
+        return existingFormFieldConfig.sections.reduce((acc: Record<string, z.infer<typeof PluginSettingSchema>>, section) => {
             section.elements.forEach(element => {
                 if (element.type.toLowerCase() === 'plugin') {
                     const originalPluginId = element.id.split('_')[0];
