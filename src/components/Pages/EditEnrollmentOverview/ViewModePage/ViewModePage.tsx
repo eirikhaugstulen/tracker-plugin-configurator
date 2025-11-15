@@ -8,6 +8,8 @@ import { FormattedEnrollmentDataStoreInfo } from "../../EnrollmentOverview/hooks
 import { WidgetTypes } from "../EditModePage/hooks/useDefaultValues";
 import { PluginSchema } from "../../FormFieldConfigurator/FormController";
 import { ItemDisplay } from "./ItemDisplay";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "../../../ui/empty";
+import { LayoutTemplate } from "lucide-react";
 
 type Props = {
     goBackToTableView: () => void;
@@ -110,27 +112,27 @@ export const ViewModePage = (
                         </div>
                     </div>
                 ) : (
-                    <div
-                        className={'text-center space-y-3 mt-4 border border-gray-300 bg-white p-4 rounded max-w-xl mx-auto'}
-                    >
-                        <h3
-                            className={'text-lg font-bold text-gray-800'}
-                        >
-                            {i18n.t('Default layout')}
-                        </h3>
-
-                        <p className={'text-gray-700'}>
-                            {i18n.t('You are currently using the default layout for this page. Click on the button below to start customizing.')}
-                        </p>
-
-                        <Button
-                            onClick={initEditMode}
-                            size={'sm'}
-                            variant={'outline'}
-                        >
-                            {i18n.t('Start')}
-                        </Button>
-                    </div>
+                    <Empty className={'mt-8 bg-muted/30 max-w-3xl mx-auto'}>
+                        <EmptyHeader>
+                            <EmptyMedia variant={'icon'}>
+                                <LayoutTemplate className={'size-6 text-muted-foreground/80'} />
+                            </EmptyMedia>
+                            <EmptyTitle>
+                                {i18n.t('No custom layout yet')}
+                            </EmptyTitle>
+                            <EmptyDescription>
+                                {i18n.t('This page still uses the default layout. Jump into edit mode to add widgets, reorder columns and create an experience that fits your workflows.')}
+                            </EmptyDescription>
+                        </EmptyHeader>
+                        <EmptyContent>
+                            <Button
+                                onClick={initEditMode}
+                                variant={'outline'}
+                            >
+                                {i18n.t('Start')}
+                            </Button>
+                        </EmptyContent>
+                    </Empty>
                 )}
             </CardContent>
         </>
