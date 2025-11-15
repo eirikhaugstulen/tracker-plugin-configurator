@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-03-20T22:01:28.568Z\n"
-"PO-Revision-Date: 2025-03-20T22:01:28.568Z\n"
+"POT-Creation-Date: 2025-11-13T18:52:55.880Z\n"
+"PO-Revision-Date: 2025-11-13T18:52:55.881Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -34,6 +34,36 @@ msgstr "Do you want to create them?"
 
 msgid "Create keys"
 msgstr "Create keys"
+
+msgid "Export Enrollment Overview"
+msgstr "Export Enrollment Overview"
+
+msgid "Review your enrollment overview configuration before exporting."
+msgstr "Review your enrollment overview configuration before exporting."
+
+msgid "Export Add Event Page"
+msgstr "Export Add Event Page"
+
+msgid "Review your add event page configuration before exporting."
+msgstr "Review your add event page configuration before exporting."
+
+msgid "Export Edit Event Page"
+msgstr "Export Edit Event Page"
+
+msgid "Review your edit event page configuration before exporting."
+msgstr "Review your edit event page configuration before exporting."
+
+msgid "Enrollment Overview"
+msgstr "Enrollment Overview"
+
+msgid "Add Event Page"
+msgstr "Add Event Page"
+
+msgid "Edit Event Page"
+msgstr "Edit Event Page"
+
+msgid "Export"
+msgstr "Export"
 
 msgid "Dashboard"
 msgstr "Dashboard"

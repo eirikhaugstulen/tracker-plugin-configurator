@@ -63,6 +63,7 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
         });
 
         setValue(columnName, newValues);
+        setOpen(false);
     }
 
     const addPluginToColumn = ({ id, pluginLaunchUrl }: { id: string, pluginLaunchUrl: string }) => {
@@ -84,6 +85,7 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
         }
 
         setValue(columnName, newValues);
+        setOpen(false);
     }
 
     return (
