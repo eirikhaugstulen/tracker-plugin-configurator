@@ -151,7 +151,7 @@ export const FormFieldTable = ({
     }
 
     return (
-        <Table className={'rounded-md border'}>
+        <Table className={'min-w-[640px] rounded-md border'}>
             <Header />
             <TableBody>
                 {sortedRecords.map((record) => {

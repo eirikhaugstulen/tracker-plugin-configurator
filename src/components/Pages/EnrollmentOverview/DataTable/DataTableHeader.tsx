@@ -6,11 +6,11 @@ export const DataTableHeader = () => {
     return (
         <TableHeader>
             <TableRow>
-                <TableHead className="hidden md:table-cell">{i18n.t('Program')}</TableHead>
-                <TableHead className={'text-center'}>{i18n.t('Dashboard')}</TableHead>
-                <TableHead className={'text-center'}>{i18n.t('New event')}</TableHead>
-                <TableHead className={'text-center'}>{i18n.t('Edit event')}</TableHead>
-                <TableHead>
+                <TableHead className="px-2 sm:px-4">{i18n.t('Program')}</TableHead>
+                <TableHead className={'px-2 text-center sm:px-4'}>{i18n.t('Dashboard')}</TableHead>
+                <TableHead className={'px-2 text-center sm:px-4'}>{i18n.t('New event')}</TableHead>
+                <TableHead className={'px-2 text-center sm:px-4'}>{i18n.t('Edit event')}</TableHead>
+                <TableHead className="px-2 sm:px-4">
                     <span className="sr-only">{i18n.t('Actions')}</span>
                 </TableHead>
             </TableRow>

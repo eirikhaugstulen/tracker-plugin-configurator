@@ -26,7 +26,7 @@ export const EnrollmentPages = {
 
 const formSchema = z.object({
     program: z.string({
-        required_error: i18n.t('Program is required')
+        error: i18n.t('Program is required')
     }),
 })
 
