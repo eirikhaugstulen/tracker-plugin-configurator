@@ -7,7 +7,7 @@ export const Dashboard = () => {
     const navigate = useNavigate();
 
     return (
-        <div className={'w-3/4 mt-4 flex flex-col gap-4 border mx-auto sm:mt-0 sm:w-1/3 px-4 py-6'}>
+        <div className={'mx-auto mt-4 flex w-[calc(100%_-_2rem)] max-w-xl flex-col gap-4 border bg-background px-6 py-6 shadow-sm sm:mt-0'}>
             <div>
                 <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">{i18n.t('Dashboard')}</h1>
                 <p className="text-gray-500 mt-1 dark:text-gray-400">

@@ -1,5 +1,6 @@
 import globals from "globals";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import pluginReactHooks from "eslint-plugin-react-hooks";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -16,8 +17,22 @@ export default [
   ...compat.extends("standard-with-typescript"),
   pluginReactConfig,
   {
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+    plugins: {
+      "react-hooks": pluginReactHooks,
+    },
     rules: {
-      "eslint-plugin-react-hooks/rules-of-hooks": "error",
+      "react-hooks/rules-of-hooks": "error",
     }
+  },
+  {
+    files: ["src/locales/index.js"],
+    rules: {
+      "spaced-comment": "off",
+    },
   }
 ];

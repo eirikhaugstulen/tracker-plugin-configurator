@@ -24,7 +24,7 @@ export const FormSection = z.object({
 })
 
 export const ConvertedMetadataSchema = z.object({
-    id: z.string({ coerce: true }).min(1),
+    id: z.coerce.string().min(1),
     displayName: z.string(),
     access: z.object({
         read: z.boolean(),

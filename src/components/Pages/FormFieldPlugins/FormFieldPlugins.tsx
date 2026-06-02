@@ -19,8 +19,8 @@ export const FormFieldPlugins = () => {
     const [isExportOpen, setIsExportOpen] = useState(false);
 
     return (
-        <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4">
-            <div className="w-full flex">
+        <main className="grid min-w-0 flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4">
+            <div className="flex min-w-0 w-full">
                 <div className="ml-auto flex items-center gap-2">
                     {rawData && (
                         <>
@@ -44,12 +44,12 @@ export const FormFieldPlugins = () => {
                     <AddFormFieldConfig />
                 </div>
             </div>
-            <Card>
+            <Card className="min-w-0">
                 <CardHeader>
                     <CardTitle>{i18n.t('Form Field Plugins')}</CardTitle>
                     <CardDescription>{i18n.t('Manage your form configurations')}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="min-w-0">
                     <FormFieldTable
                         records={records}
                         isLoading={isLoading}

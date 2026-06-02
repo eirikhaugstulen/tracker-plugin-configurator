@@ -4,19 +4,19 @@ import { z } from "zod";
 import { useEffect } from "react";
 
 export const trackerProgramSchema = z.object({
-    id: z.string({ required_error: 'Program id is required' }),
-    displayName: z.string({ required_error: 'Program display name is required' }),
+    id: z.string({ error: 'Program id is required' }),
+    displayName: z.string({ error: 'Program display name is required' }),
     trackedEntityType: z.object({
-        id: z.string({ required_error: 'Tracked entity type id is required' }),
-        displayName: z.string({ required_error: 'Tracked entity type display name is required' }),
+        id: z.string({ error: 'Tracked entity type id is required' }),
+        displayName: z.string({ error: 'Tracked entity type display name is required' }),
     }).optional(),
-    programType: z.string({ required_error: 'Program type is required' }),
+    programType: z.string({ error: 'Program type is required' }),
     access: z.object({
-        write: z.boolean({ required_error: 'Write access is required' }),
+        write: z.boolean({ error: 'Write access is required' }),
     }),
     programStages: z.array(z.object({
-        id: z.string({ required_error: 'Program stage id is required' }),
-        displayName: z.string({ required_error: 'Program stage display name is required' }),
+        id: z.string({ error: 'Program stage id is required' }),
+        displayName: z.string({ error: 'Program stage display name is required' }),
     })),
 });
 

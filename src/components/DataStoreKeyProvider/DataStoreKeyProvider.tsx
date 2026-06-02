@@ -60,8 +60,8 @@ export const DataStoreKeyProvider = ({ children }: Props) => {
 
     if (!keysAreValid) {
         return (
-            <div className={'flex flex-col min-h-[calc(100vh_-_48px)] pt-4 bg-muted/40'}>
-                <div className={'w-3/4 mt-8 flex flex-col gap-4 border mx-auto sm:mt-0 sm:w-1/4 px-4 py-6'}>
+            <div className={'flex min-h-[calc(100vh_-_48px)] flex-col bg-muted/40 px-4 pt-8 sm:pt-4'}>
+                <div className={'mx-auto flex w-full max-w-lg flex-col gap-4 border bg-background px-6 py-6 shadow-sm'}>
                     <h1 className={'text-lg font-bold'}>{i18n.t('Data store keys missing')}</h1>
                     <p>{i18n.t('It seems like you are missing some required data store keys.')}</p>
                     <p>{i18n.t('Do you want to create them?')}</p>

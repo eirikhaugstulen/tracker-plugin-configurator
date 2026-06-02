@@ -32,31 +32,32 @@ export const LocalPluginForm = ({ onSubmit }: Props) => {
 
     return (
         <div className={'border p-4 rounded mt-2 bg-white'}>
-                <div className="space-y-2">
-                    <Label htmlFor="localPluginUrl">
-                        {i18n.t('Plugin Launch URL')}
-                    </Label>
-                    <div className="flex gap-2">
-                        <Input
-                            id="localPluginUrl"
-                            placeholder={i18n.t('Enter local plugin URL')}
-                            {...form.register('localPluginUrl')}
-                            className="flex-grow"
-                        />
-                        <Button 
-                            type="button"
-                            onClick={form.handleSubmit(handleSubmit)}
-                            disabled={!form.formState.isValid}
-                        >
-                            {i18n.t('Add')}
-                        </Button>
-                    </div>
-                    {form.formState.errors.localPluginUrl && (
-                        <p className="text-sm text-red-500">
-                            {form.formState.errors.localPluginUrl.message}
-                        </p>
-                    )}
+            <div className="space-y-2">
+                <Label htmlFor="localPluginUrl">
+                    {i18n.t('Plugin Launch URL')}
+                </Label>
+                <div className="flex gap-2">
+                    <Input
+                        id="localPluginUrl"
+                        placeholder={i18n.t('Enter local plugin URL')}
+                        {...form.register('localPluginUrl')}
+                        className="min-w-0 flex-1"
+                    />
+                    <Button
+                        type="button"
+                        onClick={form.handleSubmit(handleSubmit)}
+                        disabled={!form.formState.isValid}
+                        className="shrink-0"
+                    >
+                        {i18n.t('Add')}
+                    </Button>
                 </div>
+                {form.formState.errors.localPluginUrl && (
+                    <p className="text-sm text-red-500">
+                        {form.formState.errors.localPluginUrl.message}
+                    </p>
+                )}
+            </div>
         </div>
     );
 };

@@ -85,7 +85,7 @@ export const EnrollmentDataTable = () => {
         return (
             <TableBody>
                 <TableRow>
-                    <TableCell colSpan={5} className={'text-center'}>
+                        <TableCell colSpan={5} className={'px-2 py-4 text-center sm:p-4'}>
                         <p>
                             {i18n.t('Something went wrong while fetching the configurations. Please try again later.')}
                         </p>
@@ -99,7 +99,7 @@ export const EnrollmentDataTable = () => {
         return (
             <TableBody>
                 <TableRow>
-                    <TableCell colSpan={5} className={'text-center'}>
+                        <TableCell colSpan={5} className={'px-2 py-4 text-center sm:p-4'}>
                         <p>
                             {i18n.t('It looks like you don\'t have any existing configurations. Get started by clicking the button in the right hand corner!')}
                         </p>
@@ -117,26 +117,26 @@ export const EnrollmentDataTable = () => {
                     <TableRow
                         key={id}
                     >
-                        <TableCell className="hidden md:table-cell">{displayName}</TableCell>
-                        <TableCell align={'center'}>
+                        <TableCell className="px-2 sm:px-4">{displayName}</TableCell>
+                        <TableCell align={'center'} className="px-2 sm:px-4">
                             <IconTableCell
                                 valid={overview.valid}
                                 defined={overview.defined}
                             />
                         </TableCell>
-                        <TableCell align={'center'}>
+                        <TableCell align={'center'} className="px-2 sm:px-4">
                             <IconTableCell
                                 valid={newEvent.valid}
                                 defined={newEvent.defined}
                             />
                         </TableCell>
-                        <TableCell align={'center'}>
+                        <TableCell align={'center'} className="px-2 sm:px-4">
                             <IconTableCell
                                 valid={editEvent.valid}
                                 defined={editEvent.defined}
                             />
                         </TableCell>
-                        <TableCell className={'text-right'}>
+                        <TableCell className={'px-2 text-right sm:px-4'}>
                             <ActionsButton
                                 id={id}
                             />

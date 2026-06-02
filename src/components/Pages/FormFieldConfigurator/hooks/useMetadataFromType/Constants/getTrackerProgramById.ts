@@ -2,29 +2,29 @@ import {ConvertedMetadataSchema, FormField, FunctionProps} from "./constants";
 import {z} from "zod";
 
 const ApiTrackerProgramSchema = z.object({
-    id: z.string({ required_error: 'Tracked entity type id is missing in the API Payload. Please report the issue to the app maintainer.' }),
-    displayName: z.string({ required_error: 'Tracked entity type display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
+    id: z.string({ error: 'Tracked entity type id is missing in the API Payload. Please report the issue to the app maintainer.' }),
+    displayName: z.string({ error: 'Tracked entity type display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
     programTrackedEntityAttributes: z.array(z.object({
         trackedEntityAttribute: z.object({
-            id: z.string({ required_error: 'Tracked entity attribute id is missing in the API Payload. Please report the issue to the app maintainer.' }),
-            displayName: z.string({ required_error: 'Tracked entity attribute display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
-            valueType: z.string({ required_error: 'Tracked entity attribute value type is missing in the API Payload. Please report the issue to the app maintainer.' }),
+            id: z.string({ error: 'Tracked entity attribute id is missing in the API Payload. Please report the issue to the app maintainer.' }),
+            displayName: z.string({ error: 'Tracked entity attribute display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
+            valueType: z.string({ error: 'Tracked entity attribute value type is missing in the API Payload. Please report the issue to the app maintainer.' }),
         }),
     })),
     access: z.object({
-        read: z.boolean({ required_error: 'Read access is missing in the API Payload. Please report the issue to the app maintainer.' }),
-        write: z.boolean({ required_error: 'Write access is missing in the API Payload. Please report the issue to the app maintainer.' }),
+        read: z.boolean({ error: 'Read access is missing in the API Payload. Please report the issue to the app maintainer.' }),
+        write: z.boolean({ error: 'Write access is missing in the API Payload. Please report the issue to the app maintainer.' }),
         data: z.object({
-            read: z.boolean({ required_error: 'Data read access is missing in the API Payload. Please report the issue to the app maintainer.' }),
-            write: z.boolean({ required_error: 'Data write access is missing in the API Payload. Please report the issue to the app maintainer.' }),
+            read: z.boolean({ error: 'Data read access is missing in the API Payload. Please report the issue to the app maintainer.' }),
+            write: z.boolean({ error: 'Data write access is missing in the API Payload. Please report the issue to the app maintainer.' }),
         }),
     }),
     programSections: z.array(z.object({
-        id: z.string({ required_error: 'Program section id is missing in the API Payload. Please report the issue to the app maintainer.' }),
-        displayName: z.string({ required_error: 'Program section display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
-        sortOrder: z.number({ required_error: 'Program section sort order is missing in the API Payload. Please report the issue to the app maintainer.' }),
+        id: z.string({ error: 'Program section id is missing in the API Payload. Please report the issue to the app maintainer.' }),
+        displayName: z.string({ error: 'Program section display name is missing in the API Payload. Please report the issue to the app maintainer.' }),
+        sortOrder: z.number({ error: 'Program section sort order is missing in the API Payload. Please report the issue to the app maintainer.' }),
         trackedEntityAttributes: z.array(z.object({
-            id: z.string({ required_error: 'Tracked entity attribute id is missing in the API Payload. Please report the issue to the app maintainer.' }),
+            id: z.string({ error: 'Tracked entity attribute id is missing in the API Payload. Please report the issue to the app maintainer.' }),
         })),
     })),
 });

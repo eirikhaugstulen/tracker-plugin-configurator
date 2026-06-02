@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import i18n from "@dhis2/d2-i18n";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../../../../ui/sheet";
 import { PlusCircleIcon } from "lucide-react";
@@ -22,12 +22,45 @@ type Props = {
     page: 'overview' | 'newEvent' | 'editEvent';
 }
 
+const shouldMockLongSidebar = () => {
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const queryString = window.location.hash.split('?')[1] ?? '';
+    return isLocalhost && new URLSearchParams(queryString).get('mockLongSidebar') === 'true';
+}
+
 export const AddComponent = ({ columnName, availablePlugins, availableWidgets, allPlugins, page }: Props) => {
     const [open, setOpen] = useState(false);
     const {
         setValue,
         getValues,
     } = useFormContext<z.infer<typeof ApiDataStoreInfoPerProgram>>();
+    const mockLongSidebar = shouldMockLongSidebar();
+    const { visiblePlugins, visibleWidgets } = useMemo(() => {
+        if (!mockLongSidebar) {
+            return {
+                visiblePlugins: availablePlugins,
+                visibleWidgets: availableWidgets,
+            }
+        }
+
+        const pluginSource = availablePlugins.length > 0 ? availablePlugins : allPlugins;
+        const widgetSource = availableWidgets.length > 0
+            ? availableWidgets
+            : Object.values(Widgets).filter(widget => widget.allowedPages.includes(page));
+
+        return {
+            visiblePlugins: Array.from({ length: 16 }).flatMap((_, groupIndex) => pluginSource.map(plugin => ({
+                ...plugin,
+                id: `${plugin.id}-mock-${groupIndex}`,
+                displayName: `${plugin.displayName} ${groupIndex + 1}`,
+                pluginLaunchUrl: `${plugin.pluginLaunchUrl}#mock-${groupIndex}`,
+            }))),
+            visibleWidgets: Array.from({ length: 12 }).flatMap((_, groupIndex) => widgetSource.map(widget => ({
+                ...widget,
+                title: `${widget.title} ${groupIndex + 1}`,
+            }))),
+        }
+    }, [allPlugins, availablePlugins, availableWidgets, mockLongSidebar, page]);
 
     const handleLocalPluginSubmit = (pluginUrl: string) => {
         const pluginMetadata = {
@@ -95,7 +128,10 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
                 onOpenChange={setOpen}
             >
                 <SheetTrigger asChild>
-                    <button className={'border w-full border-dashed border-gray-200 py-6 flex flex-col gap-2 justify-center items-center cursor-pointer hover:border-gray-300'}>
+                    <button
+                        aria-label={i18n.t('Add widget')}
+                        className={'border w-full border-dashed border-gray-200 py-6 flex flex-col gap-2 justify-center items-center cursor-pointer hover:border-gray-300'}
+                    >
                         <PlusCircleIcon className={'h-8 w-8 mx-auto text-gray-400'} />
                         <p className={'text-center text-gray-600'}>
                             {i18n.t('Add')}
@@ -103,16 +139,16 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
                     </button>
                 </SheetTrigger>
 
-                <SheetContent>
-                    <ScrollArea className={'h-full mr-4 pr-4'}>
-                        <SheetHeader>
-                            <SheetTitle>{i18n.t('Add widget')}</SheetTitle>
-                            <SheetDescription>
-                                {i18n.t('Add a widget from the list below to add it to the column')}
-                            </SheetDescription>
-                        </SheetHeader>
+                <SheetContent className="flex h-dvh max-h-dvh flex-col overflow-hidden p-0 sm:max-w-md">
+                    <SheetHeader className="shrink-0 border-b px-6 pb-4 pr-12 pt-6">
+                        <SheetTitle>{i18n.t('Add widget')}</SheetTitle>
+                        <SheetDescription>
+                            {i18n.t('Add a widget from the list below to add it to the column')}
+                        </SheetDescription>
+                    </SheetHeader>
 
-                        <div className={'mt-4'}>
+                    <ScrollArea className={'min-h-0 flex-1'}>
+                        <div className={'px-6 py-4 pr-8'}>
                             <h2 className={'my-2'}>{i18n.t('Add Local Plugin')}</h2>
                             <Separator className={'mb-4'} />
 
@@ -122,7 +158,7 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
                             <Separator className={'mb-4'} />
 
 
-                            {availablePlugins.length ? availablePlugins.map(plugin => (
+                            {visiblePlugins.length ? visiblePlugins.map(plugin => (
                                 <div key={plugin.id} className={'border space-y-4 p-4 rounded mt-2 bg-white'}>
                                     <div className={'space-y-1'}>
                                         <p>{plugin.displayName}</p>
@@ -142,8 +178,8 @@ export const AddComponent = ({ columnName, availablePlugins, availableWidgets, a
 
                             <h2 className={'mt-4 mb-2'}>{i18n.t('Widgets')}</h2>
                             <Separator className={'mb-4'} />
-                            {availableWidgets.length > 0 ? availableWidgets.map(widget => (
-                                <div key={widget.name} className={'border p-4 space-y-4 rounded mt-2 bg-white'}>
+                            {visibleWidgets.length > 0 ? visibleWidgets.map((widget, index) => (
+                                <div key={`${widget.name}-${index}`} className={'border p-4 space-y-4 rounded mt-2 bg-white'}>
                                     <p>{widget.title}</p>
                                     <Button
                                         onClick={() => addComponentToColumn(widget.name)}
