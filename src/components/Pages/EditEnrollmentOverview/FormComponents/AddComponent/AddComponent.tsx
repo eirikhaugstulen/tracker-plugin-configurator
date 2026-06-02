@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import i18n from "@dhis2/d2-i18n";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../../../../ui/sheet";
 import { PlusCircleIcon } from "lucide-react";
@@ -22,45 +22,14 @@ type Props = {
     page: 'overview' | 'newEvent' | 'editEvent';
 }
 
-const shouldMockLongSidebar = () => {
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const queryString = window.location.hash.split('?')[1] ?? '';
-    return isLocalhost && new URLSearchParams(queryString).get('mockLongSidebar') === 'true';
-}
-
 export const AddComponent = ({ columnName, availablePlugins, availableWidgets, allPlugins, page }: Props) => {
     const [open, setOpen] = useState(false);
     const {
         setValue,
         getValues,
     } = useFormContext<z.infer<typeof ApiDataStoreInfoPerProgram>>();
-    const mockLongSidebar = shouldMockLongSidebar();
-    const { visiblePlugins, visibleWidgets } = useMemo(() => {
-        if (!mockLongSidebar) {
-            return {
-                visiblePlugins: availablePlugins,
-                visibleWidgets: availableWidgets,
-            }
-        }
-
-        const pluginSource = availablePlugins.length > 0 ? availablePlugins : allPlugins;
-        const widgetSource = availableWidgets.length > 0
-            ? availableWidgets
-            : Object.values(Widgets).filter(widget => widget.allowedPages.includes(page));
-
-        return {
-            visiblePlugins: Array.from({ length: 16 }).flatMap((_, groupIndex) => pluginSource.map(plugin => ({
-                ...plugin,
-                id: `${plugin.id}-mock-${groupIndex}`,
-                displayName: `${plugin.displayName} ${groupIndex + 1}`,
-                pluginLaunchUrl: `${plugin.pluginLaunchUrl}#mock-${groupIndex}`,
-            }))),
-            visibleWidgets: Array.from({ length: 12 }).flatMap((_, groupIndex) => widgetSource.map(widget => ({
-                ...widget,
-                title: `${widget.title} ${groupIndex + 1}`,
-            }))),
-        }
-    }, [allPlugins, availablePlugins, availableWidgets, mockLongSidebar, page]);
+    const visiblePlugins = availablePlugins;
+    const visibleWidgets = availableWidgets;
 
     const handleLocalPluginSubmit = (pluginUrl: string) => {
         const pluginMetadata = {
