@@ -20,6 +20,8 @@ type Props = {
     formFieldId: string,
     apps: Array<z.infer<typeof appsSchema>>
     existingFormFieldConfig: FormFieldRecord | null | undefined,
+    refetchMetadata: () => Promise<{ data?: z.infer<typeof ConvertedMetadataSchema> }>,
+    isRefetchingMetadata: boolean,
 }
 
 const ValidationErrorToast = ({ errorMessage }: { errorMessage: string }) => {
@@ -33,7 +35,7 @@ const ValidationErrorToast = ({ errorMessage }: { errorMessage: string }) => {
     )
 }
 
-export const FormController = ({ metadata, formFieldId, apps, existingFormFieldConfig }: Props) => {
+export const FormController = ({ metadata, formFieldId, apps, existingFormFieldConfig, refetchMetadata, isRefetchingMetadata }: Props) => {
     const availablePlugins = useMemo(() => {
         const filteredApps = apps.filter(app => app.pluginLaunchUrl);
 
@@ -53,7 +55,17 @@ export const FormController = ({ metadata, formFieldId, apps, existingFormFieldC
         onAddPlugin,
         onRemovePlugin,
         existingPluginConfigs,
+        updateFieldsOrder,
     } = useFormFieldController({ metadata, availablePlugins, existingFormFieldConfig });
+
+    const handleUpdateFieldsOrder = async () => {
+        const { data: freshMetadata } = await refetchMetadata();
+        if (!freshMetadata) {
+            toast.error(i18n.t('Could not fetch the latest fields. Please try again.'));
+            return;
+        }
+        updateFieldsOrder(freshMetadata);
+    }
 
     const {
         pluginConfigurations,
@@ -79,6 +91,14 @@ export const FormController = ({ metadata, formFieldId, apps, existingFormFieldC
                     plugins={availablePlugins}
                     onAddPlugin={onAddPlugin}
                 />
+                <Button
+                    onClick={handleUpdateFieldsOrder}
+                    variant={'outline'}
+                    size={'sm'}
+                >
+                    {isRefetchingMetadata && <LoaderCircle className={'h-5 w-5 mr-2 animate-spin'} />}
+                    {i18n.t('Update fields order')}
+                </Button>
                 <Button
                     onClick={validateAndSave}
                     size={'sm'}

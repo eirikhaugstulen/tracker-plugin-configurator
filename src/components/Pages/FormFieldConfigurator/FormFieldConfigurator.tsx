@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const FormFieldConfigurator: React.FC<Props> = ({ formFieldId, metadataType }) => {
-    const { metadata, isLoading, isError } = useMetadataFromType({
+    const { metadata, isLoading, isError, isRefetchingMetadata, refetchMetadata } = useMetadataFromType({
         resourceId: formFieldId,
         metadataType,
     });
@@ -49,6 +49,8 @@ export const FormFieldConfigurator: React.FC<Props> = ({ formFieldId, metadataTy
                 formFieldId={formFieldId}
                 apps={apps}
                 existingFormFieldConfig={existingFormFieldConfig}
+                refetchMetadata={refetchMetadata}
+                isRefetchingMetadata={isRefetchingMetadata}
             />
         </div>
     );
