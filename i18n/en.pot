@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-06-02T09:10:34.358Z\n"
-"PO-Revision-Date: 2026-06-02T09:10:34.359Z\n"
+"POT-Creation-Date: 2026-08-19T10:07:50.833Z\n"
+"PO-Revision-Date: 2026-08-19T10:07:50.834Z\n"
 
 msgid "Data store keys created!"
 msgstr "Data store keys created!"
@@ -448,6 +448,12 @@ msgstr "Remove plugin"
 
 msgid "Validation Error"
 msgstr "Validation Error"
+
+msgid "Could not fetch the latest fields. Please try again."
+msgstr "Could not fetch the latest fields. Please try again."
+
+msgid "Update fields order"
+msgstr "Update fields order"
 
 msgid "All fields you add here will be shown in the form"
 msgstr "All fields you add here will be shown in the form"

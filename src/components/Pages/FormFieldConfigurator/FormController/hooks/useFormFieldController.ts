@@ -171,12 +171,43 @@ export const useFormFieldController = ({ metadata, availablePlugins, existingFor
         })
     }
 
+    const updateFieldsOrder = (newMetadata: z.infer<typeof ConvertedMetadataSchema>) => {
+        setFormFields(prev => {
+            const pluginsBySection: Record<string, Array<z.infer<typeof PluginSchema>>> = {};
+            prev.forEach(section => {
+                const plugins = section.fields.filter((field): field is z.infer<typeof PluginSchema> => field.type === 'PLUGIN');
+                if (plugins.length > 0) {
+                    pluginsBySection[section.id] = plugins;
+                }
+            });
+
+            const freshSections: Array<z.infer<typeof SectionSchema>> = newMetadata.sections.map(section => ({
+                id: section.id,
+                displayName: section.displayName,
+                fields: section.fields.map(field => ({
+                    id: field.id,
+                    displayName: field.displayName,
+                    valueType: field.valueType,
+                    type: 'TrackedEntityAttribute' as const,
+                })),
+            }));
+
+            Object.entries(pluginsBySection).forEach(([sectionId, plugins]) => {
+                const targetSection = freshSections.find(section => section.id === sectionId) ?? freshSections[freshSections.length - 1];
+                targetSection?.fields.push(...plugins);
+            });
+
+            return freshSections;
+        })
+    }
+
     return {
         formFields,
         onAddPlugin,
         onRemovePlugin,
         onDragEnd,
         setFormFields,
-        existingPluginConfigs
+        existingPluginConfigs,
+        updateFieldsOrder,
     }
 }

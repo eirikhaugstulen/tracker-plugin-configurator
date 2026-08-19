@@ -13,7 +13,7 @@ export const useMetadataFromType = ({ resourceId, metadataType }: Props) => {
     const dataEngine = useDataEngine();
     const fetchFunction = FetchFunctionsByType[metadataType];
 
-    const { data, isLoading, isError, error } = useQuery({
+    const { data, isLoading, isError, isRefetching, error, refetch } = useQuery({
         queryKey: [metadataType, resourceId],
         queryFn: () => fetchFunction({ resourceId, dataEngine }),
         staleTime: Infinity,
@@ -30,5 +30,7 @@ export const useMetadataFromType = ({ resourceId, metadataType }: Props) => {
         metadata: data,
         isLoading,
         isError,
+        isRefetchingMetadata: isRefetching,
+        refetchMetadata: refetch,
     }
 }
